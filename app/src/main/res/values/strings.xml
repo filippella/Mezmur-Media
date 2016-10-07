@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Amharic Mezmur Lyrics</string>
+    <string name="app_name">Orthodox Mezmur Media</string>
     <string name="openDrawer">Opened</string>
     <string name="closeDrawer">Closed</string>
     <string name="action_search">Search</string>
@@ -19,7 +19,7 @@
     <string name="label_go_key">Go</string>
     <string name="label_next_key">Next</string>
     <string name="label_send_key">Send</string>
-    <string name="activity_dashboard_title_string">Orthodox Mezmur Lyrics</string>
+    <string name="activity_dashboard_title_string">Mezmur Category</string>
     <string name="recent_mezmur_title">OTHER</string>
     <string name="dashboard_content_title">CATEGORIES</string>
     <string name="account_type">hgsh</string>

@@ -35,7 +35,7 @@
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:text="Orthodox Mezmur Lyrics"
+        android:text="Orthodox Mezmur Media"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
