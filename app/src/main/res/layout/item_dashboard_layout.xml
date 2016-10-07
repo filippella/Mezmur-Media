@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2016 Amharic Mezmur Lyrics
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quoteResultRecyclerCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="@drawable/common_ripple"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="false">
+
+
+
+    <!--<org.dalol.amharicmezmurlyrics.utilities.widgets.SquareFrameLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:padding="20dp">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="9dp">
+
+    <org.dalol.orthodoxmezmurmedia.utilities.widgets.SquareImageView
+        android:id="@+id/mezmureMisil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
+
+    <!--</org.dalol.amharicmezmurlyrics.utilities.widgets.SquareFrameLayout>-->
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/picture"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@mipmap/ic_launcher"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:layout_gravity="center"/>-->
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="125 መዝሙራት"
+                android:gravity="center_vertical"
+                android:textSize="12sp" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/mezmurImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_mezmur_white_24dp"
+                    android:tint="@color/nice_green2" />
+            </FrameLayout>
+        </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/selectedNavigationItem" />
+
+
+    <TextView
+        android:id="@+id/text_view_mezmur_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="12dp"
+        android:ellipsize="marquee"
+        android:gravity="clip_vertical"
+        android:maxLines="1"
+        android:text="የምስጋና መዝሙራት የምስጋና መዝሙራት"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

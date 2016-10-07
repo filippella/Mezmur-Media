@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Amharic Mezmur Lyrics</string>
+    <string name="openDrawer">Opened</string>
+    <string name="closeDrawer">Closed</string>
+    <string name="action_search">Search</string>
+    <string name="action_playlist">PlayList</string>
+    <string name="action_help">Help</string>
+    <string name="action_upload">Upload Picture</string>
+    <string name="action_nearest_church">Nearest Church</string>
+    <string name="action_chat_blog_logout">Logout</string>
+    <string name="action_chat_profile_settings">Profile Settings</string>
+
+    <string name="ime_name">Amharic Keyboard</string>
+
+    <!-- Symbols that are commonly considered word separators in this language -->
+    <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+
+    <!-- Labels on soft keys -->
+    <string name="label_go_key">Go</string>
+    <string name="label_next_key">Next</string>
+    <string name="label_send_key">Send</string>
+    <string name="activity_dashboard_title_string">Orthodox Mezmur Lyrics</string>
+    <string name="recent_mezmur_title">OTHER</string>
+    <string name="dashboard_content_title">CATEGORIES</string>
+    <string name="account_type">hgsh</string>
+</resources>

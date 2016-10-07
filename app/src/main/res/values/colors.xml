@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--color light green-->
+    <!--<color name="colorPrimary">#00D386</color>-->
+    <!--<color name="colorPrimaryDark">#01BA76</color>  -->
+
+    <!--color purple darkish-->
+    <!--<color name="colorPrimary">#673AB6</color>-->
+    <!--<color name="colorPrimaryDark">#532d99</color>-->
+
+
+    <!--bit dark blue-->
+    <!--<color name="colorPrimary">#039BE5</color>-->
+    <!--<color name="colorPrimaryDark">#027CB7</color>-->
+
+    <!--<color name="colorAccent">#FF4455</color>-->
+    <color name="colorAccent">#64FFDA</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!--<color name="colorSecondaryText">#FFCCAA</color>-->
+    <!--<color name="colorPrimaryText">#5566AC</color>-->
+
+    <color name="colorSecondaryText">#B2B2B2</color>
+    <color name="colorPrimaryText">#000000</color>
+
+    <color name="focus_text_blue">#063796</color>
+    <color name="selectedNavigationItem">#EDEDED</color>
+
+    <!--good 1 blue-->
+    <color name="colorPrimary">#2099FF</color>
+    <color name="colorPrimaryDark">#048BFE</color>
+    <color name="orange">#FF4455</color>
+    <color name="gray_light">#e5e5e5</color>
+    <color name="gray_bg">#F3F4F6</color>
+    <color name="nice_green">#00BE8D</color>
+    <color name="nice_green2">#00CB6E</color>
+    <color name="nice_dark">#01CE61</color>
+    <color name="bbbb">#24C381</color>
+    <color name="very_good_green">#01cb56</color>
+    <color name="very_good_green2">#1ACC47</color>
+    <color name="very_good_green3">#2DCC70</color>
+
+    <!--good 2 purple-->
+    <!--<color name="colorPrimary">#673AB7</color>-->
+    <!--<color name="colorPrimaryDark">#5E35B1</color>-->
+
+    <!--good 2 red-->
+    <!--<color name="colorPrimary">#FF5E5E</color>-->
+    <!--<color name="colorPrimaryDark">#DD3131</color>-->
+
+    <!--good 2 black-->
+    <!--<color name="colorPrimary">#2E2E2E</color>-->
+    <!--<color name="colorPrimaryDark">#282828</color>-->
+
+    <!--good 2 dark purple-->
+    <color name="gray">#CCCCCC</color>
+    <!--<color name="orange">#f3a124</color>-->
+    <color name="orange_rewards_light">#FBE2BD</color>
+    <color name="orange_rewards_dark">#d88f30</color>
+    <color name="white_transparent_2">#99ffffff</color>
+    <color name="light_grey2">#EBF0F2</color>
+
+
+    <color name="candidate_normal">#FF000000</color>
+    <color name="candidate_recommended">#FFE35900</color>
+    <color name="candidate_other">#ff808080</color>
+    <color name="candidate_background">#bbffffff</color>
+
+    <color name="primary_dark">#E64A19</color>
+    <color name="primary">#FF5722</color>
+    <color name="accent">#448AFF</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="text_color">#FFFFFF</color>
+    <color name="text_color_icon">#212121</color>
+</resources>
+
