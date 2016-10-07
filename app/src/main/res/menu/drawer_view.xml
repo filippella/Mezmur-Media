@@ -23,8 +23,8 @@
         <item
             android:id="@+id/menu_find_churches"
             android:checked="true"
-            android:icon="@mipmap/ic_church_places"
-            android:title="Find Churches" />
+            android:icon="@mipmap/ic_more_menu"
+            android:title="More Resources" />
 
 
 
@@ -42,23 +42,10 @@
 
 
         <item
-            android:id="@+id/menu_settings"
-            android:checked="false"
-            android:icon="@mipmap/ic_settings_circle"
-            android:title="Settings" />
-
-        <!-- Feedback will be inside help -->
-        <item
-            android:id="@+id/menu_send_feedback"
-            android:checked="false"
-            android:icon="@mipmap/ic_feedback_circle"
-            android:title="Send Feedback" />
-
-        <item
-            android:id="@+id/menu_share"
-            android:checked="false"
-            android:icon="@mipmap/ic_share_circle"
-            android:title="Share" />
+            android:id="@+id/menu_holy_pictures"
+            android:checked="true"
+            android:icon="@mipmap/ic_album"
+            android:title="Holy Pictures" />
 
         <item
             android:id="@+id/menu_favourites"
@@ -68,16 +55,25 @@
             app:actionLayout="@layout/drawer_item_counter" />
 
         <item
+            android:id="@+id/menu_settings"
+            android:checked="false"
+            android:icon="@mipmap/ic_settings_circle"
+            android:title="Settings" />
+
+
+        <item
+            android:id="@+id/menu_share"
+            android:checked="false"
+            android:icon="@mipmap/ic_share_circle"
+            android:title="Share" />
+
+
+        <item
             android:id="@+id/menu_rate"
             android:checked="false"
             android:icon="@mipmap/ic_rate_circle"
             android:title="Rate" />
 
-        <item
-            android:id="@+id/menu_holy_pictures"
-            android:checked="true"
-            android:icon="@mipmap/ic_album"
-            android:title="Holy Pictures" />
 
         <item
             android:id="@+id/menu_about"
@@ -85,6 +81,12 @@
             android:icon="@mipmap/ic_about_circle"
             android:title="About" />
 
+        <!-- Feedback will be inside help -->
+        <item
+            android:id="@+id/menu_send_feedback"
+            android:checked="false"
+            android:icon="@mipmap/ic_feedback_circle"
+            android:title="Send Feedback" />
 
     </group>
 </menu>
