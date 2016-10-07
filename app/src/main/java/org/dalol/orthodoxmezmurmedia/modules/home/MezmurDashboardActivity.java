@@ -70,6 +70,7 @@ import static org.dalol.orthodoxmezmurmedia.mvp.model.navigation.SelectedNavigat
 public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> implements DashboardView {
 
     public static final long PROCESS_MENU_DELAY_MILLIS = 250L;
+
     @BindView(R.id.tabs) protected TabLayout mTabLayout;
     @BindView(R.id.viewpager) protected ViewPager mViewPager;
     @BindView(R.id.drawerLayout) protected DrawerLayout mDrawerLayout;
@@ -117,7 +118,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
 
         DashboardViewPagerAdapter pagerAdapter = new DashboardViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(DashboardFragment.newInstance(), getPresenter().getDashboardViewTitle());
-        pagerAdapter.addFragment(RecentMezmurFragment.newInstance(), getPresenter().getRecentMezmurTitle());
+        pagerAdapter.addFragment(OtherMenusFragment.newInstance(), getPresenter().getRecentMezmurTitle());
         mViewPager.setAdapter(pagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
@@ -164,9 +165,9 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
                 case R.id.menu_holy_pictures:
                     mDashboardHandler.sendEmptyMessageDelayed(MENU_HOLY_PICTURES.getIndex(), PROCESS_MENU_DELAY_MILLIS);
                     return true;
-                case R.id.menu_mezmur_blog:
-                    mDashboardHandler.sendEmptyMessageDelayed(MENU_MEZMUR_CHAT_BLOG.getIndex(), PROCESS_MENU_DELAY_MILLIS);
-                    return true;
+//                case R.id.menu_mezmur_blog:
+//                    mDashboardHandler.sendEmptyMessageDelayed(MENU_MEZMUR_CHAT_BLOG.getIndex(), PROCESS_MENU_DELAY_MILLIS);
+//                    return true;
                 case R.id.menu_favourites:
                     mDashboardHandler.sendEmptyMessageDelayed(MENU_FAVOURITES.getIndex(), PROCESS_MENU_DELAY_MILLIS);
                     return true;

@@ -19,8 +19,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".modules.home.MezmurDashboardActivity">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

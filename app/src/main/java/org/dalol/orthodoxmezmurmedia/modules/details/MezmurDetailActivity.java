@@ -68,7 +68,7 @@ public class MezmurDetailActivity extends BaseActivity {
         mMezmurDetail.setText(mezmur_detail);
         setTitle(mezmur_title);
 
-        mAddToFav.setColorFilter(ContextCompat.getColor(this, R.color.candidate_recommended));
+        mAddToFav.setColorFilter(ContextCompat.getColor(this, R.color.good_red));
     }
 
     @OnClick(R.id.image_button_share_lyrics)

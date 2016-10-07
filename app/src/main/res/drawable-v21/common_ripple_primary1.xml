@@ -19,7 +19,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/colorAccent">
     <item>
-        <color android:color="@color/very_good_green3"/>
+        <color android:color="@color/very_good_green4"/>
     </item>
 
     <!-- make sure the ripple doesn't exceed the bounds -->

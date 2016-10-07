@@ -58,6 +58,6 @@ public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewH
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 2;
     }
 }

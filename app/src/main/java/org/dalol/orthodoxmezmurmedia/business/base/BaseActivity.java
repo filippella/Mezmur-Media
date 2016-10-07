@@ -57,8 +57,8 @@ public abstract class BaseActivity<P> extends AppCompatActivity implements OnDia
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        resolveDependency();
         super.onCreate(savedInstanceState);
+        resolveDependency();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 

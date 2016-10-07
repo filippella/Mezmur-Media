@@ -23,7 +23,7 @@ import org.dalol.orthodoxmezmurmedia.mvp.view.base.BaseView;
  * @version 1.0.0
  * @since 9/1/2016
  */
-public interface RecentMezmurFragmentView extends BaseView {
+public interface OtherMenusFragmentView extends BaseView {
 
     void onShowToast(String message);
 }

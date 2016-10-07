@@ -24,7 +24,9 @@
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.chat.ChatActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.churches.ChurchListActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity" />
+        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity">
+
+        </activity>
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.ViewPictureActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity" />
     </application>

@@ -42,6 +42,11 @@
 
     <PreferenceCategory android:title="ABOUT APP">
 
+        <Preference
+            android:key="mode_preference"
+            android:summary="Day/Night mode"
+            android:title="Change Mode" />
+
     <Preference
         android:key="version_preference"
         android:summary="1.0.0"

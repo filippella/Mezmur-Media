@@ -18,7 +18,7 @@ package org.dalol.orthodoxmezmurmedia.business.di.components;
 
 import org.dalol.orthodoxmezmurmedia.business.di.modules.RecentMezmurModule;
 import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
-import org.dalol.orthodoxmezmurmedia.modules.home.RecentMezmurFragment;
+import org.dalol.orthodoxmezmurmedia.modules.home.OtherMenusFragment;
 
 import dagger.Component;
 
@@ -31,5 +31,5 @@ import dagger.Component;
 @Component(modules = RecentMezmurModule.class)
 public interface RecentMezmurComponent {
 
-    void inject(RecentMezmurFragment fragment);
+    void inject(OtherMenusFragment fragment);
 }

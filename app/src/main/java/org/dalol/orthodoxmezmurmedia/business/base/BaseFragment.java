@@ -31,6 +31,7 @@ import org.dalol.orthodoxmezmurmedia.mvp.view.base.BaseView;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import dagger.Lazy;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -39,13 +40,14 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?>> extends Fragment {
 
-    @Nullable @Inject protected P mPresenter;
+    @Nullable @Inject protected Lazy<P> mPresenter;
 
     @CallSuper @Override public void onCreate(@Nullable Bundle savedInstanceState) {
-        resolveDependencies();
         super.onCreate(savedInstanceState);
-        if (mPresenter != null) {
-            mPresenter.onCreate();
+        resolveDependencies();
+        P presenter = getPresenter();
+        if (presenter != null) {
+            presenter.onCreate();
         }
     }
 
@@ -66,8 +68,9 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
 
     @CallSuper @Override public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.onDestroy();
+        P presenter = getPresenter();
+        if (presenter != null) {
+            presenter.onDestroy();
         }
     }
 
@@ -76,7 +79,7 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
     }
 
     @Nullable public P getPresenter() {
-        return mPresenter;
+        return mPresenter.get();
     }
 
     protected void resolveDependencies(){}

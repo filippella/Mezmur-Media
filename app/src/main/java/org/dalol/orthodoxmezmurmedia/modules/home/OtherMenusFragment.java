@@ -30,7 +30,7 @@ import org.dalol.orthodoxmezmurmedia.mvp.model.adapter.OtherMenuAdapter;
 import org.dalol.orthodoxmezmurmedia.mvp.model.expandable.ExpandableMenu;
 import org.dalol.orthodoxmezmurmedia.mvp.model.expandable.ExpandableType;
 import org.dalol.orthodoxmezmurmedia.mvp.presenter.dashboard.RecentMezmurFragmentPresenter;
-import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.RecentMezmurFragmentView;
+import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.OtherMenusFragmentView;
 import org.dalol.orthodoxmezmurmedia.utilities.helpers.RecyclerListItemMarginDecorator;
 
 import butterknife.BindView;
@@ -40,19 +40,19 @@ import butterknife.BindView;
  * @version 1.0.0
  * @since 9/1/2016
  */
-public class RecentMezmurFragment extends BaseFragment<RecentMezmurFragmentPresenter> implements RecentMezmurFragmentView {
+public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresenter> implements OtherMenusFragmentView {
 
     @BindView(R.id.recycler_view_List) protected RecyclerView mRecentList;
 
-    public static RecentMezmurFragment newInstance() {
-        RecentMezmurFragment fragment = new RecentMezmurFragment();
+    public static OtherMenusFragment newInstance() {
+        OtherMenusFragment fragment = new OtherMenusFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.onViewReady();
+        getPresenter().onViewReady();
     }
 
     @Override
@@ -94,9 +94,9 @@ public class RecentMezmurFragment extends BaseFragment<RecentMezmurFragmentPrese
             expandableMenu3.addSubMenu(menuItem);
         }
         adapter.addMenu(expandableMenu3);
-        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
-        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
-        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
+//        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
+//        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
+//        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
         //adapter.setAccordionMode();
         mRecentList.setAdapter(adapter);
     }

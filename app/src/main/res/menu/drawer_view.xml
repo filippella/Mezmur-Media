@@ -26,57 +26,65 @@
             android:icon="@mipmap/ic_church_places"
             android:title="Find Churches" />
 
-        <item
-            android:id="@+id/menu_holy_pictures"
-            android:checked="true"
-            android:icon="@mipmap/ic_pictures"
-            android:title="Holy Pictures" />
 
-        <item
-            android:id="@+id/menu_mezmur_blog"
-            android:checked="false"
-            android:icon="@mipmap/ic_chat_blog"
-            android:title="Mezmur Chat Blog" />
+
+        <!--<item-->
+            <!--android:id="@+id/menu_mezmur_blog"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@mipmap/ic_chat_blog"-->
+            <!--android:title="Mezmur Chat Blog" />-->
 
     </group>
 
     <group
         android:id="@+id/group2"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/menu_favourites"
-            android:checked="false"
-            android:icon="@mipmap/ic_favourites"
-            android:title="Favourites"
-            app:actionLayout="@layout/drawer_item_counter" />
+
 
         <item
             android:id="@+id/menu_settings"
             android:checked="false"
-            android:icon="@mipmap/ic_settings"
+            android:icon="@mipmap/ic_settings_circle"
             android:title="Settings" />
 
         <!-- Feedback will be inside help -->
+        <item
+            android:id="@+id/menu_send_feedback"
+            android:checked="false"
+            android:icon="@mipmap/ic_feedback_circle"
+            android:title="Send Feedback" />
 
-        <!--<item-->
-        <!--android:id="@+id/menu_send_feedback"-->
-        <!--android:checked="false"-->
-        <!--android:icon="@mipmap/ic_email_white_24dp"-->
-        <!--android:title="Send Feedback" />-->
         <item
             android:id="@+id/menu_share"
             android:checked="false"
-            android:icon="@mipmap/ic_share"
+            android:icon="@mipmap/ic_share_circle"
             android:title="Share" />
+
+        <item
+            android:id="@+id/menu_favourites"
+            android:checked="false"
+            android:icon="@mipmap/ic_favourite_circle"
+            android:title="Favourites"
+            app:actionLayout="@layout/drawer_item_counter" />
+
         <item
             android:id="@+id/menu_rate"
             android:checked="false"
-            android:icon="@mipmap/ic_rate"
+            android:icon="@mipmap/ic_rate_circle"
             android:title="Rate" />
+
+        <item
+            android:id="@+id/menu_holy_pictures"
+            android:checked="true"
+            android:icon="@mipmap/ic_album"
+            android:title="Holy Pictures" />
+
         <item
             android:id="@+id/menu_about"
             android:checked="false"
-            android:icon="@mipmap/ic_about"
+            android:icon="@mipmap/ic_about_circle"
             android:title="About" />
+
+
     </group>
 </menu>

@@ -17,7 +17,7 @@
 package org.dalol.orthodoxmezmurmedia.mvp.presenter.dashboard;
 
 import org.dalol.orthodoxmezmurmedia.mvp.presenter.base.BasePresenter;
-import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.RecentMezmurFragmentView;
+import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.OtherMenusFragmentView;
 
 import javax.inject.Inject;
 
@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * @version 1.0.0
  * @since 8/29/2016
  */
-public class RecentMezmurFragmentPresenter extends BasePresenter<RecentMezmurFragmentView, Void> {
+public class RecentMezmurFragmentPresenter extends BasePresenter<OtherMenusFragmentView, Void> {
 
     @Inject
     public RecentMezmurFragmentPresenter() {

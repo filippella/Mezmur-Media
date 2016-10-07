@@ -19,7 +19,7 @@ package org.dalol.orthodoxmezmurmedia.business.di.modules;
 import org.dalol.orthodoxmezmurmedia.business.binders.RecentMezmurViewAdapterBinder;
 import org.dalol.orthodoxmezmurmedia.business.binders.ViewAdapterBinder;
 import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
-import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.RecentMezmurFragmentView;
+import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.OtherMenusFragmentView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -32,9 +32,9 @@ import dagger.Provides;
 @Module
 public class RecentMezmurModule {
 
-    private RecentMezmurFragmentView mMezmurFragmentView;
+    private OtherMenusFragmentView mMezmurFragmentView;
 
-    public RecentMezmurModule(RecentMezmurFragmentView mezmurFragmentView) {
+    public RecentMezmurModule(OtherMenusFragmentView mezmurFragmentView) {
         mMezmurFragmentView = mezmurFragmentView;
     }
 
@@ -46,7 +46,7 @@ public class RecentMezmurModule {
 
     @Provides
     @PerJourney
-    RecentMezmurFragmentView provideRecentMezmurView() {
+    OtherMenusFragmentView provideRecentMezmurView() {
         return this.mMezmurFragmentView;
     }
 }

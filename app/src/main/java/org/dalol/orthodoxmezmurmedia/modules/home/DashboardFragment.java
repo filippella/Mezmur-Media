@@ -52,7 +52,7 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.onViewReady();
+        getPresenter().onViewReady();
     }
 
     @Override

@@ -18,6 +18,8 @@
     <!--<color name="colorAccent">#FF4455</color>-->
     <color name="colorAccent">#64FFDA</color>
     <color name="white">#FFFFFF</color>
+    <color name="black_blue">#2D3E50</color>
+    <color name="black_blue2">#27AE61</color>
     <color name="black">#000000</color>
 
     <!--<color name="colorSecondaryText">#FFCCAA</color>-->
@@ -42,6 +44,12 @@
     <color name="very_good_green">#01cb56</color>
     <color name="very_good_green2">#1ACC47</color>
     <color name="very_good_green3">#2DCC70</color>
+    <color name="very_good_green4">#26D77B</color>
+
+    <color name="good_pink">#F24883</color>
+    <color name="good_red">#F75F50</color>
+    <color name="orange_red">#fd6e43</color>
+    <color name="purple">#B73FF6</color>
 
     <!--good 2 purple-->
     <!--<color name="colorPrimary">#673AB7</color>-->
