@@ -27,11 +27,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.business.base.BaseFragment;
@@ -59,24 +54,22 @@ public class MezmurChatBlogMessagesFragment extends BaseFragment {
     @BindView(R.id.chat_recycler_view) protected RecyclerView mChatList;
     @BindView(R.id.chat_user_message1) protected EditText mChatMessageToSend;
 
-    private Firebase mFirebaseChatRef;
-    private ChildEventListener mMessageChatListener;
     private MessageChatAdapter mMessageChatAdapter;
     private String mUserId;
     private String mUserDisplayName;
     private String mUserEmail;
     private String mRestoredMessage;
-
-    public static MezmurChatBlogMessagesFragment newInstance(FirebaseUser currentUser, String restoredMessageDraft) {
-        Bundle args = new Bundle();
-        args.putString(KEY_USER_DISPLAY_NAME, currentUser.getDisplayName());
-        args.putString(KEY_USER_EMAIL, currentUser.getEmail());
-        args.putString(KEY_USER_ID, currentUser.getUid());
-        args.putString(KEY_USER_RESTORED_MESSAGE, restoredMessageDraft);
-        MezmurChatBlogMessagesFragment fragment = new MezmurChatBlogMessagesFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+//
+//    public static MezmurChatBlogMessagesFragment newInstance(FirebaseUser currentUser, String restoredMessageDraft) {
+//        Bundle args = new Bundle();
+//        args.putString(KEY_USER_DISPLAY_NAME, currentUser.getDisplayName());
+//        args.putString(KEY_USER_EMAIL, currentUser.getEmail());
+//        args.putString(KEY_USER_ID, currentUser.getUid());
+//        args.putString(KEY_USER_RESTORED_MESSAGE, restoredMessageDraft);
+//        MezmurChatBlogMessagesFragment fragment = new MezmurChatBlogMessagesFragment();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,14 +105,14 @@ public class MezmurChatBlogMessagesFragment extends BaseFragment {
     private void doLogout() {
         FragmentChatBlogActionListener actionListener = (FragmentChatBlogActionListener) getActivity();
         actionListener.onLogoutClicked();
-        actionListener.getAuth().signOut();
+        //actionListener.getAuth().signOut();
     }
 
     @Override
     protected void bindView(View view) {
         super.bindView(view);
         mChatMessageToSend.setText(mRestoredMessage);
-        mFirebaseChatRef = new Firebase(FIREBASE_CHAT_URL).child("filippo");
+        //mFirebaseChatRef = new Firebase(FIREBASE_CHAT_URL).child("filippo");
         mChatList.setHasFixedSize(true);
         mChatList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         mMessageChatAdapter = new MessageChatAdapter(new ArrayList<MessageChatModel>());
@@ -138,7 +131,7 @@ public class MezmurChatBlogMessagesFragment extends BaseFragment {
 
         if (!senderMessage.isEmpty()) {
             MessageChatModel newChatModel = new MessageChatModel(mUserId, senderMessage, mUserEmail, mUserDisplayName);
-            mFirebaseChatRef.push().setValue(newChatModel);
+           // mFirebaseChatRef.push().setValue(newChatModel);
             mChatMessageToSend.setText("");
         }
     }
@@ -147,60 +140,60 @@ public class MezmurChatBlogMessagesFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         FragmentChatBlogActionListener actionListener = (FragmentChatBlogActionListener) getActivity();
-        FirebaseUser currentUser = actionListener.getAuth().getCurrentUser();
-        if (currentUser == null) {
-            actionListener.onShowLoginScreen();
-        }
+        //FirebaseUser currentUser = actionListener.getAuth().getCurrentUser();
+//        if (currentUser == null) {
+//            actionListener.onShowLoginScreen();
+//        }
         OnDialogAccessListener accessListener = (OnDialogAccessListener) getActivity();
         accessListener.onShowDialog("Loading Mezmur Blog Conversation...");
-        mMessageChatListener = mFirebaseChatRef.limitToFirst(50).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
-
-                OnDialogAccessListener accessListener = (OnDialogAccessListener) getActivity();
-                if (accessListener != null) {
-                    accessListener.onHideDialog();
-                }
-
-
-                if(dataSnapshot.exists()){
-                    // Log.e(TAG, "A new chat was inserted");
-
-//                    for (DataSnapshot child: dataSnapshot.getChildren()) {
-//                        Toast.makeText(ChatActivity.this, "Message -> " + child.getValue().toString(), Toast.LENGTH_SHORT).show();
+//        mMessageChatListener = mFirebaseChatRef.limitToFirst(50).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
+//
+//                OnDialogAccessListener accessListener = (OnDialogAccessListener) getActivity();
+//                if (accessListener != null) {
+//                    accessListener.onHideDialog();
+//                }
+//
+//
+//                if(dataSnapshot.exists()){
+//                    // Log.e(TAG, "A new chat was inserted");
+//
+////                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+////                        Toast.makeText(ChatActivity.this, "Message -> " + child.getValue().toString(), Toast.LENGTH_SHORT).show();
+////                    }
+//
+//                    MessageChatModel newMessage = dataSnapshot.getValue(MessageChatModel.class);
+//
+//                    if(newMessage.getAuthor().equals(mUserId)){
+//                        newMessage.setSender(true);
 //                    }
-
-                    MessageChatModel newMessage = dataSnapshot.getValue(MessageChatModel.class);
-
-                    if(newMessage.getAuthor().equals(mUserId)){
-                        newMessage.setSender(true);
-                    }
-                    mMessageChatAdapter.refillAdapter(newMessage);
-                    mChatList.scrollToPosition(mMessageChatAdapter.getItemCount()-1);
-                }
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+//                    mMessageChatAdapter.refillAdapter(newMessage);
+//                    mChatList.scrollToPosition(mMessageChatAdapter.getItemCount()-1);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -209,10 +202,10 @@ public class MezmurChatBlogMessagesFragment extends BaseFragment {
         FragmentChatBlogActionListener actionListener = (FragmentChatBlogActionListener) getActivity();
         actionListener.onSaveEditedMessage(mChatMessageToSend.getText().toString());
         // Remove listener
-        if(mMessageChatListener !=null) {
-            // Remove listener
-            mFirebaseChatRef.removeEventListener(mMessageChatListener);
-        }
+//        if(mMessageChatListener !=null) {
+//            // Remove listener
+//            mFirebaseChatRef.removeEventListener(mMessageChatListener);
+//        }
         // Clean chat message
           mMessageChatAdapter.cleanUp();
     }

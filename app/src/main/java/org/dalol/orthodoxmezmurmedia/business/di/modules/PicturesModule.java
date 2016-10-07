@@ -16,7 +16,7 @@
 
 package org.dalol.orthodoxmezmurmedia.business.di.modules;
 
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.business.services.pictures.PicturesApi;
 import org.dalol.orthodoxmezmurmedia.mvp.view.pictures.PicturesView;
 
@@ -38,13 +38,13 @@ public class PicturesModule {
         mPicturesView = picturesView;
     }
 
-    @CustomScope
+    @PerJourney
     @Provides
     PicturesView provideView() {
         return mPicturesView;
     }
 
-    @CustomScope
+    @PerJourney
     @Provides
     PicturesApi provideApiTask(Retrofit retrofit) {
         return retrofit.create(PicturesApi.class);

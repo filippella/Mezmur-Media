@@ -18,7 +18,7 @@ package org.dalol.orthodoxmezmurmedia.business.di.modules;
 
 import org.dalol.orthodoxmezmurmedia.business.binders.RecentMezmurViewAdapterBinder;
 import org.dalol.orthodoxmezmurmedia.business.binders.ViewAdapterBinder;
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.RecentMezmurFragmentView;
 
 import dagger.Module;
@@ -39,13 +39,13 @@ public class RecentMezmurModule {
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     ViewAdapterBinder provideViewHolderBinder(RecentMezmurViewAdapterBinder binder) {
         return binder;
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     RecentMezmurFragmentView provideRecentMezmurView() {
         return this.mMezmurFragmentView;
     }

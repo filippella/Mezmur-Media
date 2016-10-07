@@ -18,7 +18,7 @@ package org.dalol.orthodoxmezmurmedia.business.di.modules;
 
 import android.content.Context;
 
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.DashboardView;
 
 import dagger.Module;
@@ -39,13 +39,13 @@ public class DashboardModule {
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     DashboardView provideView() {
         return this.mDashboardView;
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     Context provideContext() {
         return this.mDashboardView.getApplicationContext();
     }

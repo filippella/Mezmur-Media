@@ -16,7 +16,6 @@
 
 package org.dalol.orthodoxmezmurmedia.mvp.model.user;
 
-import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -24,7 +23,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
  * @since 9/11/2016
  */
 // [START blog_user_class]
-@IgnoreExtraProperties
+//@IgnoreExtraProperties
 public class User {
 
     public String username;

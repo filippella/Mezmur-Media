@@ -28,5 +28,5 @@ import javax.inject.Scope;
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CustomScope {
+public @interface PerJourney {
 }

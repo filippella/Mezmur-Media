@@ -16,7 +16,7 @@
 
 package org.dalol.orthodoxmezmurmedia.business.di.modules;
 
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.modules.storage.Storage;
 import org.dalol.orthodoxmezmurmedia.modules.storage.UserSettingsInfoStorage;
 import org.dalol.orthodoxmezmurmedia.mvp.view.chat.ChatView;
@@ -39,13 +39,13 @@ public class ChatModule {
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     ChatView provideChatView() {
         return mChatView;
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     Storage provideStorage(UserSettingsInfoStorage storage) {
         return storage;
     }

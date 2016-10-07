@@ -27,10 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.business.base.BaseFragment;
 import org.dalol.orthodoxmezmurmedia.mvp.model.callback.FragmentChatBlogActionListener;
@@ -143,22 +139,22 @@ public class MezmurChatBlogLoginFragment extends BaseFragment {
         String email = mUserEmail.getText().toString();
         String password = mUserPassword.getText().toString();
         FragmentChatBlogActionListener listener = (FragmentChatBlogActionListener) getActivity();
-        listener.getAuth().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        getDialogAccessListener().onHideDialog();
-
-                        if (task.isSuccessful()) {
-                            FragmentChatBlogActionListener actionListener = (FragmentChatBlogActionListener) getActivity();
-                            actionListener.onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            String message = task.getException().getMessage();
-                            getDialogAccessListener().onShowAlertDialog(message);
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+//        listener.getAuth().signInWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        getDialogAccessListener().onHideDialog();
+//
+//                        if (task.isSuccessful()) {
+//                            FragmentChatBlogActionListener actionListener = (FragmentChatBlogActionListener) getActivity();
+//                            actionListener.onAuthSuccess(task.getResult().getUser());
+//                        } else {
+//                            String message = task.getException().getMessage();
+//                            getDialogAccessListener().onShowAlertDialog(message);
+//                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
     }
 
     private OnDialogAccessListener getDialogAccessListener() {

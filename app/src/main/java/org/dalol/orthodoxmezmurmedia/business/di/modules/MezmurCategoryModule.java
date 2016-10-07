@@ -20,7 +20,7 @@ import android.content.Context;
 
 import org.dalol.orthodoxmezmurmedia.business.binders.MezmurCategoryDashboardBinder;
 import org.dalol.orthodoxmezmurmedia.business.binders.ViewAdapterBinder;
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.mvp.view.dashboard.DashboardFragmentView;
 
 import dagger.Module;
@@ -41,19 +41,19 @@ public class MezmurCategoryModule {
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     ViewAdapterBinder provideViewHolderBinder(MezmurCategoryDashboardBinder binder) {
         return binder;
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     DashboardFragmentView provideRecentMezmurView() {
         return this.mDashboardFragmentView;
     }
 
     @Provides
-    @CustomScope
+    @PerJourney
     Context provideContext(){
         return mDashboardFragmentView.getContext();
     }

@@ -18,8 +18,6 @@ package org.dalol.orthodoxmezmurmedia.application;
 
 import android.app.Application;
 
-import com.firebase.client.Firebase;
-
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.business.di.components.ApplicationComponent;
 import org.dalol.orthodoxmezmurmedia.business.di.components.DaggerApplicationComponent;
@@ -37,7 +35,6 @@ public class MezmurApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Firebase.setAndroidContext(this);
         initializeApplicationComponentForDagger();
     }
 

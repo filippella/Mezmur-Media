@@ -22,11 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.business.base.BaseActivity;
 import org.dalol.orthodoxmezmurmedia.business.di.components.DaggerChatComponent;
@@ -43,18 +38,12 @@ import org.dalol.orthodoxmezmurmedia.mvp.view.chat.ChatView;
  */
 public class ChatActivity extends BaseActivity<ChatPresenter> implements ChatView, FragmentChatBlogActionListener {
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-    private FirebaseAuth.AuthStateListener mOnAuthStateChanged;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showHome();
         setTitle("Mezmur Blog Chat");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -89,42 +78,14 @@ public class ChatActivity extends BaseActivity<ChatPresenter> implements ChatVie
     public void onStart() {
         super.onStart();
         //checkUserAuthentication("onStart", mAuth);
-        mOnAuthStateChanged = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                checkUserAuthentication("onAuthStateChanged", firebaseAuth);
-            }
-        };
-        mAuth.addAuthStateListener(mOnAuthStateChanged);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mAuth.removeAuthStateListener(mOnAuthStateChanged);
     }
 
-    private void checkUserAuthentication(String source, FirebaseAuth firebaseAuth) {
-        onHideDialog();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            getPresenter().onUserAuthenticated(currentUser.getUid(), currentUser.getEmail());
-        } else {
-            getPresenter().onAuthenticationDenied();
-        }
-//        Toast.makeText(ChatActivity.this, "User Authenticated -> {source="+source+"} " + (currentUser != null), Toast.LENGTH_SHORT).show();
-//        if (currentUser != null) {
-//            //Toast.makeText(ChatActivity.this, "User already Logged in! " + mCount, Toast.LENGTH_SHORT).show();
-//            onAuthSuccess(currentUser);
-//        } else {
-//            MezmurChatBlogLoginFragment loginFragment = MezmurChatBlogLoginFragment.newInstance();
-//            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-//                replaceFragment(R.id.chat_blog_content, loginFragment);
-//            } else {
-//                addFragment(R.id.chat_blog_content, loginFragment);
-//            }
-//        }
-    }
 
     @Override
     public void onActionPerformed(PerformedActionType performedActionType) {
@@ -145,18 +106,6 @@ public class ChatActivity extends BaseActivity<ChatPresenter> implements ChatVie
 //                }
 //                break;
         }
-    }
-
-    @Override
-    public void onAuthSuccess(FirebaseUser user) {
-//        String username = usernameFromEmail(user.getEmail());
-//        manageUser(user.getUid(), username, user.getEmail());
-//        onActionPerformed(FragmentChatBlogActionListener.PerformedActionType.ACTION_PROCEED_TO_BLOG_SCREEN);
-    }
-
-    @Override
-    public FirebaseAuth getAuth() {
-        return mAuth;
     }
 
     @Override
@@ -190,11 +139,11 @@ public class ChatActivity extends BaseActivity<ChatPresenter> implements ChatVie
     @Override
     public void onOpenChatBlogScreen(String currentUserUid, String email, String userName) {
         User user = new User(userName, email);
-        mDatabase.child("users").child(currentUserUid).setValue(user);
-        MezmurChatBlogMessagesFragment blogFragment = MezmurChatBlogMessagesFragment.newInstance(mAuth.getCurrentUser(),
-                getPresenter().onRestoreMessageDraft());
-        //clearBackStack();
-        replaceFragment(R.id.chat_blog_content, blogFragment);
+        //mDatabase.child("users").child(currentUserUid).setValue(user);
+//        MezmurChatBlogMessagesFragment blogFragment = MezmurChatBlogMessagesFragment.newInstance(mAuth.getCurrentUser(),
+//                getPresenter().onRestoreMessageDraft());
+//        //clearBackStack();
+//        replaceFragment(R.id.chat_blog_content, blogFragment);
 //        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
 //            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 //            addFragment(R.id.chat_blog_content, blogFragment);

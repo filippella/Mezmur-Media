@@ -17,7 +17,7 @@
 package org.dalol.orthodoxmezmurmedia.business.di.components;
 
 import org.dalol.orthodoxmezmurmedia.business.di.modules.MezmurCategoryModule;
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.modules.home.DashboardFragment;
 
 import dagger.Component;
@@ -27,7 +27,7 @@ import dagger.Component;
  * @version 1.0.0
  * @since 8/29/2016
  */
-@CustomScope
+@PerJourney
 @Component(modules = MezmurCategoryModule.class)
 public interface MezmurCategoryComponent {
 

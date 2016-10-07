@@ -16,9 +16,6 @@
 
 package org.dalol.orthodoxmezmurmedia.mvp.model.callback;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -32,18 +29,6 @@ public interface FragmentChatBlogActionListener {
      * @param performedActionType
      */
     void onActionPerformed(PerformedActionType performedActionType);
-
-    /**
-     * This method is responsible for managing user access info
-     * @param user
-     */
-    void onAuthSuccess(FirebaseUser user);
-
-    /**
-     * The main {@link FirebaseAuth} can be accessed from parent activity {@link org.dalol.orthodoxmezmurmedia.modules.chat.ChatActivity}
-     * @return
-     */
-    FirebaseAuth getAuth();
 
     /**
      * When user is leaving the chat session

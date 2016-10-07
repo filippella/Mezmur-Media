@@ -18,7 +18,7 @@ package org.dalol.orthodoxmezmurmedia.business.di.components;
 
 import org.dalol.orthodoxmezmurmedia.business.di.modules.ApiModule;
 import org.dalol.orthodoxmezmurmedia.business.di.modules.PicturesModule;
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
 
 import dagger.Component;
@@ -28,7 +28,7 @@ import dagger.Component;
  * @version 1.0.0
  * @since 10/2/2016
  */
-@CustomScope
+@PerJourney
 @Component(modules = {PicturesModule.class, ApiModule.class}, dependencies = ApplicationComponent.class)
 public interface PicturesComponent {
 

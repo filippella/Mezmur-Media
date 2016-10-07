@@ -16,7 +16,7 @@
 
 package org.dalol.orthodoxmezmurmedia.business.di.modules;
 
-import org.dalol.orthodoxmezmurmedia.business.di.scopes.CustomScope;
+import org.dalol.orthodoxmezmurmedia.business.di.scopes.PerJourney;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +40,7 @@ public class ApiModule {
         mBaseUrl = baseUrl;
     }
 
-    @CustomScope
+    @PerJourney
     @Provides
     OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder()
@@ -49,7 +49,7 @@ public class ApiModule {
                 .build();
     }
 
-    @CustomScope
+    @PerJourney
     @Provides
     Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
