@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "249098183415",
+    "firebase_url": "https://mezmur-media.firebaseio.com",
+    "project_id": "mezmur-media",
+    "storage_bucket": "mezmur-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249098183415:android:c323da3d3d2e6065",
+        "android_client_info": {
+          "package_name": "org.dalol.mezmurmedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249098183415-grlfq0ehmnhbipqegd9d7g5bpmscjm4a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.dalol.mezmurmedia",
+            "certificate_hash": "F6BFB0139646962F9E5040B4FB1F49E8EC54F200"
+          }
+        },
+        {
+          "client_id": "249098183415-gh7sb8agfoepcvhughs3nhrvst5eq1t3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsDPLkFnrG87LOao6NMud8K0MDYf3T1Lg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249098183415-gh7sb8agfoepcvhughs3nhrvst5eq1t3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

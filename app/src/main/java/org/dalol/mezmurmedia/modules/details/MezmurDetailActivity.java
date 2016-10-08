@@ -21,10 +21,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import org.dalol.mezmurmedia.R;
 import org.dalol.mezmurmedia.business.base.BaseActivity;
@@ -45,6 +50,7 @@ public class MezmurDetailActivity extends BaseActivity {
     public static final String MEZMUR_COLOR_CODE = "color_code";
 
     private float textSize = 15f;
+    @BindView(R.id.adView) protected AdView mAdView;
     @BindView(R.id.viewpager) protected ViewPager mViewPager;
     @BindView(R.id.image_button_add_to_favourite) protected ImageButton mAddToFav;
     @BindView(R.id.image_button_content_copy) protected ImageButton mCopyLyrics;
@@ -61,6 +67,21 @@ public class MezmurDetailActivity extends BaseActivity {
         String mezmur_title = intent.getStringExtra(MEZMUR_TITLE);
         String mezmur_detail = intent.getStringExtra(MEZMUR_DETAIL);
         int colorCode = intent.getIntExtra(MEZMUR_COLOR_CODE, 0);
+
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5489846298805329~3437486295");
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                int visibility = mAdView.getVisibility();
+                if(visibility != View.VISIBLE) mAdView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mAdView.loadAd(new AdRequest.Builder().build());
+
 //
 //        ((GradientDrawable)mBottomTabLayout.getBackground()).setColor(colorCode);
 
@@ -76,9 +97,17 @@ public class MezmurDetailActivity extends BaseActivity {
         pagerAdapter.addFragment(MezmurDetailFragment.newInstance(mezmur_detail), mezmur_title);
         mViewPager.setAdapter(pagerAdapter);
 
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                //mAdView.loadAd(new AdRequest.Builder().build());
+            }
+        });
+
         //mBottomTabLayout.setBackgroundColor(colorCode);
         //mMezmurDetail.setText(mezmur_detail);
-        setTitle(mezmur_title);
+        setTitle("#45 - "+mezmur_title);
 
         mAddToFav.setColorFilter(ContextCompat.getColor(this, R.color.good_red));
     }
