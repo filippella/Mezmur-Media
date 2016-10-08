@@ -79,7 +79,7 @@
             android:paddingRight="16dp"
             tools:context=".modules.mezmur.MezmurListsActivity" />
 
-        <org.dalol.orthodoxmezmurmedia.utilities.helpers.RecyclerViewFastIndexer
+        <org.dalol.mezmurmedia.utilities.helpers.RecyclerViewFastIndexer
             android:id="@+id/fastscroller"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
