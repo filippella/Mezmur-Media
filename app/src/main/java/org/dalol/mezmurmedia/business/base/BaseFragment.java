@@ -28,6 +28,8 @@ import android.widget.Toast;
 import org.dalol.mezmurmedia.mvp.presenter.base.BasePresenter;
 import org.dalol.mezmurmedia.mvp.view.base.BaseView;
 
+import java.lang.reflect.Field;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -44,6 +46,9 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
 
     @CallSuper @Override public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getParentFragment() == null) {
+            setRetainInstance(true);
+        }
         resolveDependencies();
         P presenter = getPresenter();
         if (presenter != null) {
@@ -63,6 +68,21 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
     @Override public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser) {
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 

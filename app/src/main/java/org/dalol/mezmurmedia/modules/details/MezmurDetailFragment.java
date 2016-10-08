@@ -3,6 +3,8 @@ package org.dalol.mezmurmedia.modules.details;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,6 +42,13 @@ public class MezmurDetailFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMezmur = getArguments().getString("mezmur");
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.detail_activity_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
