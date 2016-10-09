@@ -16,7 +16,7 @@
 
 package org.dalol.presenter.presentation.dashboard;
 
-import org.dalol.model.mezmur.MezmurCategory;
+import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.presenter.presentation.base.BaseView;
 
 import java.util.List;
@@ -28,5 +28,5 @@ import java.util.List;
  */
 public interface DashboardFragmentView extends BaseView {
 
-    void onLoadCategories(List<MezmurCategory> mezmurCategories);
+    void onLoadCategories(List<MezmurListItem> mezmurCategories);
 }

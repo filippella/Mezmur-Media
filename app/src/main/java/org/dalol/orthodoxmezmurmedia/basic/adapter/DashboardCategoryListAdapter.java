@@ -27,10 +27,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.dalol.model.mezmur.MezmurCategory;
+import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
-import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity;
 import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ import java.util.Random;
 public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     private LayoutInflater mLayoutInflater;
-    private List<MezmurCategory> mCategories = new ArrayList<>();
+    private List<MezmurListItem> mCategories = new ArrayList<>();
     private int[] images = {R.drawable.mariam, R.drawable.saint_gebriel, R.drawable.giorgis, R.drawable.silasie,
             R.drawable.yared};
 
@@ -62,16 +62,21 @@ public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewH
         holder.setHolderClickListener(new ItemViewHolder.ItemClickListener() {
             @Override
             public void onClick(View child, int position) {
+                MezmurListItem mezmurListItem = mCategories.get(position);
                 Context context = child.getContext();
-                context.startActivity(new Intent(context, MezmurListsActivity.class));
+                Intent intent = new Intent(context, MezmurListsActivity.class);
+                intent.putExtra(MezmurListsActivity.ITEM_BUNDLE_INFO, mezmurListItem);
+                context.startActivity(intent);
             }
         });
         View itemView = holder.itemView;
         Context context = itemView.getContext();
         ImageView categoryImage = (ImageView) itemView.findViewById(R.id.mezmur_category_icon);
         TextView categoryTitle = (TextView) itemView.findViewById(R.id.mezmur_category_title);
-        MezmurCategory category = mCategories.get(position);
-        categoryTitle.setText(category.getName());
+        TextView categoryCount = (TextView) itemView.findViewById(R.id.mezmur_category_count);
+        MezmurListItem mezmurListItem = mCategories.get(position);
+        categoryTitle.setText(mezmurListItem.getName());
+        categoryCount.setText(String.format("%d መዝሙራት", mezmurListItem.getMezmurIdList().size()));
         Glide.with(context).load(getImage()).into(categoryImage);
     }
 
@@ -80,7 +85,7 @@ public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewH
         return mCategories.size();
     }
 
-    public void addCategories(List<MezmurCategory> categories) {
+    public void addCategories(List<MezmurListItem> categories) {
         int initialSize = mCategories.size();
         mCategories.addAll(categories);
         notifyItemRangeInserted(initialSize, mCategories.size());

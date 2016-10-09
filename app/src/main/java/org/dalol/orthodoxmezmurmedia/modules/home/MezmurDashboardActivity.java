@@ -116,8 +116,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
         mDrawerToggle.syncState();
 
         MezmurPagerAdapter pagerAdapter = new MezmurPagerAdapter(getSupportFragmentManager());
-        pagerAdapter.addFragment(DashboardFragment.newInstance(), "Mezmur Cats");
-        pagerAdapter.addFragment(OtherMenusFragment.newInstance(), "other");
+        pagerAdapter.addFragment(DashboardFragment.newInstance(), "Categories");
+        pagerAdapter.addFragment(OtherMenusFragment.newInstance(), "Other Menus");
         mViewPager.setAdapter(pagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);

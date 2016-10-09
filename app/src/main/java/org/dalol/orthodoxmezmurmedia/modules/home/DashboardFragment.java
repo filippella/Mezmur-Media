@@ -23,12 +23,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import org.dalol.model.mezmur.MezmurCategory;
+import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.adapter.DashboardCategoryListAdapter;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerMezmurCategoryComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.MezmurCategoryModule;
-import org.dalol.orthodoxmezmurmedia.basic.adapter.DashboardCategoryListAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 import org.dalol.presenter.business.dashboard.DashboardFragmentPresenter;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
@@ -107,7 +107,7 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     }
 
     @Override
-    public void onLoadCategories(List<MezmurCategory> mezmurCategories) {
+    public void onLoadCategories(List<MezmurListItem> mezmurCategories) {
         mAdapter.addCategories(mezmurCategories);
     }
 }

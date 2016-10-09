@@ -17,6 +17,7 @@
 package org.dalol.orthodoxmezmurmedia.modules.mezmur;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.adapter.MezmurListAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.helpers.StickyHeaderUtils;
@@ -62,7 +64,8 @@ import butterknife.OnClick;
 public class MezmurListsActivity extends BaseActivity {
 
     private static final String TAG = MezmurListsActivity.class.getSimpleName();
-//
+    public static final String ITEM_BUNDLE_INFO = "item-bundle-info";
+    //
     @BindView(R.id.recyclerView) protected RecyclerView mRecyclerView;
     @BindView(R.id.fastscroller) protected RecyclerViewFastIndexer fastScroller;
     @BindView(R.id.editText_merzumr_search_quesry) protected EditText mSearchQueryField;
@@ -90,13 +93,22 @@ public class MezmurListsActivity extends BaseActivity {
     protected void onChangeKeyboardInput() {
         Toast.makeText(MezmurListsActivity.this, "Changing keyboard input...", Toast.LENGTH_SHORT).show();
     }
-    
+
+    @Override
+    protected void onViewReady(Bundle savedInstanceState, Intent intent) {
+        super.onViewReady(savedInstanceState, intent);
+        MezmurListItem listItem = (MezmurListItem) intent.getSerializableExtra(ITEM_BUNDLE_INFO);
+        Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 //
         showHome();
+
+
 
         mSearchQueryField.setOnTouchListener(new View.OnTouchListener() {
 
@@ -336,7 +348,7 @@ public class MezmurListsActivity extends BaseActivity {
             public void run() {
                 AssetManager assetManager = getAssets();
                 try {
-                    InputStream stream = assetManager.open("mezmurJson.json");
+                    InputStream stream = assetManager.open("mezmur_data.json");
 
                     BufferedReader in =  new BufferedReader(new InputStreamReader(stream, "UTF-8"));
                     String str;

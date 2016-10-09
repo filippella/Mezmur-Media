@@ -16,7 +16,7 @@
 
 package org.dalol.presenter.business.dashboard;
 
-import org.dalol.model.mezmur.MezmurCategory;
+import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.presenter.business.base.BasePresenter;
 import org.dalol.presenter.data.MezmurCategoryProvider;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
@@ -32,7 +32,7 @@ import rx.Observer;
  * @version 1.0.0
  * @since 8/29/2016
  */
-public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentView, Void> implements Observer<List<MezmurCategory>> {
+public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentView, Void> implements Observer<List<MezmurListItem>> {
 
     public static final int TYPE_VERTICAL_LIST = 0;
     public static final int TYPE_GRID_VIEW = 1;
@@ -96,7 +96,7 @@ public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentV
     }
 
     @Override
-    public void onNext(List<MezmurCategory> mezmurCategories) {
+    public void onNext(List<MezmurListItem> mezmurCategories) {
         getView().onLoadCategories(mezmurCategories);
         getView().onHideDialog();
     }
