@@ -16,10 +16,10 @@
 
 package org.dalol.presenter.mappers.pictures;
 
-import org.dalol.mezmurmedia.mvp.model.pictures.Cakes;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureInfo;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureModel;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureResponse;
+import org.dalol.model.pictures.Cakes;
+import org.dalol.model.pictures.PictureInfo;
+import org.dalol.model.pictures.PictureModel;
+import org.dalol.model.pictures.PictureResponse;
 
 import javax.inject.Inject;
 

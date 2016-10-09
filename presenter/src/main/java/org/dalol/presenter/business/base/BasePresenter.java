@@ -18,10 +18,8 @@ package org.dalol.presenter.business.base;
 
 import android.support.annotation.NonNull;
 
-import org.dalol.mezmurmedia.mvp.model.callback.BaseApiCallback;
-import org.dalol.mezmurmedia.mvp.model.callback.OnCallbackListener;
-import org.dalol.mezmurmedia.mvp.model.services.ApiType;
-import org.dalol.mezmurmedia.presentation.base.BaseView;
+import org.dalol.model.services.ApiType;
+import org.dalol.presenter.presentation.base.BaseView;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,7 +48,7 @@ public class BasePresenter<V extends BaseView, R> {
             return;
         }
         mApiCallQueue.put(apiType, call);
-        call.enqueue(new BaseApiCallback<R>(apiType, new OnCallbackListener() {
+        call.enqueue(new BaseApiCallback<R>(apiType, new BaseApiCallback.OnCallbackListener() {
             @Override
             public void onResponse(ApiType apiType, Call call, Response response) {
                 mApiCallQueue.remove(apiType);

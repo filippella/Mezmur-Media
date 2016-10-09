@@ -16,14 +16,14 @@
 
 package org.dalol.presenter.business.chat;
 
-import org.dalol.mezmurmedia.modules.storage.Storage;
-import org.dalol.mezmurmedia.mvp.presenter.base.BasePresenter;
-import org.dalol.mezmurmedia.presentation.chat.ChatView;
+import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.presentation.chat.ChatView;
+import org.dalol.presenter.storage.Storage;
 
 import javax.inject.Inject;
 
-import static org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants.KEY_USER_AUTHENTICATION_ID;
-import static org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants.KEY_USER_DRAFT_MESSAGE;
+import static org.dalol.model.mezmur.MezumrConstants.KEY_USER_AUTHENTICATION_ID;
+import static org.dalol.model.mezmur.MezumrConstants.KEY_USER_DRAFT_MESSAGE;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

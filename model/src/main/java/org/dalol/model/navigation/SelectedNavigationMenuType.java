@@ -16,7 +16,7 @@
 
 package org.dalol.model.navigation;
 
-import org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants;
+import org.dalol.model.mezmur.MezumrConstants;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

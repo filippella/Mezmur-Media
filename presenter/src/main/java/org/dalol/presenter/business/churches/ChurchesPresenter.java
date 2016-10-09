@@ -23,7 +23,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.dalol.mezmurmedia.mvp.model.churches.Church;
+import org.dalol.model.churches.Church;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,14 +57,14 @@ public class ChurchesPresenter {
 
             in.close();
 
-            Type type = new TypeToken<List<Church>>(){}.getType();
-
-            List<Church> churches = new Gson().fromJson(buffer.toString(), type);
-
-            for (int i = 0; i < churches.size(); i++) {
-                Church mezmur = churches.get(i);
-                listener.onChurch(mezmur);
-            }
+//            Type type = new TypeToken<List<Church>>(){}.getType();
+//
+//            List<Church> churches = new Gson().fromJson(buffer.toString(), type);
+//
+//            for (int i = 0; i < churches.size(); i++) {
+//                Church mezmur = churches.get(i);
+//                listener.onChurch(mezmur);
+//            }
 
         } catch (IOException e) {
             Log.d("MezmurListsActivity", "Total Count of mezmur UNKNOWN - > " +e.getMessage());

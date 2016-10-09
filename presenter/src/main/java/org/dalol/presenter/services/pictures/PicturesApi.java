@@ -16,7 +16,8 @@
 
 package org.dalol.presenter.services.pictures;
 
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureResponse;
+
+import org.dalol.model.pictures.PictureResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

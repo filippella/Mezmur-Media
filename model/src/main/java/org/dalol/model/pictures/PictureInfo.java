@@ -16,7 +16,7 @@
 
 package org.dalol.model.pictures;
 
-import org.dalol.mezmurmedia.mvp.model.miscellaneous.ItemView;
+import org.dalol.model.miscellaneous.ItemView;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

@@ -18,7 +18,7 @@ package org.dalol.model.callback;
 
 import android.view.View;
 
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureInfo;
+import org.dalol.model.pictures.PictureInfo;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

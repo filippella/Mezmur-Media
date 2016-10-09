@@ -16,8 +16,8 @@
 
 package org.dalol.presenter.business.dashboard;
 
-import org.dalol.mezmurmedia.mvp.presenter.base.BasePresenter;
-import org.dalol.mezmurmedia.presentation.dashboard.OtherMenusFragmentView;
+import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.presentation.dashboard.OtherMenusFragmentView;
 
 import javax.inject.Inject;
 

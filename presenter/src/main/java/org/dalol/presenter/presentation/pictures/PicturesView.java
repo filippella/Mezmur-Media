@@ -16,8 +16,8 @@
 
 package org.dalol.presenter.presentation.pictures;
 
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureModel;
-import org.dalol.mezmurmedia.presentation.base.BaseView;
+import org.dalol.model.pictures.PictureModel;
+import org.dalol.presenter.presentation.base.BaseView;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

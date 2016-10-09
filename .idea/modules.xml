@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OrthodoxMezmurMedia.iml" filepath="$PROJECT_DIR$/OrthodoxMezmurMedia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mezmur Media.iml" filepath="$PROJECT_DIR$/Mezmur Media.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/presenter/presenter.iml" filepath="$PROJECT_DIR$/presenter/presenter.iml" />
     </modules>
   </component>
 </project>

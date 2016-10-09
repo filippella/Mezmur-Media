@@ -16,13 +16,14 @@
 
 package org.dalol.presenter.business.pictures;
 
-import org.dalol.mezmurmedia.business.mappers.pictures.PicturesMapper;
-import org.dalol.mezmurmedia.business.services.pictures.PicturesApi;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureModel;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureResponse;
-import org.dalol.mezmurmedia.mvp.model.services.ApiType;
-import org.dalol.mezmurmedia.mvp.presenter.base.BasePresenter;
-import org.dalol.mezmurmedia.presentation.pictures.PicturesView;
+
+import org.dalol.model.pictures.PictureModel;
+import org.dalol.model.pictures.PictureResponse;
+import org.dalol.model.services.ApiType;
+import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.mappers.pictures.PicturesMapper;
+import org.dalol.presenter.presentation.pictures.PicturesView;
+import org.dalol.presenter.services.pictures.PicturesApi;
 
 import javax.inject.Inject;
 

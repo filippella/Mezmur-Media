@@ -16,9 +16,8 @@
 
 package org.dalol.presenter.business.dashboard;
 
-import org.dalol.mezmurmedia.mvp.presenter.base.BasePresenter;
-import org.dalol.mezmurmedia.presentation.dashboard.DashboardFragmentView;
-import org.dalol.mezmurmedia.utilities.helpers.ResourceProvider;
+import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
 
 import javax.inject.Inject;
 
@@ -34,7 +33,7 @@ public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentV
 
     private int dashboardViewType = TYPE_GRID_VIEW;
 
-    @Inject protected ResourceProvider mResourceProvider;
+//    @Inject protected ResourceProvider mResourceProvider;
 
     @Inject
     public DashboardFragmentPresenter() {
@@ -49,17 +48,17 @@ public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentV
         return dashboardViewType;
     }
 
-    public int getActiveViewTypeMenuIcon() {
-        return getByDashboardViewType(dashboardViewType);
-    }
+//    public int getActiveViewTypeMenuIcon() {
+//        return getByDashboardViewType(dashboardViewType);
+//    }
 
-    private int getByDashboardViewType(int dashboardViewType) {
-        switch (dashboardViewType) {
-            case TYPE_GRID_VIEW:
-                return mResourceProvider.getListMenuIcon();
-        }
-        return mResourceProvider.getGridMenuIcon();
-    }
+//    private int getByDashboardViewType(int dashboardViewType) {
+//        switch (dashboardViewType) {
+//            case TYPE_GRID_VIEW:
+//                return mResourceProvider.getListMenuIcon();
+//        }
+//        return mResourceProvider.getGridMenuIcon();
+//    }
 
     /**
      * This method is responsible for resolving the type of the menu to be displayed in the first fragment
@@ -76,11 +75,11 @@ public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentV
 //        }
     }
 
-    public int changeViewTypeIcon() {
-        if (dashboardViewType == TYPE_VERTICAL_LIST) {
-            return getByDashboardViewType(dashboardViewType = TYPE_GRID_VIEW);
-        } else {
-            return getByDashboardViewType(dashboardViewType = TYPE_VERTICAL_LIST);
-        }
-    }
+//    public int changeViewTypeIcon() {
+//        if (dashboardViewType == TYPE_VERTICAL_LIST) {
+//            return getByDashboardViewType(dashboardViewType = TYPE_GRID_VIEW);
+//        } else {
+//            return getByDashboardViewType(dashboardViewType = TYPE_VERTICAL_LIST);
+//        }
+//    }
 }

@@ -16,8 +16,7 @@
 
 package org.dalol.presenter.business.base;
 
-import org.dalol.mezmurmedia.mvp.model.services.ApiType;
-import org.dalol.model.callback.OnCallbackListener;
+import org.dalol.model.services.ApiType;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,5 +45,16 @@ public class BaseApiCallback<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable throwable) {
         mCallbackListener.onFailure(mApiType, call, throwable);
+    }
+
+    /**
+     * This method is responsible for getting the response asynchronously
+     * @param <T>
+     */
+    public interface OnCallbackListener<T> {
+
+        void onResponse(ApiType apiType, Call<T> call, Response<T> response);
+
+        void onFailure(ApiType apiType, Call<T> call, Throwable throwable);
     }
 }

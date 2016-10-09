@@ -16,7 +16,7 @@
 
 package org.dalol.presenter.presentation.dashboard;
 
-import org.dalol.mezmurmedia.presentation.base.BaseView;
+import org.dalol.presenter.presentation.base.BaseView;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
