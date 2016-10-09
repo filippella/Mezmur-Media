@@ -19,96 +19,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="0dp"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_layout" />
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@mipmap/ic_profile"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="Page 3"/>-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@mipmap/ic_more_menu"/>-->
-            <!--</LinearLayout>-->
-
-            <include layout="@layout/single_player_control_layout" />
-
-        </LinearLayout>
-
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/light_grey2"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <include
+                    layout="@layout/single_player_control_layout"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    app:layout_collapseMode="parallax" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:src="@mipmap/ic_navigate_before_white_24dp"
-                android:background="@drawable/mezmur_navigator_bg"
-                android:id="@+id/button"
-                android:layout_gravity="left|top" />
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="3dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textColor="@color/white"
-                android:src="@mipmap/ic_navigate_next_white_24dp"
-                android:background="@drawable/mezmur_navigator_bg"
-                android:layout_gravity="right|top" />
-        </FrameLayout>
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/mezmur_navigator_bg"
+                    android:src="@mipmap/ic_navigate_before_white_24dp"
+                    android:textColor="@color/white" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Page - 1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/mezmur_navigator_bg"
+                    android:src="@mipmap/ic_navigate_next_white_24dp"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="#d7dce6"
         android:gravity="center"
         android:visibility="gone"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,6 +144,4 @@
             android:textAllCaps="true"
             android:textColor="@color/white" />
     </LinearLayout>
-
-
 </LinearLayout>

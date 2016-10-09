@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/playback_controls_albumart_size"
     android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="@dimen/playback_controls_albumart_size"
-        android:layout_height="@dimen/playback_controls_albumart_size"
+        android:layout_height="match_parent"
         android:layout_gravity="center">
 
         <ImageView
@@ -17,7 +17,8 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/play_pause"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_playlist" />
+            android:src="@mipmap/ic_play_arrow_white_24dp"
+            android:tint="@color/orange_accent" />
 
     </FrameLayout>
 
@@ -25,7 +26,8 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="2dp">
 
         <TextView
             android:id="@+id/title"
