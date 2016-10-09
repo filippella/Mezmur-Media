@@ -53,12 +53,6 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getPresenter().onViewReady();
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context != null) {
@@ -76,19 +70,18 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void onViewReady(Bundle savedInstanceState) {
+        super.onViewReady(savedInstanceState);
+        getPresenter().onViewReady();
+    }
 
+    @Override
+    protected void bindView(View view) {
         mDashboardList.setHasFixedSize(true);
         mDashboardList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mDashboardList.addItemDecoration(new RecyclerListItemMarginDecorator(getResources().getDimensionPixelSize(R.dimen.mezmur_dashboard_list_item_margin_size)));
         mAdapter = new DashboardCategoryListAdapter(getLayoutInflater(getArguments()));
         mDashboardList.setAdapter(mAdapter);
-    }
-
-    @Override
-    protected void bindView(View view) {
-
     }
 
     @Override

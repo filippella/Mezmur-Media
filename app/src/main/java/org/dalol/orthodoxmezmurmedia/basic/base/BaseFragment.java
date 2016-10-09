@@ -70,6 +70,14 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
         return ((MezmurApplication) getActivity().getApplication()).getApplicationComponent();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        onViewReady(savedInstanceState);
+    }
+
+    protected void onViewReady(Bundle savedInstanceState) {}
+
     protected void bindView(View view) {}
 
     @Override public void setUserVisibleHint(boolean isVisibleToUser) {

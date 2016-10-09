@@ -18,7 +18,7 @@ package org.dalol.presenter.business.dashboard;
 
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.presenter.business.base.BasePresenter;
-import org.dalol.presenter.data.MezmurCategoryProvider;
+import org.dalol.presenter.data.mezmur.MezmurCategoryProvider;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
 
 import java.util.List;

@@ -192,6 +192,11 @@ public class MezmurListAdapter extends RecyclerView.Adapter<MezmurListAdapter.Ho
         notifyDataSetChanged();
     }
 
+    public void addMezmurs(List<Mezmur> mezmurs) {
+        mezmurList.addAll(mezmurs);
+        notifyDataSetChanged();
+    }
+
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView itemMoreOption;
@@ -214,7 +219,7 @@ public class MezmurListAdapter extends RecyclerView.Adapter<MezmurListAdapter.Ho
             String title = mezmurList.get(getAdapterPosition()).getTitle();
             Intent intent = new Intent(v.getContext(), MezmurDetailActivity.class);
 
-            String letter = text.substring(0, 1).toUpperCase();
+            //String letter = text.substring(0, 1).toUpperCase();
 
 //            Intent intent = new Intent(v.getContext(), ZoomableMezmurDetailActivity.class);
             intent.putExtra(MezmurDetailActivity.MEZMUR_TITLE, title);

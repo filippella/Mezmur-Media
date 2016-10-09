@@ -40,17 +40,22 @@ import android.widget.Toast;
 
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerMezmurListComponent;
+import org.dalol.orthodoxmezmurmedia.basic.di.modules.MezmurListModule;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.adapter.MezmurListAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.helpers.StickyHeaderUtils;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
 import org.dalol.orthodoxmezmurmedia.utilities.widgets.RecyclerViewFastIndexer;
 import org.dalol.orthodoxmezmurmedia.utilities.widgets.FakeCustomKeyboard;
 import org.dalol.model.mezmur.Mezmur;
+import org.dalol.presenter.business.mezmur.MezmurListPresenter;
+import org.dalol.presenter.presentation.mezmur.MezmurListView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -61,7 +66,7 @@ import butterknife.OnClick;
  * @version 1.0.0
  * @since 8/21/2016
  */
-public class MezmurListsActivity extends BaseActivity {
+public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> implements MezmurListView {
 
     private static final String TAG = MezmurListsActivity.class.getSimpleName();
     public static final String ITEM_BUNDLE_INFO = "item-bundle-info";
@@ -95,10 +100,20 @@ public class MezmurListsActivity extends BaseActivity {
     }
 
     @Override
+    protected void resolveDependency() {
+        MezmurListItem listItem = (MezmurListItem) getIntent().getSerializableExtra(ITEM_BUNDLE_INFO);
+        DaggerMezmurListComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .mezmurListModule(new MezmurListModule(this, listItem))
+                .build()
+                .inject(this);
+    }
+
+    @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
-        MezmurListItem listItem = (MezmurListItem) intent.getSerializableExtra(ITEM_BUNDLE_INFO);
-        Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
+        getPresenter().onViewReady();
+        //Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -612,11 +627,6 @@ public class MezmurListsActivity extends BaseActivity {
         return R.layout.activity_mezmur_list;
     }
 
-    @Override
-    protected void resolveDependency() {
-
-    }
-
 //    public void subscribe(MezmurSubsriber tab) {
 //        this.subscriber.add(tab);
 //    }
@@ -683,5 +693,10 @@ public class MezmurListsActivity extends BaseActivity {
             }
         }
         return null;
+    }
+
+    @Override
+    public void onPopulateMezmurList(List<Mezmur> mezmurs) {
+        adapter.addMezmurs(mezmurs);
     }
 }

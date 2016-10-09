@@ -1,4 +1,4 @@
-package org.dalol.presenter.data;
+package org.dalol.presenter.data.mezmur;
 
 import android.content.Context;
 
