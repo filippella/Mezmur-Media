@@ -10,7 +10,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId "org.dalol.mezmurmedia"
+        applicationId "org.dalol.orthodoxmezmurmedia"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1

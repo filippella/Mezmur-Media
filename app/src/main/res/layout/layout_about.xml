@@ -45,7 +45,7 @@
             android:textSize="21sp"
             android:text="About App"/>
 
-        <org.dalol.mezmurmedia.utilities.widgets.JustifyTextView
+        <org.dalol.orthodoxmezmurmedia.utilities.widgets.JustifyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"

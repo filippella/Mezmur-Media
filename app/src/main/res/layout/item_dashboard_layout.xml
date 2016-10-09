@@ -40,7 +40,7 @@
         android:orientation="vertical"
         android:padding="9dp">
 
-    <org.dalol.mezmurmedia.utilities.widgets.SquareImageView
+    <org.dalol.orthodoxmezmurmedia.utilities.widgets.SquareImageView
         android:id="@+id/mezmureMisil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
