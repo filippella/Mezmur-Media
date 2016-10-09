@@ -16,8 +16,9 @@
 
 package org.dalol.presenter.presentation.dashboard;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 
 import org.dalol.presenter.presentation.base.BaseView;
 
@@ -28,7 +29,11 @@ import org.dalol.presenter.presentation.base.BaseView;
  */
 public interface DashboardView extends BaseView {
 
-    Context getApplicationContext();
+    void onOpenSettings();
 
-    Activity getActivity();
+    void startActivity(Intent intent);
+
+    PackageManager getPackageManager();
+
+    void onShowAbout();
 }

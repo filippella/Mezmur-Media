@@ -17,6 +17,7 @@
 package org.dalol.orthodoxmezmurmedia.modules.home;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +50,7 @@ import org.dalol.orthodoxmezmurmedia.basic.adapter.MezmurPagerAdapter;
 import org.dalol.orthodoxmezmurmedia.modules.churches.ChurchListActivity;
 import org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
+import org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity;
 import org.dalol.orthodoxmezmurmedia.utilities.common.CommonUtils;
 import org.dalol.model.mezmur.MezumrConstants;
 import org.dalol.presenter.business.dashboard.DashboardPresenter;
@@ -208,7 +211,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
                     startActivity(new Intent(MezmurDashboardActivity.this, PicturesActivity.class));
                     break;
                 case MezumrConstants.KEY_MEZMUR_CHAT_BLOG_INDEX:
-                    getPresenter().openChat();
+//                    getPresenter().openChat();
+                    getPresenter().showAbout();
                     break;
                 case MezumrConstants.KEY_FAVOURITES_INDEX:
                     FavouritesActivity.start(MezmurDashboardActivity.this);
@@ -237,7 +241,23 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
     };
 
     @Override
-    public Activity getActivity() {
-        return MezmurDashboardActivity.this;
+    public void onOpenSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onShowAbout() {
+        AlertDialog dialog = new AlertDialog.Builder(MezmurDashboardActivity.this)
+                .setView(R.layout.layout_about)
+                .setCancelable(true)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
     }
 }

@@ -1,11 +1,10 @@
 package org.dalol.presenter.data.mezmur;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.dalol.model.mezmur.Mezmur;
 import org.dalol.model.mezmur.MezmurCategory;
 import org.dalol.model.mezmur.MezmurDataBinder;
 import org.dalol.model.mezmur.MezmurListItem;
@@ -24,6 +23,8 @@ import javax.inject.Inject;
  */
 public class MezmurCategoryProvider extends BaseProvider<List<MezmurListItem>> {
 
+    private static final String TAG = MezmurCategoryProvider.class.getSimpleName();
+
     @Inject protected Context mContext;
     @Inject protected Gson mGson;
 
@@ -35,16 +36,13 @@ public class MezmurCategoryProvider extends BaseProvider<List<MezmurListItem>> {
     protected List<MezmurListItem> doBackgroundWork() {
         String dataToCategoryBinder = FileUtils.loadJSONFromAsset(mContext, "mezmur_category_to_data_binder.json");
         String categoriesJson = FileUtils.loadJSONFromAsset(mContext, "mezmur_categories.json");
-        String mezmurJson = FileUtils.loadJSONFromAsset(mContext, "mezmur_data.json");
 
         List<MezmurListItem> mezmurListItems = new ArrayList<>();
 
         MezmurDataBinder[] mezmurDataBinders = mGson.fromJson(dataToCategoryBinder, MezmurDataBinder[].class);
         MezmurCategory[] mezmurCategories = mGson.fromJson(categoriesJson, MezmurCategory[].class);
 
-        List<Mezmur> mezmurs = mGson.fromJson(mezmurJson, new TypeToken<List<Mezmur>>() {
-        }.getType());
-
+        int mezmurCount = 0;
 
         for (int i = 0; i < mezmurCategories.length; i++) {
 
@@ -60,25 +58,12 @@ public class MezmurCategoryProvider extends BaseProvider<List<MezmurListItem>> {
                 String dataBinderCid = mezmurDataBinder.getCid();
                 if (dataBinderCid != null && dataBinderCid.equals(cid)) {
                     listItem.addMezmurId(mezmurDataBinder.getMid());
+                    mezmurCount++;
                 }
             }
-            mezmurListItems.add(listItem);
+            if(!listItem.getMezmurIdList().isEmpty()) mezmurListItems.add(listItem);
         }
-
-
-//        for (Mezmur mezmur : mezmurs) {
-//            for (MezmurDataBinder dataBinder : mezmurDataBinders) {
-//                if (dataBinder.getMid() == mezmur.getMid()) {
-//                    for (MezmurCategory mezmurCategory : mezmurCategories) {
-//                        String cid = mezmurCategory.getCid();
-//                        if (cid == dataBinder.getCid()) {
-//                            mezmurListItems.add(new MezmurListItem(cid, mezmurCategory.getName(), mezmurCategory.getMorder(), mezmur));
-//                        }
-//                    }
-//                    break;
-//                }
-//            }
-//        }
+        Log.d(TAG, String.format("Total mezmur count is %d", mezmurCount));
         return mezmurListItems;
     }
 }

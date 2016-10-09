@@ -16,11 +16,11 @@
 
 package org.dalol.presenter.business.dashboard;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
+import org.dalol.model.mezmur.MezumrConstants;
 import org.dalol.presenter.business.base.BasePresenter;
 import org.dalol.presenter.presentation.dashboard.DashboardView;
 
@@ -39,33 +39,6 @@ public class DashboardPresenter extends BasePresenter<DashboardView, Void> {
     public DashboardPresenter() {
     }
 
-    public void openChat() {
-
-    }
-
-    public void seeCode() {
-    }
-
-    public void openSettings() {
-
-    }
-
-    public void sendEmail() {
-
-    }
-
-    public void share() {
-
-    }
-
-    public void rateApp() {
-
-    }
-
-    public void showAbout() {
-
-    }
-
 //    public int getTitle() {
 //        return mResourceProvider.getHomeTitle();
 //    }
@@ -78,64 +51,50 @@ public class DashboardPresenter extends BasePresenter<DashboardView, Void> {
 //        return mResourceProvider.getDashboardViewTitle();
 //    }
 
-//    public void showAbout() {
-//        AlertDialog dialog = new AlertDialog.Builder(getView().getActivity())
-//                .setView(R.layout.layout_about)
-//                .setCancelable(true)
-//                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .create();
-//        dialog.show();
-//    }
+    public void showAbout() {
+        getView().onShowAbout();
+    }
 //
-//    public void rateApp() {
-//        String url;
-//        try {
-//            getView().getApplicationContext().getPackageManager().getPackageInfo("com.android.vending", 0);
-//            url = "market://details?id=" + MezumrConstants.PACKAGE_NAME;
-//        } catch (final Exception e) {
-//            url = MezumrConstants.LINK_TO_APP;
-//        }
-//        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//        getView().getActivity().startActivity(intent);
-//    }
-//
-//    public void share() {
-//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//        sharingIntent.setType("text/plain");
-//        String shareBody = "Hey check out Orthodox Mezmur Lyrics App at: https://play.google.com/store/apps/details?id=" + MezumrConstants.PACKAGE_NAME;
-//        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Orthodox Mezmur Lyrics Download Link");
-//        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-//        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//        getView().getApplicationContext().startActivity(sharingIntent);
-//    }
-//
-//    public void sendEmail() {
-//        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//        emailIntent.setType("message/rfc822");
-//        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"filippo.eng@gmail.com"});
-//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
-//        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
-//        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        getView().getActivity().startActivity(Intent.createChooser(emailIntent, "Send Email Message.."));
-//    }
-//
-//    public void seeCode() {
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setData(Uri.parse(MezumrConstants.GITHUB_LINK));
-//        getView().getActivity().startActivity(intent);
-//    }
-//
-//    public void openSettings() {
-//        getView().getActivity().startActivity(new Intent(getView().getApplicationContext(), SettingsActivity.class));
-//    }
-//
-//    public void openChat() {
-//        getView().getActivity().startActivity(new Intent(getView().getApplicationContext(), ChatActivity.class));
-//    }
+    public void rateApp() {
+        String url;
+        try {
+            getView().getPackageManager().getPackageInfo("com.android.vending", 0);
+            url = "market://details?id=" + MezumrConstants.PACKAGE_NAME;
+        } catch (final Exception e) {
+            url = MezumrConstants.LINK_TO_APP;
+        }
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        getView().startActivity(intent);
+    }
+
+    public void share() {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Hey check out Orthodox Mezmur Lyrics App at: https://play.google.com/store/apps/details?id=" + MezumrConstants.PACKAGE_NAME;
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Orthodox Mezmur Lyrics Download Link");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        getView().startActivity(sharingIntent);
+    }
+
+    public void sendEmail() {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("message/rfc822");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"filippo.eng@gmail.com"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getView().startActivity(Intent.createChooser(emailIntent, "Send Email Message.."));
+    }
+
+    public void seeCode() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(MezumrConstants.GITHUB_LINK));
+        getView().startActivity(intent);
+    }
+
+    public void openSettings() {
+        getView().onOpenSettings();
+    }
 }

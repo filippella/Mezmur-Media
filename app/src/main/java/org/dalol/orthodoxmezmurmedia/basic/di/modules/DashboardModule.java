@@ -16,8 +16,6 @@
 
 package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 
-import android.content.Context;
-
 import org.dalol.orthodoxmezmurmedia.basic.di.scopes.PerJourney;
 import org.dalol.presenter.presentation.dashboard.DashboardView;
 
@@ -42,11 +40,5 @@ public class DashboardModule {
     @PerJourney
     DashboardView provideView() {
         return this.mDashboardView;
-    }
-
-    @Provides
-    @PerJourney
-    Context provideContext() {
-        return this.mDashboardView.getApplicationContext();
     }
 }
