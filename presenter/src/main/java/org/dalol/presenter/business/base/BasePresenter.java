@@ -28,19 +28,42 @@ import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 8/29/2016
  */
-public class BasePresenter<V extends BaseView, R> {
+public abstract class BasePresenter<V extends BaseView, R> implements Presenter {
 
     @NonNull @Inject protected V mView;
     private Map<ApiType, Call<?>> mApiCallQueue = new ConcurrentHashMap<>();
 
-    public V getView() {
-        return mView;
+    @Override
+    public void onCreate() {
+
+    }
+
+    @Override
+    public void onViewReady() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    protected <F> void subscribe(Observable<F> observable, Observer<F> observer) {
+        observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.computation())
+                .subscribe(observer);
     }
 
     protected void enqueue(ApiType apiType, Call<R> call) {
@@ -82,15 +105,7 @@ public class BasePresenter<V extends BaseView, R> {
         //handled by child or consumed
     }
 
-    public void onCreate() {
-
-    }
-
-    public void onDestroy() {
-
-    }
-
-    public void onViewReady() {
-
+    public V getView() {
+        return mView;
     }
 }

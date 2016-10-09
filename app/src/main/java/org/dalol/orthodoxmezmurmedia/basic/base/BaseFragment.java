@@ -25,6 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.dalol.model.callback.OnDialogAccessListener;
+import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
+import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.presenter.business.base.BasePresenter;
 import org.dalol.presenter.presentation.base.BaseView;
 
@@ -63,6 +66,10 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
         return view;
     }
 
+    protected ApplicationComponent getApplicationComponent() {
+        return ((MezmurApplication) getActivity().getApplication()).getApplicationComponent();
+    }
+
     protected void bindView(View view) {}
 
     @Override public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -92,6 +99,16 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
         if (presenter != null) {
             presenter.onDestroy();
         }
+    }
+
+    protected void showDialog(String message) {
+        OnDialogAccessListener dialogAccessListener = (OnDialogAccessListener) getActivity();
+        dialogAccessListener.onShowDialog(message);
+    }
+
+    protected void hideDialog() {
+        OnDialogAccessListener dialogAccessListener = (OnDialogAccessListener) getActivity();
+        dialogAccessListener.onHideDialog();
     }
 
     public void onShowToast(String message) {

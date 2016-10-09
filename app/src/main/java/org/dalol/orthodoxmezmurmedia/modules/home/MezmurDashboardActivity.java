@@ -78,7 +78,6 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showHome();
-        setTitle("Test");
         initializeViews();
     }
 

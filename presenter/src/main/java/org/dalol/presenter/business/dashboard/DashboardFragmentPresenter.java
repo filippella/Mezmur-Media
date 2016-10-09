@@ -16,20 +16,28 @@
 
 package org.dalol.presenter.business.dashboard;
 
+import org.dalol.model.mezmur.MezmurCategory;
 import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.data.MezmurCategoryProvider;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
 
+import java.util.List;
+
 import javax.inject.Inject;
+
+import rx.Observer;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 8/29/2016
  */
-public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentView, Void> {
+public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentView, Void> implements Observer<List<MezmurCategory>> {
 
     public static final int TYPE_VERTICAL_LIST = 0;
     public static final int TYPE_GRID_VIEW = 1;
+
+    @Inject protected MezmurCategoryProvider mCategoryProvider;
 
     private int dashboardViewType = TYPE_GRID_VIEW;
 
@@ -41,7 +49,9 @@ public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentV
 
     @Override
     public void onViewReady() {
-        getView().onShowToast("Hello World from Filippo!");
+        getView().onShowDialog("Loading mezmur categories...");
+        subscribe(mCategoryProvider.getObservable(), this);
+        //getView().onShowToast("Hello World from Filippo!");
     }
 
     public int getDashboardViewType() {
@@ -73,6 +83,22 @@ public class DashboardFragmentPresenter extends BasePresenter<DashboardFragmentV
 //                getView().setUpVerticalDashboard();
 //                break;
 //        }
+    }
+
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    @Override
+    public void onNext(List<MezmurCategory> mezmurCategories) {
+        getView().onLoadCategories(mezmurCategories);
+        getView().onHideDialog();
     }
 
 //    public int changeViewTypeIcon() {

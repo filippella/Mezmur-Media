@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import org.dalol.model.mezmur.MezmurCategory;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerMezmurCategoryComponent;
@@ -31,6 +32,8 @@ import org.dalol.orthodoxmezmurmedia.basic.adapter.DashboardCategoryListAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 import org.dalol.presenter.business.dashboard.DashboardFragmentPresenter;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -42,7 +45,7 @@ import butterknife.BindView;
 public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> implements DashboardFragmentView {
 
     @BindView(R.id.recycler_view_List) protected RecyclerView mDashboardList;
-    private RecyclerView.Adapter mAdapter;
+    private DashboardCategoryListAdapter mAdapter;
 
     public static DashboardFragment newInstance() {
         DashboardFragment fragment = new DashboardFragment();
@@ -66,6 +69,7 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     @Override
     protected void resolveDependencies() {
         DaggerMezmurCategoryComponent.builder()
+                .applicationComponent(getApplicationComponent())
                 .mezmurCategoryModule(new MezmurCategoryModule(this))
                 .build()
                 .inject(this);
@@ -94,11 +98,16 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
 
     @Override
     public void onShowDialog(String message) {
-
+        showDialog(message);
     }
 
     @Override
     public void onHideDialog() {
+        hideDialog();
+    }
 
+    @Override
+    public void onLoadCategories(List<MezmurCategory> mezmurCategories) {
+        mAdapter.addCategories(mezmurCategories);
     }
 }

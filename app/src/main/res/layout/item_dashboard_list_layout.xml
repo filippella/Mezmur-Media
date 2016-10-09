@@ -30,7 +30,7 @@
         android:layout_height="125dp">
 
         <ImageView
-            android:id="@+id/flowImage"
+            android:id="@+id/mezmur_category_icon"
             android:layout_width="85dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -38,15 +38,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/flowImage"
+            android:layout_toRightOf="@id/mezmur_category_icon"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/mezmur_category_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="የምስጋና መዝሙራት"
-                android:textSize="20sp" />
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"

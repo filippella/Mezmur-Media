@@ -16,8 +16,6 @@
 
 package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 
-import android.content.Context;
-
 import org.dalol.orthodoxmezmurmedia.basic.di.scopes.PerJourney;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
 
@@ -42,11 +40,5 @@ public class MezmurCategoryModule {
     @PerJourney
     DashboardFragmentView provideRecentMezmurView() {
         return this.mDashboardFragmentView;
-    }
-
-    @Provides
-    @PerJourney
-    Context provideContext(){
-        return mDashboardFragmentView.getContext();
     }
 }

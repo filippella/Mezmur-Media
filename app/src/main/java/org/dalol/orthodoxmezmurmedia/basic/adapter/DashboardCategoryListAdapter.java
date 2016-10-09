@@ -23,12 +23,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.dalol.model.mezmur.MezmurCategory;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity;
 import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -38,6 +44,9 @@ import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
 public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     private LayoutInflater mLayoutInflater;
+    private List<MezmurCategory> mCategories = new ArrayList<>();
+    private int[] images = {R.drawable.mariam, R.drawable.saint_gebriel, R.drawable.giorgis, R.drawable.silasie,
+            R.drawable.yared};
 
     public DashboardCategoryListAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
@@ -59,12 +68,25 @@ public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewH
         });
         View itemView = holder.itemView;
         Context context = itemView.getContext();
-        ImageView categoryImage = (ImageView) itemView.findViewById(R.id.flowImage);
-        Glide.with(context).load(R.drawable.saint_gebriel).into(categoryImage);
+        ImageView categoryImage = (ImageView) itemView.findViewById(R.id.mezmur_category_icon);
+        TextView categoryTitle = (TextView) itemView.findViewById(R.id.mezmur_category_title);
+        MezmurCategory category = mCategories.get(position);
+        categoryTitle.setText(category.getName());
+        Glide.with(context).load(getImage()).into(categoryImage);
     }
 
     @Override
     public int getItemCount() {
-        return 35;
+        return mCategories.size();
+    }
+
+    public void addCategories(List<MezmurCategory> categories) {
+        int initialSize = mCategories.size();
+        mCategories.addAll(categories);
+        notifyItemRangeInserted(initialSize, mCategories.size());
+    }
+
+    public int getImage() {
+        return images[new Random().nextInt(images.length)];
     }
 }

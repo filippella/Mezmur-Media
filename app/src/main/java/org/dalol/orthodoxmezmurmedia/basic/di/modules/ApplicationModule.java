@@ -19,6 +19,8 @@ package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -44,5 +46,17 @@ public class ApplicationModule {
     @Provides
     SharedPreferences provideSharedPreferences() {
         return mAppContext.getSharedPreferences(mAccountType, Context.MODE_PRIVATE);
+    }
+
+    @Singleton
+    @Provides
+    Context provideContext() {
+        return mAppContext;
+    }
+
+    @Provides
+    @Singleton
+    Gson provideGson() {
+        return new Gson();
     }
 }

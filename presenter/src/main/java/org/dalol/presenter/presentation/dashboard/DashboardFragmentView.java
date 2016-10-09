@@ -16,9 +16,10 @@
 
 package org.dalol.presenter.presentation.dashboard;
 
-import android.content.Context;
-
+import org.dalol.model.mezmur.MezmurCategory;
 import org.dalol.presenter.presentation.base.BaseView;
+
+import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -27,7 +28,5 @@ import org.dalol.presenter.presentation.base.BaseView;
  */
 public interface DashboardFragmentView extends BaseView {
 
-    void onShowToast(String message);
-
-    Context getContext();
+    void onLoadCategories(List<MezmurCategory> mezmurCategories);
 }

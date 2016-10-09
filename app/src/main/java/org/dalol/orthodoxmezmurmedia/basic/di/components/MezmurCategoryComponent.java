@@ -28,7 +28,7 @@ import dagger.Component;
  * @since 8/29/2016
  */
 @PerJourney
-@Component(modules = MezmurCategoryModule.class)
+@Component(modules = MezmurCategoryModule.class, dependencies = ApplicationComponent.class)
 public interface MezmurCategoryComponent {
 
     void inject(DashboardFragment fragment);
