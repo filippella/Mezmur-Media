@@ -26,17 +26,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseFragment;
-import org.dalol.mezmurmedia.mvp.model.callback.FragmentChatBlogActionListener;
-import org.dalol.mezmurmedia.mvp.model.callback.OnDialogAccessListener;
+import org.dalol.mezmurmedia.basic.base.BaseFragment;
 import org.dalol.mezmurmedia.utilities.helpers.AbstractTextChangeTracker;
 import org.dalol.mezmurmedia.utilities.helpers.FormValidationHelper;
-import org.dalol.mezmurmedia.utilities.helpers.KeyboardHelper;
+import org.dalol.mezmurmedia.utilities.common.KeyboardUtils;
+import org.dalol.model.callback.FragmentChatBlogActionListener;
+import org.dalol.model.callback.OnDialogAccessListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static org.dalol.mezmurmedia.mvp.model.callback.FragmentChatBlogActionListener.PerformedActionType.ACTION_PROCEED_TO_REGISTRATION_SCREEN;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -104,7 +102,7 @@ public class MezmurChatBlogLoginFragment extends BaseFragment {
     @OnClick(R.id.registerButton)
     void onRegisterButtonClicked() {
         FragmentChatBlogActionListener actionListener = (FragmentChatBlogActionListener) getActivity();
-        actionListener.onActionPerformed(ACTION_PROCEED_TO_REGISTRATION_SCREEN);
+        //actionListener.onActionPerformed(ACTION_PROCEED_TO_REGISTRATION_SCREEN);
     }
 
     @OnClick(R.id.loginButton)
@@ -128,7 +126,7 @@ public class MezmurChatBlogLoginFragment extends BaseFragment {
         if (!FormValidationHelper.validateFields(mUserEmail, mUserPassword)) {
             return;
         }
-        KeyboardHelper.hideSoftKeyboard(getContext(), view);
+        KeyboardUtils.hideSoftKeyboard(getContext(), view);
         signIn();
     }
 

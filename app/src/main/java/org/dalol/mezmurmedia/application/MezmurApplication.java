@@ -19,9 +19,9 @@ package org.dalol.mezmurmedia.application;
 import android.app.Application;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.di.components.ApplicationComponent;
-import org.dalol.mezmurmedia.business.di.components.DaggerApplicationComponent;
-import org.dalol.mezmurmedia.business.di.modules.ApplicationModule;
+import org.dalol.mezmurmedia.basic.di.components.ApplicationComponent;
+import org.dalol.mezmurmedia.basic.di.components.DaggerApplicationComponent;
+import org.dalol.mezmurmedia.basic.di.modules.ApplicationModule;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

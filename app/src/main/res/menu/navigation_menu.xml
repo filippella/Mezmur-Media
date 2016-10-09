@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_screen1"
+            android:icon="@mipmap/ic_home_white_24dp"
+            android:title="Screen 1" />
+        <item
+            android:id="@+id/nav_screen2"
+            android:icon="@mipmap/ic_thumb_up_white_24dp"
+            android:title="Screen2" />
+        <item
+            android:id="@+id/nav_screen3"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Screen 3" />
+    </group>
+    <group android:id="@+id/group2">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Settings" />
+    </group>
+</menu>

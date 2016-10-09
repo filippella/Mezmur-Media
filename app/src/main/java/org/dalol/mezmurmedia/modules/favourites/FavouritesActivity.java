@@ -24,9 +24,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.mvp.model.adapter.FavouritesAdapter;
-import org.dalol.mezmurmedia.utilities.helpers.RecyclerListItemMarginDecorator;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.modules.favourites.adapter.FavouritesAdapter;
+import org.dalol.mezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 
 import butterknife.BindView;
 

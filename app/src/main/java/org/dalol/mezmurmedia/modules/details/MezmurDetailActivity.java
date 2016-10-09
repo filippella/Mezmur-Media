@@ -32,8 +32,8 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.mvp.model.adapter.MezmurPagerAdapter;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.basic.adapter.MezmurPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;

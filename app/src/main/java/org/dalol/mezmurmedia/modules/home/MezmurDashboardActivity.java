@@ -34,32 +34,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.business.di.components.DaggerDashboardComponent;
-import org.dalol.mezmurmedia.business.di.modules.DashboardModule;
-import org.dalol.mezmurmedia.mvp.model.adapter.MezmurPagerAdapter;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.basic.di.components.DaggerDashboardComponent;
+import org.dalol.mezmurmedia.basic.di.modules.DashboardModule;
+import org.dalol.mezmurmedia.basic.adapter.MezmurPagerAdapter;
 import org.dalol.mezmurmedia.modules.churches.ChurchListActivity;
 import org.dalol.mezmurmedia.modules.favourites.FavouritesActivity;
 import org.dalol.mezmurmedia.modules.pictures.PicturesActivity;
-import org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants;
-import org.dalol.mezmurmedia.mvp.presenter.dashboard.DashboardPresenter;
-import org.dalol.mezmurmedia.mvp.view.dashboard.DashboardView;
 import org.dalol.mezmurmedia.utilities.common.CommonUtils;
+import org.dalol.model.mezmur.MezumrConstants;
+import org.dalol.model.navigation.SelectedNavigationMenuType;
+import org.dalol.presenter.business.dashboard.DashboardPresenter;
+import org.dalol.presenter.presentation.dashboard.DashboardView;
 
 import butterknife.BindView;
 
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_ABOUT;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_FAVOURITES;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_HELP;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_HOLY_PICTURES;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_FIND_CHURCHES;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_RATE;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_SETTINGS;
-import static org.dalol.mezmurmedia.mvp.model.navigation.SelectedNavigationMenuType.MENU_SHARE;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.*;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -74,6 +71,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
     @BindView(R.id.viewpager) protected ViewPager mViewPager;
     @BindView(R.id.drawerLayout) protected DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view) protected NavigationView mNavigationView;
+    private ImageView mNavHeaderImageView;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -81,7 +79,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showHome();
-        setTitle(getPresenter().getTitle());
+        setTitle("Test");
         initializeViews();
     }
 
@@ -111,13 +109,17 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
                 supportInvalidateOptionsMenu();
             }
         };
+
+        mNavHeaderImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.navigation_view_header_background_image);
+        Glide.with(this).load(R.drawable.back_round).into(mNavHeaderImageView);
+
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         MezmurPagerAdapter pagerAdapter = new MezmurPagerAdapter(getSupportFragmentManager());
-        pagerAdapter.addFragment(DashboardFragment.newInstance(), getPresenter().getDashboardViewTitle());
-        pagerAdapter.addFragment(OtherMenusFragment.newInstance(), getPresenter().getRecentMezmurTitle());
+        pagerAdapter.addFragment(DashboardFragment.newInstance(), "Mezmur Cats");
+        pagerAdapter.addFragment(OtherMenusFragment.newInstance(), "other");
         mViewPager.setAdapter(pagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);

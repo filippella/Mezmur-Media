@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
 
 import butterknife.BindView;
 

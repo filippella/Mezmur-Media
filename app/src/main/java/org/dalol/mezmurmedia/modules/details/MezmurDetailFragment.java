@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseFragment;
+import org.dalol.mezmurmedia.basic.base.BaseFragment;
 
 import butterknife.BindView;
 

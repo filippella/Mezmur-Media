@@ -33,12 +33,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.mvp.model.adapter.ChurchListAdapter;
-import org.dalol.mezmurmedia.mvp.model.churches.Church;
-import org.dalol.mezmurmedia.mvp.presenter.churches.ChurchesPresenter;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.modules.churches.adapter.ChurchListAdapter;
 import org.dalol.mezmurmedia.utilities.custom.HidingScrollListener;
-import org.dalol.mezmurmedia.utilities.helpers.RecyclerListItemMarginDecorator;
+import org.dalol.mezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
+import org.dalol.model.churches.Church;
+import org.dalol.presenter.business.churches.ChurchesPresenter;
 
 import butterknife.BindView;
 

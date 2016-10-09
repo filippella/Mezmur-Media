@@ -37,25 +37,18 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.dalol.mezmurmedia.Cheeses;
-import org.dalol.mezmurmedia.RecyclerAdapter;
-import org.dalol.mezmurmedia.StickyHeaderUtils;
-import org.dalol.mezmurmedia.mvp.model.mezmur.Mezmur;
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.utilities.helpers.RecyclerViewFastIndexer;
+import org.dalol.mezmurmedia.modules.mezmur.adapter.MezmurListAdapter;
+import org.dalol.mezmurmedia.utilities.helpers.StickyHeaderUtils;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.utilities.widgets.RecyclerViewFastIndexer;
 import org.dalol.mezmurmedia.utilities.widgets.FakeCustomKeyboard;
+import org.dalol.model.mezmur.Mezmur;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -73,7 +66,7 @@ public class MezmurListsActivity extends BaseActivity {
     @BindView(R.id.recyclerView) protected RecyclerView mRecyclerView;
     @BindView(R.id.fastscroller) protected RecyclerViewFastIndexer fastScroller;
     @BindView(R.id.editText_merzumr_search_quesry) protected EditText mSearchQueryField;
-    private RecyclerAdapter adapter;
+    private MezmurListAdapter adapter;
     private FakeCustomKeyboard mView;
     private char[] mAmharicChars = {'\u134A', '\u120A', '\u1356'};
 
@@ -193,8 +186,8 @@ public class MezmurListsActivity extends BaseActivity {
         // mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
         mRecyclerView.setHasFixedSize(true);
-        adapter = new RecyclerAdapter(getLayoutInflater(), Arrays.asList(Cheeses.sCheeseStrings));
-        adapter.setClickListener(new RecyclerAdapter.ItemClickListener() {
+        adapter = new MezmurListAdapter(getLayoutInflater());
+        adapter.setClickListener(new MezmurListAdapter.ItemClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popup = new PopupMenu(MezmurListsActivity.this, view);
@@ -226,7 +219,7 @@ public class MezmurListsActivity extends BaseActivity {
             public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
                 super.onDrawOver(c, parent, state);
 
-                RecyclerAdapter adapter = (RecyclerAdapter) parent.getAdapter();
+                MezmurListAdapter adapter = (MezmurListAdapter) parent.getAdapter();
 
                 if (adapter != null && adapter.getItemCount() > 1) {
 
@@ -356,16 +349,16 @@ public class MezmurListsActivity extends BaseActivity {
 
                     in.close();
 
-                    Type type = new TypeToken<List<Mezmur>>(){}.getType();
-
-                    List<Mezmur> mezmurs = new Gson().fromJson(buffer.toString(), type);
-                    Log.d("MezmurListsActivity", "Total Count of mezmur - > " + mezmurs.size());
-
-
-                    for (int i = 0; i < mezmurs.size(); i++) {
-                        Mezmur mezmur = mezmurs.get(i);
-                        addMezmur(mezmur);
-                    }
+//                    Type type = new TypeToken<List<Mezmur>>(){}.getType();
+//
+//                    List<Mezmur> mezmurs = new Gson().fromJson(buffer.toString(), type);
+//                    Log.d("MezmurListsActivity", "Total Count of mezmur - > " + mezmurs.size());
+//
+//
+//                    for (int i = 0; i < mezmurs.size(); i++) {
+//                        Mezmur mezmur = mezmurs.get(i);
+//                        addMezmur(mezmur);
+//                    }
 
                 } catch (IOException e) {
                     Log.d("MezmurListsActivity", "Total Count of mezmur UNKNOWN - > " +e.getMessage());
@@ -604,7 +597,7 @@ public class MezmurListsActivity extends BaseActivity {
 
         @Override
     protected int getContentView() {
-        return R.layout.activity_main;
+        return R.layout.activity_mezmur_list;
     }
 
     @Override
@@ -654,10 +647,10 @@ public class MezmurListsActivity extends BaseActivity {
             return view;
         } else {
             int position = parent.getChildPosition(view);
-            RecyclerAdapter adapter = (RecyclerAdapter) parent.getAdapter();
+            MezmurListAdapter adapter = (MezmurListAdapter) parent.getAdapter();
             for (int i = position; i >= 0; i--) {
                 if (adapter.shouldStartTranslate(i)) {
-                    RecyclerAdapter.Holder viewHolder = adapter.onCreateViewHolder(parent, 0);
+                    MezmurListAdapter.Holder viewHolder = adapter.onCreateViewHolder(parent, 0);
                     adapter.onBindViewHolder(viewHolder, i);
 
                     View header = viewHolder.itemView;

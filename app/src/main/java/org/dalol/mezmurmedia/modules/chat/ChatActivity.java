@@ -22,13 +22,13 @@ import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.business.di.components.DaggerChatComponent;
-import org.dalol.mezmurmedia.business.di.modules.ChatModule;
-import org.dalol.mezmurmedia.mvp.model.callback.FragmentChatBlogActionListener;
-import org.dalol.mezmurmedia.mvp.model.user.User;
-import org.dalol.mezmurmedia.mvp.presenter.chat.ChatPresenter;
-import org.dalol.mezmurmedia.mvp.view.chat.ChatView;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.basic.di.components.DaggerChatComponent;
+import org.dalol.mezmurmedia.basic.di.modules.ChatModule;
+import org.dalol.model.callback.FragmentChatBlogActionListener;
+import org.dalol.model.user.User;
+import org.dalol.presenter.business.chat.ChatPresenter;
+import org.dalol.presenter.presentation.chat.ChatView;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

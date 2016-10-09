@@ -19,7 +19,6 @@ package org.dalol.mezmurmedia.utilities.helpers;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import org.dalol.mezmurmedia.mvp.model.HolderType;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -28,13 +27,7 @@ import org.dalol.mezmurmedia.mvp.model.HolderType;
  */
 public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
 
-    protected HolderType mHolderType;
-
     public BaseViewHolder(View itemView) {
         super(itemView);
-    }
-
-    public HolderType getHolderType() {
-        return mHolderType;
     }
 }

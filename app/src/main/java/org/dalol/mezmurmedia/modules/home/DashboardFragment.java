@@ -24,13 +24,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseFragment;
-import org.dalol.mezmurmedia.business.di.components.DaggerMezmurCategoryComponent;
-import org.dalol.mezmurmedia.business.di.modules.MezmurCategoryModule;
-import org.dalol.mezmurmedia.mvp.model.adapter.DashboardCategoryListAdapter;
-import org.dalol.mezmurmedia.mvp.presenter.dashboard.DashboardFragmentPresenter;
-import org.dalol.mezmurmedia.mvp.view.dashboard.DashboardFragmentView;
-import org.dalol.mezmurmedia.utilities.helpers.RecyclerListItemMarginDecorator;
+import org.dalol.mezmurmedia.basic.base.BaseFragment;
+import org.dalol.mezmurmedia.basic.di.components.DaggerMezmurCategoryComponent;
+import org.dalol.mezmurmedia.basic.di.modules.MezmurCategoryModule;
+import org.dalol.mezmurmedia.basic.adapter.DashboardCategoryListAdapter;
+import org.dalol.mezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
+import org.dalol.presenter.business.dashboard.DashboardFragmentPresenter;
+import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
 
 import butterknife.BindView;
 
@@ -59,7 +59,7 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context != null) {
-            MezmurDashboardActivity activity = (MezmurDashboardActivity) context;
+            //MezmurDashboardActivity activity = (MezmurDashboardActivity) context;
         }
     }
 
@@ -72,12 +72,19 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     }
 
     @Override
-    protected void bindView(View view) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         mDashboardList.setHasFixedSize(true);
         mDashboardList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mDashboardList.addItemDecoration(new RecyclerListItemMarginDecorator(getResources().getDimensionPixelSize(R.dimen.mezmur_dashboard_list_item_margin_size)));
         mAdapter = new DashboardCategoryListAdapter(getLayoutInflater(getArguments()));
         mDashboardList.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void bindView(View view) {
+
     }
 
     @Override

@@ -21,10 +21,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseFragment;
-import org.dalol.mezmurmedia.mvp.model.callback.FragmentChatBlogActionListener;
-import org.dalol.mezmurmedia.mvp.model.callback.OnDialogAccessListener;
+import org.dalol.mezmurmedia.basic.base.BaseFragment;
 import org.dalol.mezmurmedia.utilities.helpers.FormValidationHelper;
+import org.dalol.model.callback.FragmentChatBlogActionListener;
+import org.dalol.model.callback.OnDialogAccessListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;

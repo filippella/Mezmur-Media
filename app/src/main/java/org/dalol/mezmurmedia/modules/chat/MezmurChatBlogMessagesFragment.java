@@ -29,20 +29,17 @@ import android.widget.Toast;
 
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseFragment;
-import org.dalol.mezmurmedia.mvp.model.adapter.MessageChatAdapter;
-import org.dalol.mezmurmedia.mvp.model.callback.FragmentChatBlogActionListener;
-import org.dalol.mezmurmedia.mvp.model.callback.OnDialogAccessListener;
-import org.dalol.mezmurmedia.mvp.model.chat.MessageChatModel;
+import org.dalol.mezmurmedia.basic.base.BaseFragment;
+import org.dalol.mezmurmedia.basic.adapter.MessageChatAdapter;
+import org.dalol.model.callback.FragmentChatBlogActionListener;
+import org.dalol.model.callback.OnDialogAccessListener;
+import org.dalol.model.chat.MessageChatModel;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants.*;
-import static org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants.KEY_USER_ID;
-import static org.dalol.mezmurmedia.mvp.model.mezmur.MezumrConstants.KEY_USER_RESTORED_MESSAGE;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -76,13 +73,13 @@ public class MezmurChatBlogMessagesFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Bundle arguments = getArguments();
-        mUserId = arguments.getString(KEY_USER_ID);
-        if (mUserId == null) {
-            doLogout();
-        }
-        mUserEmail = arguments.getString(KEY_USER_EMAIL);
-        mUserDisplayName = arguments.getString(KEY_USER_DISPLAY_NAME);
-        mRestoredMessage = arguments.getString(KEY_USER_RESTORED_MESSAGE);
+//        mUserId = arguments.getString(KEY_USER_ID);
+//        if (mUserId == null) {
+//            doLogout();
+//        }
+//        mUserEmail = arguments.getString(KEY_USER_EMAIL);
+//        mUserDisplayName = arguments.getString(KEY_USER_DISPLAY_NAME);
+//        mRestoredMessage = arguments.getString(KEY_USER_RESTORED_MESSAGE);
     }
 
     @Override

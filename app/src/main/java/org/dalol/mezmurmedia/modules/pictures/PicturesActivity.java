@@ -31,18 +31,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
-import org.dalol.mezmurmedia.business.di.components.DaggerPicturesComponent;
-import org.dalol.mezmurmedia.business.di.modules.ApiModule;
-import org.dalol.mezmurmedia.business.di.modules.PicturesModule;
-import org.dalol.mezmurmedia.mvp.model.adapter.PicturesGridAdapter;
-import org.dalol.mezmurmedia.mvp.model.callback.OnPictureOptionSelectListener;
-import org.dalol.mezmurmedia.mvp.model.miscellaneous.ItemView;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureInfo;
-import org.dalol.mezmurmedia.mvp.model.pictures.PictureModel;
-import org.dalol.mezmurmedia.mvp.presenter.pictures.PicturesPresenter;
-import org.dalol.mezmurmedia.mvp.view.pictures.PicturesView;
-import org.dalol.mezmurmedia.utilities.helpers.RecyclerGridItemMarginDecorator;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
+import org.dalol.mezmurmedia.basic.di.components.DaggerPicturesComponent;
+import org.dalol.mezmurmedia.basic.di.modules.ApiModule;
+import org.dalol.mezmurmedia.basic.di.modules.PicturesModule;
+import org.dalol.mezmurmedia.modules.pictures.adapter.PicturesGridAdapter;
+import org.dalol.mezmurmedia.utilities.custom.RecyclerGridItemMarginDecorator;
+import org.dalol.model.callback.OnPictureOptionSelectListener;
+import org.dalol.model.miscellaneous.ItemView;
+import org.dalol.model.pictures.PictureInfo;
+import org.dalol.model.pictures.PictureModel;
+import org.dalol.presenter.business.pictures.PicturesPresenter;
+import org.dalol.presenter.presentation.pictures.PicturesView;
 
 import butterknife.BindView;
 

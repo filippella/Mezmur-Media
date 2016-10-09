@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseActivity;
+import org.dalol.mezmurmedia.basic.base.BaseActivity;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

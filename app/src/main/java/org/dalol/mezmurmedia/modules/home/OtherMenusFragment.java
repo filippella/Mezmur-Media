@@ -23,15 +23,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.dalol.mezmurmedia.R;
-import org.dalol.mezmurmedia.business.base.BaseFragment;
-import org.dalol.mezmurmedia.business.di.components.DaggerRecentMezmurComponent;
-import org.dalol.mezmurmedia.business.di.modules.RecentMezmurModule;
-import org.dalol.mezmurmedia.mvp.model.adapter.OtherMenuAdapter;
-import org.dalol.mezmurmedia.mvp.model.expandable.ExpandableMenu;
-import org.dalol.mezmurmedia.mvp.model.expandable.ExpandableType;
-import org.dalol.mezmurmedia.mvp.presenter.dashboard.RecentMezmurFragmentPresenter;
-import org.dalol.mezmurmedia.mvp.view.dashboard.OtherMenusFragmentView;
-import org.dalol.mezmurmedia.utilities.helpers.RecyclerListItemMarginDecorator;
+import org.dalol.mezmurmedia.basic.base.BaseFragment;
+import org.dalol.mezmurmedia.basic.adapter.OtherMenuAdapter;
+import org.dalol.mezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
+import org.dalol.model.expandable.ExpandableMenu;
+import org.dalol.model.expandable.ExpandableType;
+import org.dalol.presenter.business.dashboard.RecentMezmurFragmentPresenter;
+import org.dalol.presenter.presentation.dashboard.OtherMenusFragmentView;
 
 import butterknife.BindView;
 
@@ -52,20 +50,19 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPresenter().onViewReady();
+        //getPresenter().onViewReady();
     }
 
     @Override
     protected void resolveDependencies() {
-        DaggerRecentMezmurComponent.builder()
-                .recentMezmurModule(new RecentMezmurModule(this))
-                .build()
-                .inject(this);
+//        DaggerRecentMezmurComponent.builder()
+//                .build()
+//                .inject(this);
     }
 
     @Override
-    protected void bindView(View view) {
-        //mRecentList.setRecycledViewPool(new RecyclerView.RecycledViewPool());
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         mRecentList.setHasFixedSize(true);
         mRecentList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecentList.addItemDecoration(new RecyclerListItemMarginDecorator(getActivity().getResources().getDimensionPixelSize(R.dimen.recent_mezmur_item_margin_size)));
@@ -99,6 +96,12 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
 //        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
         //adapter.setAccordionMode();
         mRecentList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void bindView(View view) {
+        //mRecentList.setRecycledViewPool(new RecyclerView.RecycledViewPool());
+
     }
 
     @Override
