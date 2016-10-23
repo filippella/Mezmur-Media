@@ -73,7 +73,7 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
     //
     @BindView(R.id.recyclerView) protected RecyclerView mRecyclerView;
     @BindView(R.id.fastscroller) protected RecyclerViewFastIndexer fastScroller;
-    @BindView(R.id.editText_merzumr_search_quesry) protected EditText mSearchQueryField;
+   // @BindView(R.id.editText_merzumr_search_quesry) protected EditText mSearchQueryField;
     private MezmurListAdapter adapter;
     private FakeCustomKeyboard mView;
     private char[] mAmharicChars = {'\u134A', '\u120A', '\u1356'};
@@ -89,15 +89,15 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 //    //private KeyboardHandlerDelegate delegate;
 //    private KeyboardView mInputView;
 //
-    @OnClick(R.id.searchMezmurFromListButton)
-    protected void onSearchClick() {
-        Toast.makeText(MezmurListsActivity.this, "Searching from list...", Toast.LENGTH_SHORT).show();
-    }
-
-    @OnClick(R.id.changeKeyboardInput)
-    protected void onChangeKeyboardInput() {
-        Toast.makeText(MezmurListsActivity.this, "Changing keyboard input...", Toast.LENGTH_SHORT).show();
-    }
+//    @OnClick(R.id.searchMezmurFromListButton)
+//    protected void onSearchClick() {
+//        Toast.makeText(MezmurListsActivity.this, "Searching from list...", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @OnClick(R.id.changeKeyboardInput)
+//    protected void onChangeKeyboardInput() {
+//        Toast.makeText(MezmurListsActivity.this, "Changing keyboard input...", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void resolveDependency() {
@@ -107,11 +107,13 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
                 .mezmurListModule(new MezmurListModule(this, listItem))
                 .build()
                 .inject(this);
+        setTitle(listItem.getName());
     }
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
+
         getPresenter().onViewReady();
         //Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
     }
@@ -125,69 +127,69 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 
 
 
-        mSearchQueryField.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mSearchQueryField.onTouchEvent(event);
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        //mSearchQueryField.setCursorVisible(true);
-
-//                        mSearchQueryField.setFocusableInTouchMode(true);
-//                        mSearchQueryField.requestFocus();
-                        Toast.makeText(v.getContext(), "Showing custom Keyboard", Toast.LENGTH_SHORT).show();
-                        return true;
-                }
-                hideKeboard(getCurrentFocus());
-                //hideKeboard(getCurrentFocus());
-                return true;
-            }
-        });
-
-        mSearchQueryField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    mView.showKeyboard();
-                } else {
-                    mView.hideKeyboard();
-                }
-            }
-        });
-
-        mView = new FakeCustomKeyboard(MezmurListsActivity.this) {
-            @Override
-            protected void onDraw(Canvas canvas) {
-                super.onDraw(canvas);
-                //canvas.drawColor(Color.GREEN);
-            }
-        };
-
-        mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Editable editable = mSearchQueryField.getText();
-                int start = mSearchQueryField.getSelectionStart();
-                editable.insert(start, Character.toString(mAmharicChars[new Random().nextInt(mAmharicChars.length)]));
-                Toast.makeText(MezmurListsActivity.this, "Clicked on the keyboard!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Button child = new Button(this);
-        child.setText("X");
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(150, 150);
-        params.leftMargin = 0;
-        params.topMargin = 0;
-        child.setLayoutParams(params);
-        child.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int start = mSearchQueryField.getSelectionStart();
-                mSearchQueryField.getText().delete(start - 1, start);
-            }
-        });
-        mView.addView(child, params);
+//        mSearchQueryField.setOnTouchListener(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                mSearchQueryField.onTouchEvent(event);
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        //mSearchQueryField.setCursorVisible(true);
+//
+////                        mSearchQueryField.setFocusableInTouchMode(true);
+////                        mSearchQueryField.requestFocus();
+//                        Toast.makeText(v.getContext(), "Showing custom Keyboard", Toast.LENGTH_SHORT).show();
+//                        return true;
+//                }
+//                hideKeboard(getCurrentFocus());
+//                //hideKeboard(getCurrentFocus());
+//                return true;
+//            }
+//        });
+//
+//        mSearchQueryField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(hasFocus) {
+//                    mView.showKeyboard();
+//                } else {
+//                    mView.hideKeyboard();
+//                }
+//            }
+//        });
+//
+//        mView = new FakeCustomKeyboard(MezmurListsActivity.this) {
+//            @Override
+//            protected void onDraw(Canvas canvas) {
+//                super.onDraw(canvas);
+//                //canvas.drawColor(Color.GREEN);
+//            }
+//        };
+//
+//        mView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Editable editable = mSearchQueryField.getText();
+//                int start = mSearchQueryField.getSelectionStart();
+//                editable.insert(start, Character.toString(mAmharicChars[new Random().nextInt(mAmharicChars.length)]));
+//                Toast.makeText(MezmurListsActivity.this, "Clicked on the keyboard!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        Button child = new Button(this);
+//        child.setText("X");
+//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(150, 150);
+//        params.leftMargin = 0;
+//        params.topMargin = 0;
+//        child.setLayoutParams(params);
+//        child.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int start = mSearchQueryField.getSelectionStart();
+//                mSearchQueryField.getText().delete(start - 1, start);
+//            }
+//        });
+//        mView.addView(child, params);
 
 
 //        mView.setOnKeyListener(new View.OnKeyListener() {
@@ -505,18 +507,18 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 //    }
 //
 
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        boolean b = mView.dispatchKeyEvent(event);
-        return b ? b : super.dispatchKeyEvent(event);
-    }
+//
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        boolean b = mView.dispatchKeyEvent(event);
+//        return b ? b : super.dispatchKeyEvent(event);
+//    }
 
     private void hideKeboard(View v) {
         InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            mSearchQueryField.setCursorVisible(true);
+           // mSearchQueryField.setCursorVisible(true);
         }
 
         mView.showKeyboard();
