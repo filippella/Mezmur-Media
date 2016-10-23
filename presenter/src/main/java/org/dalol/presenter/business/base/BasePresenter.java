@@ -38,6 +38,8 @@ import rx.schedulers.Schedulers;
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 8/29/2016
+ *
+ * BasePresenter.java is the base class for the presenters, V is the view and R is the response object
  */
 public abstract class BasePresenter<V extends BaseView, R> implements Presenter {
 

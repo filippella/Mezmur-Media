@@ -16,7 +16,6 @@
 
 package org.dalol.orthodoxmezmurmedia.modules.home;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,23 +41,31 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.dalol.model.mezmur.MezumrConstants;
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.adapter.OMMPagerAdapter;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerDashboardComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.DashboardModule;
-import org.dalol.orthodoxmezmurmedia.basic.adapter.MezmurPagerAdapter;
 import org.dalol.orthodoxmezmurmedia.modules.churches.ChurchListActivity;
 import org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity;
+import org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
 import org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity;
 import org.dalol.orthodoxmezmurmedia.utilities.common.CommonUtils;
-import org.dalol.model.mezmur.MezumrConstants;
 import org.dalol.presenter.business.dashboard.DashboardPresenter;
 import org.dalol.presenter.presentation.dashboard.DashboardView;
 
 import butterknife.BindView;
 
-import static org.dalol.model.navigation.SelectedNavigationMenuType.*;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_ABOUT;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_FAVOURITES;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_FIND_CHURCHES;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_HELP;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_HOLY_PICTURES;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_RATE;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_SETTINGS;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_SHARE;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -118,7 +125,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        MezmurPagerAdapter pagerAdapter = new MezmurPagerAdapter(getSupportFragmentManager());
+        OMMPagerAdapter pagerAdapter = new OMMPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(DashboardFragment.newInstance(), "Categories");
         pagerAdapter.addFragment(OtherMenusFragment.newInstance(), "Other Menus");
         mViewPager.setAdapter(pagerAdapter);
@@ -219,7 +226,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
                     //getPresenter().showAbout();
                     break;
                 case MezumrConstants.KEY_HELP_INDEX:
-                    getPresenter().seeCode();
+                   // getPresenter().seeCode();
+                    startActivity(new Intent(MezmurDashboardActivity.this, HolyBooksActivity.class));
                     break;
                 case MezumrConstants.KEY_SETTINGS_INDEX:
                     getPresenter().openSettings();

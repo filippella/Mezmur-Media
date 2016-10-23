@@ -33,7 +33,7 @@ import com.google.android.gms.ads.MobileAds;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
-import org.dalol.orthodoxmezmurmedia.basic.adapter.MezmurPagerAdapter;
+import org.dalol.orthodoxmezmurmedia.basic.adapter.OMMPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,7 +86,7 @@ public class MezmurDetailActivity extends BaseActivity {
 //        ((GradientDrawable)mBottomTabLayout.getBackground()).setColor(colorCode);
 
 
-        MezmurPagerAdapter pagerAdapter = new MezmurPagerAdapter(getSupportFragmentManager());
+        OMMPagerAdapter pagerAdapter = new OMMPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(MezmurDetailFragment.newInstance(mezmur_detail), mezmur_title);
         pagerAdapter.addFragment(MezmurDetailFragment.newInstance(mezmur_detail), mezmur_title);
         pagerAdapter.addFragment(MezmurDetailFragment.newInstance(mezmur_detail), mezmur_title);

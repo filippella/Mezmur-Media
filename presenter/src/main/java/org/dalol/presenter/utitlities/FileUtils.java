@@ -1,4 +1,4 @@
-package org.dalol.presenter.data.common;
+package org.dalol.presenter.utitlities;
 
 import android.content.Context;
 

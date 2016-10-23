@@ -28,12 +28,12 @@ import java.util.List;
  * @version 1.0.0
  * @since 9/10/2016
  */
-public class MezmurPagerAdapter extends FragmentStatePagerAdapter {
+public class OMMPagerAdapter extends FragmentStatePagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public MezmurPagerAdapter(FragmentManager manager) {
+    public OMMPagerAdapter(FragmentManager manager) {
         super(manager);
     }
 
@@ -55,5 +55,14 @@ public class MezmurPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        if (mFragmentList.contains(object)) {
+            return mFragmentList.indexOf(object);
+        } else {
+            return POSITION_NONE;
+        }
     }
 }

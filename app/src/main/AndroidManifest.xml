@@ -35,6 +35,7 @@
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.ViewPictureActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity" />
+        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity" />
 
         <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/>
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />

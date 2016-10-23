@@ -16,11 +16,13 @@ public abstract class BaseProvider<T> implements Observable.OnSubscribe<T> {
 
     @Override
     public void call(Subscriber<? super T> subscriber) {
-
-        T work = doBackgroundWork();
-
-        subscriber.onNext(work);
-        subscriber.onCompleted();
+        try {
+            T work = doBackgroundWork();
+            subscriber.onNext(work);
+            subscriber.onCompleted();
+        } catch(Exception e) {
+            subscriber.onError(e);
+        }
     }
 
     protected abstract T doBackgroundWork();

@@ -35,6 +35,8 @@ public final class MezumrConstants {
     public static final String KEY_USER_AUTHENTICATION_ID = "user_authentication_id";
     public static final String KEY_USER_DRAFT_MESSAGE = "user_draft_message";
     public static final String KEY_USER_RESTORED_MESSAGE = "user_restored_message";
+    public static final String KEY_HOLY_BOOK_HEADER = "holy_book_header";
+    public static final String KEY_HOLY_BOOK_BODY = "holy_book_body";
 
     private MezumrConstants() {
         throw new AssertionError("Constant class cannot be instantiated!");
