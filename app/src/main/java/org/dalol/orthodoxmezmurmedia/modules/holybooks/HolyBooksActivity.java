@@ -48,7 +48,7 @@ public class HolyBooksActivity extends BaseActivity<HolyBookPresenter> implement
         super.resolveDependency();
         DaggerHolyBookComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .holyBookModule(new HolyBookModule(this, "wuddasie_amlak.json"))
+                .holyBookModule(new HolyBookModule(this, "wuddasie_mariam.json"))
                 .build().inject(this);
     }
 
