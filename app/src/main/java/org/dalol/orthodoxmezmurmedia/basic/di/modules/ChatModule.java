@@ -17,7 +17,7 @@
 package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 
 import org.dalol.orthodoxmezmurmedia.basic.di.scopes.PerJourney;
-import org.dalol.orthodoxmezmurmedia.basic.storage.UserSettingsInfoStorage;
+import org.dalol.orthodoxmezmurmedia.basic.storage.PrimitiveStorage;
 import org.dalol.presenter.presentation.chat.ChatView;
 import org.dalol.presenter.storage.Storage;
 
@@ -46,7 +46,7 @@ public class ChatModule {
 
     @Provides
     @PerJourney
-    Storage provideStorage(UserSettingsInfoStorage storage) {
+    Storage provideStorage(PrimitiveStorage storage) {
         return storage;
     }
 }

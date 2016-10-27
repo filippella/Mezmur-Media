@@ -16,9 +16,12 @@
 
 package org.dalol.orthodoxmezmurmedia.application;
 
+import java.lang.Thread.UncaughtExceptionHandler;
+
 import android.app.Application;
 
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.crashlog.CrashExceptionHandler;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerApplicationComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.ApplicationModule;
@@ -35,7 +38,14 @@ public class MezmurApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initCrashHandler();
         initializeApplicationComponentForDagger();
+    }
+
+    private void initCrashHandler() {
+        UncaughtExceptionHandler exceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+        // Register default exceptions handler.
+        Thread.setDefaultUncaughtExceptionHandler(new CrashExceptionHandler(exceptionHandler, this));
     }
 
     private void initializeApplicationComponentForDagger() {

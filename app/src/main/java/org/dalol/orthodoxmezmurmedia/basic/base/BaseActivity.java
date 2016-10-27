@@ -38,6 +38,7 @@ import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.model.callback.OnDialogAccessListener;
+import org.dalol.orthodoxmezmurmedia.modules.rate.RateDialog;
 
 import javax.inject.Inject;
 
@@ -77,6 +78,13 @@ public abstract class BaseActivity<P> extends AppCompatActivity implements OnDia
         }
 
         onViewReady(savedInstanceState, getIntent());
+        new RateDialog(this)
+                .withTitle("Rate this app")
+                .withMessage("If you enjoy using this app, would you mind taking a moment to rate it? It won't take more than a minute. Thank you for your support!")
+                .withPositiveButtonLabel("Rate now")
+                .withNegativeButtonLabel("No, thanks")
+                .withNeutralButtonLabel("Later")
+                .showDialog();
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 

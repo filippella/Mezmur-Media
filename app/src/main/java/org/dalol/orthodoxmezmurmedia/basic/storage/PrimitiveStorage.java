@@ -27,12 +27,12 @@ import javax.inject.Inject;
  * @version 1.0.0
  * @since 9/11/2016
  */
-public class UserSettingsInfoStorage implements Storage {
+public class PrimitiveStorage implements Storage {
 
     @Inject protected SharedPreferences mSharedPreferences;
 
     @Inject
-    public UserSettingsInfoStorage() {
+    public PrimitiveStorage() {
     }
 
     @Override
