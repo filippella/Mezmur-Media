@@ -78,6 +78,11 @@ public abstract class BaseActivity<P> extends AppCompatActivity implements OnDia
         }
 
         onViewReady(savedInstanceState, getIntent());
+        //showRateDialog();
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    private void showRateDialog() {
         new RateDialog(this)
                 .withTitle("Rate this app")
                 .withMessage("If you enjoy using this app, would you mind taking a moment to rate it? It won't take more than a minute. Thank you for your support!")
@@ -85,7 +90,6 @@ public abstract class BaseActivity<P> extends AppCompatActivity implements OnDia
                 .withNegativeButtonLabel("No, thanks")
                 .withNeutralButtonLabel("Later")
                 .showDialog();
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {}

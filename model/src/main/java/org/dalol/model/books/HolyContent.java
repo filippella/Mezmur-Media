@@ -10,6 +10,8 @@ public class HolyContent {
     private int id;
     private String title;
     private String header;
+    private String audioURL;
+    private String videoURL;
     private String body;
 
     public int getId() {
@@ -26,5 +28,13 @@ public class HolyContent {
 
     public String getBody() {
         return body;
+    }
+
+    public String getAudioURL() {
+        return audioURL;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
     }
 }

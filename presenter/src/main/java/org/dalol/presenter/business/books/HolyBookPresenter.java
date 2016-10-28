@@ -2,6 +2,7 @@ package org.dalol.presenter.business.books;
 
 import org.dalol.model.books.HolyContentBook;
 import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.business.common.JsonObjectDataProvider;
 import org.dalol.presenter.data.books.HolyBooksContentProvider;
 import org.dalol.presenter.presentation.books.HolyBookView;
 
@@ -16,7 +17,7 @@ import rx.Observer;
  */
 public class HolyBookPresenter extends BasePresenter<HolyBookView, Void> implements Observer<HolyContentBook> {
 
-    @Inject protected HolyBooksContentProvider mContentProvider;
+    @Inject protected JsonObjectDataProvider<HolyContentBook> mContentProvider;
 
     @Inject
     public HolyBookPresenter() {
@@ -26,6 +27,7 @@ public class HolyBookPresenter extends BasePresenter<HolyBookView, Void> impleme
     public void onViewReady() {
         super.onViewReady();
         getView().onShowDialog("Fetching holy content...");
+        mContentProvider.init(HolyContentBook.class, "amade_mistirat.json" );
         subscribe(mContentProvider.getObservable(), this);
     }
 

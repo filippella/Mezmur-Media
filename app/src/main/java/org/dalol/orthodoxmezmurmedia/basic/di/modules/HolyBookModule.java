@@ -14,23 +14,15 @@ import dagger.Provides;
 @Module
 public class HolyBookModule {
 
-    private final String mHolyContentJson;
     private final HolyBookView mView;
 
-    public HolyBookModule(HolyBookView view, String holyContentJson) {
+    public HolyBookModule(HolyBookView view) {
         mView = view;
-        mHolyContentJson = holyContentJson;
     }
 
     @Provides
     @PerJourney
     HolyBookView provideView() {
         return mView;
-    }
-
-    @Provides
-    @PerJourney
-    String provideHolyContent() {
-        return mHolyContentJson;
     }
 }

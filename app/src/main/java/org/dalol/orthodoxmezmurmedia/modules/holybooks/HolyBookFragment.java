@@ -3,6 +3,7 @@ package org.dalol.orthodoxmezmurmedia.modules.holybooks;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -63,7 +64,7 @@ public class HolyBookFragment extends BaseFragment implements OnZoomActionListen
         mHeaderTextView.setTextSize(DEFAULT_TEXT_SIZE + 5f);
         mHeaderTextView.setText(mHolyBookHeader);
         mBodyTextView.setTextSize(DEFAULT_TEXT_SIZE);
-        mBodyTextView.setText(mHolyBookBody);
+        mBodyTextView.setText(Html.fromHtml(mHolyBookBody));
     }
 
     @Override
