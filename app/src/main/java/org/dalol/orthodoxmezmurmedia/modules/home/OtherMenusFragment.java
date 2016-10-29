@@ -82,8 +82,7 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
         ExpandableMenu expandableMenu2 = new ExpandableMenu(ExpandableType.TYPE_PARENT);
         expandableMenu2.addMenuInfo("Ye Tselot Metshaf");
 
-        ExpandableMenu<Integer> subMenu1 = new ExpandableMenu(ExpandableType.TYPE_CHILD);
-        subMenu1.addMenuInfo(OtherMenusInfo.AMADE_MISTIRAT.getId());
+
         ExpandableMenu<Integer> subMenu2 = new ExpandableMenu(ExpandableType.TYPE_CHILD);
         subMenu2.addMenuInfo(OtherMenusInfo.ANQUETSE_BIRHAN.getId());
         ExpandableMenu<Integer> subMenu3 = new ExpandableMenu(ExpandableType.TYPE_CHILD);
@@ -98,7 +97,6 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
         subMenu7.addMenuInfo(OtherMenusInfo.WUDASSIE_MARIAM.getId());
 
 
-        expandableMenu2.addSubMenu(subMenu1);
         expandableMenu2.addSubMenu(subMenu2);
         expandableMenu2.addSubMenu(subMenu3);
         expandableMenu2.addSubMenu(subMenu4);
@@ -106,6 +104,14 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
         expandableMenu2.addSubMenu(subMenu6);
         expandableMenu2.addSubMenu(subMenu7);
         expandableMenuList.add(expandableMenu2);
+
+        ExpandableMenu expandableMenu3 = new ExpandableMenu(ExpandableType.TYPE_PARENT);
+        expandableMenu3.addMenuInfo("Amde Haymanot");
+
+        ExpandableMenu<Integer> subMenu1 = new ExpandableMenu(ExpandableType.TYPE_CHILD);
+        subMenu1.addMenuInfo(OtherMenusInfo.AMADE_MISTIRAT.getId());
+        expandableMenu3.addSubMenu(subMenu1);
+        expandableMenuList.add(expandableMenu3);
 
         adapter.setExpandableMenuList(expandableMenuList);
         mModeChange.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

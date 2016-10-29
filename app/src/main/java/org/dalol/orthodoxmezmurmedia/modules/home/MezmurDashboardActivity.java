@@ -49,6 +49,7 @@ import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerDashboardComponen
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.DashboardModule;
 import org.dalol.orthodoxmezmurmedia.modules.churches.ChurchListActivity;
 import org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity;
+import org.dalol.orthodoxmezmurmedia.modules.help.HelpActivity;
 import org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
 import org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity;
@@ -144,7 +145,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         } else if(item.getItemId() == R.id.action_help) {
-            mDashboardHandler.sendEmptyMessageDelayed(MENU_HELP.getIndex(), PROCESS_MENU_DELAY_MILLIS);
+            startActivity(new Intent(MezmurDashboardActivity.this, HelpActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

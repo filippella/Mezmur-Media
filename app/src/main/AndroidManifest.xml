@@ -21,6 +21,7 @@
             </intent-filter>
 
         </activity>
+        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.help.HelpActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.details.MezmurDetailActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.zoomable.ZoomableMezmurDetailActivity" />
