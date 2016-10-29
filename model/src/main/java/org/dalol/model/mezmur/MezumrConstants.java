@@ -68,4 +68,14 @@ public final class MezumrConstants {
     public static final int KEY_SHARE_INDEX = 7;
     public static final int KEY_RATE_INDEX = 8;
     public static final int KEY_ABOUT_INDEX = 9;
+
+    public static final int MENU_ID_CHURCH_INFO = 0;
+    public static final int MENU_ID_TSELOT_METSHAF = 1;
+    public static final int MENU_ID_AMADE_MISTIRAT = 2;
+    public static final int MENU_ID_ANQUETSE_BIRHAN = 3;
+    public static final int MENU_ID_DIRSANE_MICHAEL = 4;
+    public static final int MENU_ID_MELKEA_IYESUS = 5;
+    public static final int MENU_ID_MELKEA_MARIAM = 6;
+    public static final int MENU_ID_WUDASSIE_AMLAK = 7;
+    public static final int MENU_ID_WUDASSIE_MARIAM = 8;
 }

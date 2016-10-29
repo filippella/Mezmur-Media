@@ -190,7 +190,7 @@ public abstract class BaseActivity<P> extends AppCompatActivity implements OnDia
     private ProgressDialog createDialog(String message) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setCancelable(false);
+            mProgressDialog.setCancelable(true);
             mProgressDialog.setMessage(message);
         }
         return mProgressDialog;

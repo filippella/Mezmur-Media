@@ -1,5 +1,6 @@
 package org.dalol.orthodoxmezmurmedia.basic.holder;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -64,6 +65,7 @@ public  abstract class ParentViewHolder extends RecyclerView.ViewHolder {
         mActionListener = actionListener;
     }
 
+    @CallSuper
     public void bind(ExpandableMenu expandableMenu) {
         mExpandableMenu = expandableMenu;
         handle.setRotation(isExpanded() ? -90 : 90);

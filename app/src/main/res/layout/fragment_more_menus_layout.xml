@@ -21,9 +21,16 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <CheckBox
+        android:id="@+id/checkboxModeChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Enable Accordion Mode" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_List"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="none" />
 </LinearLayout>

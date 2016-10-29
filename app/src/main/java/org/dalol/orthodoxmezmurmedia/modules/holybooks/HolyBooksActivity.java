@@ -36,6 +36,9 @@ import butterknife.BindView;
  */
 public class HolyBooksActivity extends BaseActivity<HolyBookPresenter> implements HolyBookView {
 
+    public static final String MENU_ID = "menu-id-clicked";
+    public static final String MENU_DATA_SOURCE = "menu-data-source-clicked";
+
     @BindView(R.id.view_pager) protected ViewPager mBooksPager;
     @BindView(R.id.tab_layout) protected TabLayout mTabLayout;
     @BindView(R.id.adView) protected AdView mAdView;
@@ -74,6 +77,8 @@ public class HolyBooksActivity extends BaseActivity<HolyBookPresenter> implement
         mPagerAdapter = new OMMPagerAdapter(getSupportFragmentManager());
         mBooksPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mBooksPager);
+        String dataSource = intent.getStringExtra(MENU_DATA_SOURCE);
+        getPresenter().setUp(dataSource);
         getPresenter().onViewReady();
     }
 

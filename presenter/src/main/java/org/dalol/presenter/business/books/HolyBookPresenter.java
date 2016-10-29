@@ -18,6 +18,7 @@ import rx.Observer;
 public class HolyBookPresenter extends BasePresenter<HolyBookView, Void> implements Observer<HolyContentBook> {
 
     @Inject protected JsonObjectDataProvider<HolyContentBook> mContentProvider;
+    private String mDataSource;
 
     @Inject
     public HolyBookPresenter() {
@@ -27,7 +28,7 @@ public class HolyBookPresenter extends BasePresenter<HolyBookView, Void> impleme
     public void onViewReady() {
         super.onViewReady();
         getView().onShowDialog("Fetching holy content...");
-        mContentProvider.init(HolyContentBook.class, "amade_mistirat.json" );
+        mContentProvider.init(HolyContentBook.class, mDataSource);
         subscribe(mContentProvider.getObservable(), this);
     }
 
@@ -43,5 +44,9 @@ public class HolyBookPresenter extends BasePresenter<HolyBookView, Void> impleme
     @Override
     public void onNext(HolyContentBook holyContentBook) {
         getView().onLoadContent(holyContentBook);
+    }
+
+    public void setUp(String dataSource) {
+        mDataSource = dataSource;
     }
 }

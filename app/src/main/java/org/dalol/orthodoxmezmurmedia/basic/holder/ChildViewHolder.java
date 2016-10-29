@@ -1,5 +1,6 @@
 package org.dalol.orthodoxmezmurmedia.basic.holder;
 
+import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -18,6 +19,7 @@ public class ChildViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
+    @CallSuper
     public void bind(ExpandableMenu expandableMenu) {
         mExpandableMenu = expandableMenu;
     }

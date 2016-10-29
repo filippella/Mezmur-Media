@@ -55,7 +55,9 @@ public abstract class BaseExpandableRecyclerAdapter<PVH extends ParentViewHolder
                 onBindParentViewHolder(pvh);
                 break;
             case TYPE_CHILD:
-                onBindChildViewHolder((CVH) holder);
+                CVH cvh = (CVH) holder;
+                cvh.bind(expandableMenu);
+                onBindChildViewHolder(cvh);
                 break;
         }
     }
@@ -75,9 +77,9 @@ public abstract class BaseExpandableRecyclerAdapter<PVH extends ParentViewHolder
         notifyDataSetChanged();
     }
 
-//    public void addMenu(ExpandableMenu expandableMenu) {
-//        mAllList.add(expandableMenu);
-//    }
+    public void addMenu(ExpandableMenu expandableMenu) {
+        mAllList.add(expandableMenu);
+    }
 
     public void setExpandableMenuList(List<ExpandableMenu> expandableMenuList) {
         mAllList.addAll(expandableMenuList);

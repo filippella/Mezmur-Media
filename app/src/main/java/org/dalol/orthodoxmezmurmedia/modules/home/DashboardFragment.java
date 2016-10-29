@@ -90,16 +90,6 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
     }
 
     @Override
-    public void onShowDialog(String message) {
-        showDialog(message);
-    }
-
-    @Override
-    public void onHideDialog() {
-        hideDialog();
-    }
-
-    @Override
     public void onLoadCategories(List<MezmurListItem> mezmurCategories) {
         mAdapter.addCategories(mezmurCategories);
     }

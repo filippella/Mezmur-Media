@@ -109,12 +109,12 @@ public abstract class BaseFragment<P extends BasePresenter<? extends BaseView, ?
         }
     }
 
-    protected void showDialog(String message) {
+    public void onShowDialog(String message) {
         OnDialogAccessListener dialogAccessListener = (OnDialogAccessListener) getActivity();
         dialogAccessListener.onShowDialog(message);
     }
 
-    protected void hideDialog() {
+    public void onHideDialog() {
         OnDialogAccessListener dialogAccessListener = (OnDialogAccessListener) getActivity();
         dialogAccessListener.onHideDialog();
     }
