@@ -23,13 +23,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.adapter.OtherMenusAdapter;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
-import org.dalol.orthodoxmezmurmedia.basic.adapter.OtherMenuAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 import org.dalol.model.expandable.ExpandableMenu;
 import org.dalol.model.expandable.ExpandableType;
 import org.dalol.presenter.business.dashboard.RecentMezmurFragmentPresenter;
 import org.dalol.presenter.presentation.dashboard.OtherMenusFragmentView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -65,36 +68,59 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
         super.onActivityCreated(savedInstanceState);
         mRecentList.setHasFixedSize(true);
         mRecentList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mRecentList.addItemDecoration(new RecyclerListItemMarginDecorator(getActivity().getResources().getDimensionPixelSize(R.dimen.recent_mezmur_item_margin_size)));
+        //mRecentList.addItemDecoration(new RecyclerListItemMarginDecorator(getActivity().getResources().getDimensionPixelSize(R.dimen.recent_mezmur_item_margin_size)));
 
-        OtherMenuAdapter adapter = new OtherMenuAdapter();
-        ExpandableMenu expandableMenu = new ExpandableMenu(ExpandableType.TYPE_MENU);
+        OtherMenusAdapter adapter = new OtherMenusAdapter(getContext());
+
+        List<ExpandableMenu> expandableMenuList = new ArrayList<>();
+
+        ExpandableMenu expandableMenu = new ExpandableMenu(ExpandableType.TYPE_PARENT);
         for(int i = 0; i < 2; i++) {
-            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_ITEM);
+            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_CHILD);
             menuItem.addMenuInfo("Filippo " + i);
             expandableMenu.addSubMenu(menuItem);
         }
-        adapter.addMenu(expandableMenu);
+        expandableMenuList.add(expandableMenu);
 
-        ExpandableMenu expandableMenu2 = new ExpandableMenu(ExpandableType.TYPE_MENU);
-        for(int i = 0; i < 3; i++) {
-            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_ITEM);
+        ExpandableMenu expandableMenu2 = new ExpandableMenu(ExpandableType.TYPE_PARENT);
+        for(int i = 0; i < 7; i++) {
+            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_CHILD);
             menuItem.addMenuInfo("Marta " + i);
             expandableMenu2.addSubMenu(menuItem);
         }
-        adapter.addMenu(expandableMenu2);
+        expandableMenuList.add(expandableMenu2);
 
-        ExpandableMenu expandableMenu3 = new ExpandableMenu(ExpandableType.TYPE_MENU);
+        ExpandableMenu expandableMenu3 = new ExpandableMenu(ExpandableType.TYPE_PARENT);
         for(int i = 0; i < 3; i++) {
-            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_ITEM);
+            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_CHILD);
             menuItem.addMenuInfo("Piyanki " + i);
             expandableMenu3.addSubMenu(menuItem);
         }
-        adapter.addMenu(expandableMenu3);
-//        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
+        expandableMenuList.add(expandableMenu3);
+
+
+        ExpandableMenu expandableMenu4 = new ExpandableMenu(ExpandableType.TYPE_PARENT);
+        for(int i = 0; i < 10; i++) {
+            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_CHILD);
+            menuItem.addMenuInfo("Piyanki " + i);
+            expandableMenu4.addSubMenu(menuItem);
+        }
+        expandableMenuList.add(expandableMenu4);
+
+        ExpandableMenu expandableMenu5 = new ExpandableMenu(ExpandableType.TYPE_PARENT);
+        for(int i = 0; i < 3; i++) {
+            ExpandableMenu<String> menuItem = new ExpandableMenu(ExpandableType.TYPE_CHILD);
+            menuItem.addMenuInfo("Piyanki " + i);
+            expandableMenu5.addSubMenu(menuItem);
+        }
+        expandableMenuList.add(expandableMenu5);
+
+        //adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_PARENT).addSubMenus(expandableMenu.getMenuItems()));
 //        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
 //        adapter.addMenu(new ExpandableMenu(ExpandableType.TYPE_MENU).addSubMenus(expandableMenu.getMenuItems()));
         //adapter.setAccordionMode();
+
+        adapter.setExpandableMenuList(expandableMenuList);
         mRecentList.setAdapter(adapter);
     }
 
@@ -106,7 +132,7 @@ public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresent
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_main_layout;
+        return R.layout.fragment_more_menus_layout;
     }
 
     @Override
