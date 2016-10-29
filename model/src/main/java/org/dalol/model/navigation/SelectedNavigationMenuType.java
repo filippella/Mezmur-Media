@@ -25,7 +25,7 @@ import org.dalol.model.mezmur.MezumrConstants;
  */
 public enum SelectedNavigationMenuType {
 
-    MENU_FIND_CHURCHES(MezumrConstants.KEY_FIND_CHURCHES_INDEX),
+    MENU_JUST_MEZMURS(MezumrConstants.KEY_JUST_MEZMURS_INDEX),
     MENU_HOLY_PICTURES(MezumrConstants.KEY_HOLY_PICTURES_INDEX),
     MENU_MEZMUR_CHAT_BLOG(MezumrConstants.KEY_MEZMUR_CHAT_BLOG_INDEX),
     MENU_FAVOURITES(MezumrConstants.KEY_FAVOURITES_INDEX),

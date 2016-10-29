@@ -93,7 +93,7 @@ public class OtherMenusAdapter extends BaseExpandableRecyclerAdapter<OtherMenusA
             Integer info = (Integer) mExpandableMenu.getMenuInfo();
             OtherMenusInfo id = OtherMenusInfo.getById(info);
             Context context = v.getContext();
-            Intent intent = new Intent(context, HolyBooksActivity.class);
+            Intent intent = new Intent(context, id.getClazz());
             intent.putExtra(HolyBooksActivity.MENU_ID, id.getId());
             intent.putExtra(HolyBooksActivity.MENU_DATA_SOURCE, id.getDataSource());
             context.startActivity(intent);

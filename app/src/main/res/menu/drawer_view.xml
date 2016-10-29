@@ -21,10 +21,10 @@
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_find_churches"
+            android:id="@+id/menu_just_mezmurs"
             android:checked="true"
             android:icon="@mipmap/ic_more_menu"
-            android:title="More Resources" />
+            android:title="Listen Mezmur" />
 
 
 

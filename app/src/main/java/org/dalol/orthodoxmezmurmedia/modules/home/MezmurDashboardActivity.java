@@ -47,11 +47,11 @@ import org.dalol.orthodoxmezmurmedia.basic.adapter.OMMPagerAdapter;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerDashboardComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.DashboardModule;
-import org.dalol.orthodoxmezmurmedia.modules.churches.ChurchListActivity;
 import org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity;
 import org.dalol.orthodoxmezmurmedia.modules.help.HelpActivity;
 import org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
+import org.dalol.orthodoxmezmurmedia.modules.player.MezmursPlayer;
 import org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity;
 import org.dalol.orthodoxmezmurmedia.utilities.common.CommonUtils;
 import org.dalol.presenter.business.dashboard.DashboardPresenter;
@@ -61,8 +61,7 @@ import butterknife.BindView;
 
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_ABOUT;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_FAVOURITES;
-import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_FIND_CHURCHES;
-import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_HELP;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_JUST_MEZMURS;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_HOLY_PICTURES;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_RATE;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_SETTINGS;
@@ -169,8 +168,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
             mDrawerLayout.closeDrawers();
             menuItem.setChecked(true);
             switch (menuItem.getItemId()) {
-                case R.id.menu_find_churches:
-                    mDashboardHandler.sendEmptyMessageDelayed(MENU_FIND_CHURCHES.getIndex(), PROCESS_MENU_DELAY_MILLIS);
+                case R.id.menu_just_mezmurs:
+                    mDashboardHandler.sendEmptyMessageDelayed(MENU_JUST_MEZMURS.getIndex(), PROCESS_MENU_DELAY_MILLIS);
                     return true;
                 case R.id.menu_holy_pictures:
                     mDashboardHandler.sendEmptyMessageDelayed(MENU_HOLY_PICTURES.getIndex(), PROCESS_MENU_DELAY_MILLIS);
@@ -212,8 +211,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case MezumrConstants.KEY_FIND_CHURCHES_INDEX:
-                    startActivity(new Intent(MezmurDashboardActivity.this, ChurchListActivity.class));
+                case MezumrConstants.KEY_JUST_MEZMURS_INDEX:
+                    startActivity(new Intent(MezmurDashboardActivity.this, MezmursPlayer.class));
                     break;
                 case MezumrConstants.KEY_HOLY_PICTURES_INDEX:
                     startActivity(new Intent(MezmurDashboardActivity.this, PicturesActivity.class));

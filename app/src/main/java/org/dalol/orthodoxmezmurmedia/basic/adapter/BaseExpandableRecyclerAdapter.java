@@ -74,6 +74,7 @@ public abstract class BaseExpandableRecyclerAdapter<PVH extends ParentViewHolder
 
     public void setAccordionStyle(boolean style) {
         mAccordionStyle = style;
+        collapseAllExcept(-1);
         notifyDataSetChanged();
     }
 

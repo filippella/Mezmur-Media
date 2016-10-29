@@ -52,13 +52,13 @@ public final class MezumrConstants {
     public static final String GITHUB_LINK = "https://github.com/filippella/ApkDigger";
 
 
-    @IntDef(flag = true , value = {KEY_FIND_CHURCHES_INDEX, KEY_HOLY_PICTURES_INDEX, KEY_MEZMUR_CHAT_BLOG_INDEX
+    @IntDef(flag = true , value = {KEY_JUST_MEZMURS_INDEX, KEY_HOLY_PICTURES_INDEX, KEY_MEZMUR_CHAT_BLOG_INDEX
             , KEY_FAVOURITES_INDEX, KEY_HELP_INDEX, KEY_SETTINGS_INDEX
             , KEY_EMAIL_INDEX, KEY_SHARE_INDEX, KEY_RATE_INDEX, KEY_ABOUT_INDEX})
     @Retention(RetentionPolicy.SOURCE)
     public @interface NavigationMenuSelection {}
 
-    public static final int KEY_FIND_CHURCHES_INDEX = 0;
+    public static final int KEY_JUST_MEZMURS_INDEX = 0;
     public static final int KEY_HOLY_PICTURES_INDEX = 1;
     public static final int KEY_MEZMUR_CHAT_BLOG_INDEX = 2;
     public static final int KEY_FAVOURITES_INDEX = 3;

@@ -99,7 +99,7 @@ public class PicturesActivity extends BaseActivity<PicturesPresenter> implements
                         public void run() {
                             getPresenter().onViewReady();
                         }
-                    }, 50L);
+                    }, 0L);
 
 //                    if (onLoadMoreListener != null) {
 //                        onLoadMoreListener.LoadItems();
