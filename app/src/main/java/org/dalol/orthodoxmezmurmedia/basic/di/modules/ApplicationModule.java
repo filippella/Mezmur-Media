@@ -21,6 +21,8 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -34,24 +36,16 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private Context mAppContext;
     private final String mAccountType;
 
-    public ApplicationModule(Context appContext, String accountType) {
-        mAppContext = appContext;
+    public ApplicationModule(String accountType) {
         mAccountType = accountType;
     }
 
     @Singleton
     @Provides
     SharedPreferences provideSharedPreferences() {
-        return mAppContext.getSharedPreferences(mAccountType, Context.MODE_PRIVATE);
-    }
-
-    @Singleton
-    @Provides
-    Context provideContext() {
-        return mAppContext;
+        return MezmurApplication.getInstance().getSharedPreferences(mAccountType, Context.MODE_PRIVATE);
     }
 
     @Provides

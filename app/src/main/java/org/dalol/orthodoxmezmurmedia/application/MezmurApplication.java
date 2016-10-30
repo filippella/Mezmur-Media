@@ -17,8 +17,8 @@
 package org.dalol.orthodoxmezmurmedia.application;
 
 import android.app.Application;
+import android.content.Context;
 
-import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.crashlog.CrashExceptionHandler;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerApplicationComponent;
@@ -34,15 +34,21 @@ import java.lang.Thread.UncaughtExceptionHandler;
 public class MezmurApplication extends Application {
 
     private ApplicationComponent mApplicationComponent;
+    private static Context mInstanceContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstanceContext = this;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                initCrashHandler();
-                initializeApplicationComponentForDagger();
+                initialize();
             }
         }).start();
     }
@@ -53,19 +59,23 @@ public class MezmurApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new CrashExceptionHandler(exceptionHandler, this));
     }
 
-    private void initializeApplicationComponentForDagger() {
-        mApplicationComponent = DaggerApplicationComponent
-                .builder()
-                .applicationModule(new ApplicationModule(this, getResources().getString(R.string.account_type)))
-                .build();
+    public void initialize() {
+        initCrashHandler();
+        initAppComponent();
     }
 
+    private void initAppComponent() {
+        mApplicationComponent = DaggerApplicationComponent
+                .builder()
+                .applicationModule(new ApplicationModule("account-type"))
+                .build();
+    }
+//
     public ApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
     }
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
+    public static Context getInstance() {
+        return mInstanceContext;
     }
 }

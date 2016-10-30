@@ -1,5 +1,8 @@
 package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 
+import android.content.Context;
+
+import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
 import org.dalol.orthodoxmezmurmedia.basic.di.scopes.PerJourney;
 import org.dalol.presenter.presentation.books.HolyBookView;
 
@@ -24,5 +27,11 @@ public class HolyBookModule {
     @PerJourney
     HolyBookView provideView() {
         return mView;
+    }
+
+    @PerJourney
+    @Provides
+    Context provideContext() {
+        return MezmurApplication.getInstance();
     }
 }

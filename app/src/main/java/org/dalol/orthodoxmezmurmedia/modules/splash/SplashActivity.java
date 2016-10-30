@@ -1,6 +1,7 @@
 package org.dalol.orthodoxmezmurmedia.modules.splash;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,16 +16,14 @@ import android.view.WindowManager;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.modules.home.MezmurDashboardActivity;
 
-import java.util.Random;
-
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 10/30/2016
  */
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
 
-    private static int SPLASH_TIME_OUT = new Random().nextInt(1500);
+    private static long SPLASH_TIME_OUT = 350L;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +65,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //overridePendingTransition(R.anim.sli, R.anim.fade_out);
+        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }
