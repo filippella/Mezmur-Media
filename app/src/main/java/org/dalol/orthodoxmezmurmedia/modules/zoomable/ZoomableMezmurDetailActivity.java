@@ -34,12 +34,14 @@ import butterknife.BindView;
  */
 public class ZoomableMezmurDetailActivity extends BaseActivity {
 
+    public static final String MEZMUR_DETAIL = "mezmur_detail";
+
     @BindView(R.id.web_view_zoomable_data) protected WebView web_view;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String mezmur_detail = getIntent().getStringExtra(MezmurDetailActivity.MEZMUR_DETAIL);
+        String mezmur_detail = getIntent().getStringExtra(MEZMUR_DETAIL);
 
         String html = "<!doctype html><html><head><meta charset=\"UTF-8\">" +
                 "<link rel=\"stylesheet\" href=\"style.css\"></head><body><div align=\"center\"><pre>"+mezmur_detail+"</pre></div></body></html>";

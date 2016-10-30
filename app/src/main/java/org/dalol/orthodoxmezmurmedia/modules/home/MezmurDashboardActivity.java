@@ -61,8 +61,8 @@ import butterknife.BindView;
 
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_ABOUT;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_FAVOURITES;
-import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_JUST_MEZMURS;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_HOLY_PICTURES;
+import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_JUST_MEZMURS;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_RATE;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_SETTINGS;
 import static org.dalol.model.navigation.SelectedNavigationMenuType.MENU_SHARE;
@@ -128,8 +128,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
         OMMPagerAdapter pagerAdapter = new OMMPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(DashboardFragment.newInstance(), "Categories");
         pagerAdapter.addFragment(OtherMenusFragment.newInstance(), "Other Menus");
-        mViewPager.setAdapter(pagerAdapter);
 
+        mViewPager.setAdapter(pagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 

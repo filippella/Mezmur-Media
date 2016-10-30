@@ -49,6 +49,7 @@ public class HolyBooksActivity extends BaseActivity<HolyBookPresenter> implement
     @Override
     protected void resolveDependency() {
         super.resolveDependency();
+        onShowDialog("Fetching holy content...");
         DaggerHolyBookComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .holyBookModule(new HolyBookModule(this))

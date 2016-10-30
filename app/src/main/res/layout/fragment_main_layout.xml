@@ -14,15 +14,30 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recycler_view_List_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_List"
+        android:id="@+id/recycler_view_mezmur_category"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/search_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:background="@color/orange"
+        android:src="@mipmap/ic_filter_search"
+        app:layout_anchor="@id/recycler_view_mezmur_category"
+        app:layout_anchorGravity="bottom|right|end"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/primary_dark"
+        app:useCompatPadding="true" />
+</FrameLayout>

@@ -213,7 +213,7 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 
         //mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         // mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
+        //mRecyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
         mRecyclerView.setHasFixedSize(true);
         adapter = new MezmurListAdapter(getLayoutInflater());
         adapter.setClickListener(new MezmurListAdapter.ItemClickListener() {
@@ -699,6 +699,7 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 
     @Override
     public void onPopulateMezmurList(List<Mezmur> mezmurs) {
+        Toast.makeText(MezmurListsActivity.this, "total mezmur count -> " + mezmurs.size(), Toast.LENGTH_SHORT).show();
         adapter.addMezmurs(mezmurs);
     }
 }

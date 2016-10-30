@@ -15,6 +15,7 @@
     <dimen name="mezmur_dashboard_list_item_margin_size">5dp</dimen>
     <dimen name="church_list_item_margin_size">5dp</dimen>
     <dimen name="recent_mezmur_item_margin_size">4dp</dimen>
+    <dimen name="mezmur_list_item_margin_size">4dp</dimen>
     <dimen name="drawer_header_height">192dp</dimen>
 
     <dimen name="log_in_margin">10dp</dimen>

@@ -17,11 +17,17 @@
 package org.dalol.orthodoxmezmurmedia.modules.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
@@ -29,6 +35,8 @@ import org.dalol.orthodoxmezmurmedia.basic.adapter.DashboardCategoryListAdapter;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerMezmurCategoryComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.MezmurCategoryModule;
+import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurSearchActivity;
+import org.dalol.orthodoxmezmurmedia.utilities.custom.HidingScrollListener;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 import org.dalol.presenter.business.dashboard.DashboardFragmentPresenter;
 import org.dalol.presenter.presentation.dashboard.DashboardFragmentView;
@@ -44,7 +52,8 @@ import butterknife.BindView;
  */
 public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> implements DashboardFragmentView {
 
-    @BindView(R.id.recycler_view_List) protected RecyclerView mDashboardList;
+    @BindView(R.id.recycler_view_mezmur_category) protected RecyclerView mDashboardList;
+    @BindView(R.id.search_fab) protected FloatingActionButton mFabButton;
     private DashboardCategoryListAdapter mAdapter;
 
     public static DashboardFragment newInstance() {
@@ -80,8 +89,35 @@ public class DashboardFragment extends BaseFragment<DashboardFragmentPresenter> 
         mDashboardList.setHasFixedSize(true);
         mDashboardList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mDashboardList.addItemDecoration(new RecyclerListItemMarginDecorator(getResources().getDimensionPixelSize(R.dimen.mezmur_dashboard_list_item_margin_size)));
+        mDashboardList.addOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
         mAdapter = new DashboardCategoryListAdapter(getLayoutInflater(getArguments()));
         mDashboardList.setAdapter(mAdapter);
+        mFabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MezmurSearchActivity.class));
+            }
+        });
+    }
+
+    private void hideViews() {
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mFabButton.getLayoutParams();
+        int fabBottomMargin = lp.bottomMargin;
+        mFabButton.animate().translationY(mFabButton.getHeight() + fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    private void showViews() {
+        mFabButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     @Override

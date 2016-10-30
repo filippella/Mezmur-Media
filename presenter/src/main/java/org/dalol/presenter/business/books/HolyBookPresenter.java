@@ -27,7 +27,6 @@ public class HolyBookPresenter extends BasePresenter<HolyBookView, Void> impleme
     @Override
     public void onViewReady() {
         super.onViewReady();
-        getView().onShowDialog("Fetching holy content...");
         mContentProvider.init(HolyContentBook.class, mDataSource);
         subscribe(mContentProvider.getObservable(), this);
     }
