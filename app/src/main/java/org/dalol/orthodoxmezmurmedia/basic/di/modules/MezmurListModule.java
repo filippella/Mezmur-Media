@@ -1,8 +1,5 @@
 package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 
-import android.content.Context;
-
-import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
 import org.dalol.orthodoxmezmurmedia.basic.di.scopes.PerJourney;
 import org.dalol.presenter.presentation.mezmur.MezmurListView;
 
@@ -27,11 +24,5 @@ public class MezmurListModule {
     @Provides
     MezmurListView provideView() {
         return mMezmurListView;
-    }
-
-    @PerJourney
-    @Provides
-    Context provideContext() {
-        return MezmurApplication.getInstance();
     }
 }

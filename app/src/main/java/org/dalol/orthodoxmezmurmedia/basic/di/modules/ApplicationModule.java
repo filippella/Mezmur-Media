@@ -44,13 +44,19 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    SharedPreferences provideSharedPreferences() {
-        return MezmurApplication.getInstance().getSharedPreferences(mAccountType, Context.MODE_PRIVATE);
+    SharedPreferences provideSharedPreferences(Context context) {
+        return context.getSharedPreferences(mAccountType, Context.MODE_PRIVATE);
     }
 
     @Provides
     @Singleton
     Gson provideGson() {
         return new Gson();
+    }
+
+    @Singleton
+    @Provides
+    Context provideContext() {
+        return MezmurApplication.getInstance();
     }
 }

@@ -16,6 +16,7 @@
 
 package org.dalol.orthodoxmezmurmedia.basic.di.components;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
@@ -40,4 +41,6 @@ public interface ApplicationComponent {
     SharedPreferences exposeSharedPreferences();
 
     Gson exposeGson();
+
+    Context exposeContext();
 }

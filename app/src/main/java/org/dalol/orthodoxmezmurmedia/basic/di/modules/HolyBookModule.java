@@ -28,10 +28,4 @@ public class HolyBookModule {
     HolyBookView provideView() {
         return mView;
     }
-
-    @PerJourney
-    @Provides
-    Context provideContext() {
-        return MezmurApplication.getInstance();
-    }
 }
