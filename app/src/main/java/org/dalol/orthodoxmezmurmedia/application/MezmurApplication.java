@@ -16,18 +16,15 @@
 
 package org.dalol.orthodoxmezmurmedia.application;
 
-import java.lang.Thread.UncaughtExceptionHandler;
-
-import android.app.Activity;
 import android.app.Application;
-import android.os.Bundle;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.crashlog.CrashExceptionHandler;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerApplicationComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.ApplicationModule;
-import org.dalol.orthodoxmezmurmedia.modules.splash.SplashActivity;
+
+import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -41,46 +38,13 @@ public class MezmurApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+        new Thread(new Runnable() {
             @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                if(activity.getClass().equals(SplashActivity.class)) {
-                    // try without runOnUiThread if it will not help
-                    initCrashHandler();
-                    initializeApplicationComponentForDagger();
-                }
+            public void run() {
+                initCrashHandler();
+                initializeApplicationComponentForDagger();
             }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
+        }).start();
     }
 
     private void initCrashHandler() {
