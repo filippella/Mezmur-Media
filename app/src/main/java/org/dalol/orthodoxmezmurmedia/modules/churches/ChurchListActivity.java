@@ -34,11 +34,14 @@ import android.widget.Toast;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
+import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerChurchesComponent;
+import org.dalol.orthodoxmezmurmedia.basic.di.modules.ChurchesModule;
 import org.dalol.orthodoxmezmurmedia.modules.churches.adapter.ChurchListAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.HidingScrollListener;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 import org.dalol.model.churches.Church;
 import org.dalol.presenter.business.churches.ChurchesPresenter;
+import org.dalol.presenter.presentation.churches.ChurchesView;
 
 import butterknife.BindView;
 
@@ -47,7 +50,7 @@ import butterknife.BindView;
  * @version 1.0.0
  * @since 9/14/2016
  */
-public class ChurchListActivity extends BaseActivity {
+public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implements ChurchesView {
 
     @BindView(R.id.recycler_view_church_location_list) protected RecyclerView mChurchLocationList;
     @BindView(R.id.fab) protected FloatingActionButton mFabButton;
@@ -74,25 +77,7 @@ public class ChurchListActivity extends BaseActivity {
                 showViews();
             }
         });
-
-        ChurchesPresenter presenter = new ChurchesPresenter();
-        presenter.getChurches(new ChurchesPresenter.ChurchListener() {
-
-            @Override
-            public Resources getAppResources() {
-                return getResources();
-            }
-
-            @Override
-            public void onChurch(final Church church) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mChurchesAdapter.addChurch(church);
-                    }
-                });
-            }
-        });
+        getPresenter().onViewReady();
     }
 
     private void hideViews() {
@@ -103,6 +88,15 @@ public class ChurchListActivity extends BaseActivity {
 
     private void showViews() {
         mFabButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+    }
+
+    @Override
+    protected void resolveDependency() {
+        super.resolveDependency();
+        DaggerChurchesComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .churchesModule(new ChurchesModule(this))
+                .build().inject(this);
     }
 
     @Override
@@ -198,5 +192,12 @@ public class ChurchListActivity extends BaseActivity {
     @Override
     protected int getStatusBarColor() {
         return R.color.colorPrimaryDark;
+    }
+
+    @Override
+    public void onLoadChurches(Church[] churches) {
+        for (Church church : churches) {
+            mChurchesAdapter.addChurch(church);
+        }
     }
 }

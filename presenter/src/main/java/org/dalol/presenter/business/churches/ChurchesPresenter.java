@@ -16,66 +16,47 @@
 
 package org.dalol.presenter.business.churches;
 
-import android.content.res.AssetManager;
-import android.content.res.Resources;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.dalol.model.churches.Church;
+import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.business.common.JsonArrayDataProvider;
+import org.dalol.presenter.presentation.churches.ChurchesView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.List;
+import javax.inject.Inject;
+
+import rx.Observer;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 9/25/2016
  */
-public class ChurchesPresenter {
+public class ChurchesPresenter extends BasePresenter<ChurchesView, Void> implements Observer<Church[]> {
 
+    @Inject protected JsonArrayDataProvider<Church> mContentProvider;
 
-    public void getChurches(ChurchListener listener) {
-
-        AssetManager assetManager = listener.getAppResources().getAssets();
-        try {
-            InputStream stream = assetManager.open("churches.json");
-
-            BufferedReader in =  new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-            String str;
-
-            StringBuffer buffer = new StringBuffer();
-
-            while ((str=in.readLine()) != null) {
-                buffer.append(str);
-            }
-
-            in.close();
-
-//            Type type = new TypeToken<List<Church>>(){}.getType();
-//
-//            List<Church> churches = new Gson().fromJson(buffer.toString(), type);
-//
-//            for (int i = 0; i < churches.size(); i++) {
-//                Church mezmur = churches.get(i);
-//                listener.onChurch(mezmur);
-//            }
-
-        } catch (IOException e) {
-            Log.d("MezmurListsActivity", "Total Count of mezmur UNKNOWN - > " +e.getMessage());
-            e.printStackTrace();
-        }
+    @Inject
+    public ChurchesPresenter() {
     }
 
-    public interface ChurchListener {
+    @Override
+    public void onViewReady() {
+        super.onViewReady();
+        mContentProvider.init(Church[].class, "churches.json");
+        subscribe(mContentProvider.getObservable(), this);
+    }
 
-        Resources getAppResources();
+    @Override
+    public void onCompleted() {
+        getView().onHideDialog();
+    }
 
-        void onChurch(Church church);
+    @Override
+    public void onError(Throwable e) {
+        getView().onShowToast(e.getMessage());
+    }
+
+    @Override
+    public void onNext(Church[] churches) {
+        getView().onLoadChurches(churches);
     }
 }

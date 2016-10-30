@@ -39,21 +39,24 @@ import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.model.callback.OnDialogAccessListener;
 import org.dalol.orthodoxmezmurmedia.modules.rate.RateDialog;
+import org.dalol.presenter.business.base.BasePresenter;
+import org.dalol.presenter.presentation.base.BaseView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.Lazy;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 8/21/2016
  */
-public abstract class BaseActivity<P> extends AppCompatActivity implements OnDialogAccessListener {
+public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?>> extends AppCompatActivity implements OnDialogAccessListener {
 
     @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
-    @Nullable @Inject protected P mPresenter;
+    @Nullable @Inject protected Lazy<P> mPresenter;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -164,8 +167,12 @@ public abstract class BaseActivity<P> extends AppCompatActivity implements OnDia
     }
 
     @Nullable public P getPresenter() {
-        return mPresenter;
-    }
+            Lazy<P> presenter = this.mPresenter;
+            if (presenter != null) {
+                return presenter.get();
+            }
+            return null;
+        }
 
     protected int getStatusBarColor() {
         return 0;

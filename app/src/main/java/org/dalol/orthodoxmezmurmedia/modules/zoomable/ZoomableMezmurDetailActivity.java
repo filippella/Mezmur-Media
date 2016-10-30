@@ -16,8 +16,11 @@
 
 package org.dalol.orthodoxmezmurmedia.modules.zoomable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -39,9 +42,12 @@ public class ZoomableMezmurDetailActivity extends BaseActivity {
     @BindView(R.id.web_view_zoomable_data) protected WebView web_view;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String mezmur_detail = getIntent().getStringExtra(MEZMUR_DETAIL);
+    protected void onViewReady(Bundle savedInstanceState, Intent intent) {
+        super.onViewReady(savedInstanceState, intent);
+
+        showHome();
+
+        String mezmur_detail = intent.getStringExtra(MEZMUR_DETAIL);
 
         String html = "<!doctype html><html><head><meta charset=\"UTF-8\">" +
                 "<link rel=\"stylesheet\" href=\"style.css\"></head><body><div align=\"center\"><pre>"+mezmur_detail+"</pre></div></body></html>";
@@ -68,6 +74,27 @@ public class ZoomableMezmurDetailActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_zoom_in:
+                return true;
+            case R.id.action_zoom_out:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected int getContentView() {
         return R.layout.activity_zoomable_detail;
     }
@@ -75,5 +102,10 @@ public class ZoomableMezmurDetailActivity extends BaseActivity {
     @Override
     protected void resolveDependency() {
 
+    }
+
+    @Override
+    protected int getStatusBarColor() {
+        return R.color.colorPrimaryDark;
     }
 }

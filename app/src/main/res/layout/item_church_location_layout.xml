@@ -57,9 +57,4 @@
         android:text="New Text"
         android:id="@+id/textView6" />
 
-    <ImageView
-        android:id="@+id/imageArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_accordion_menu"/>
 </LinearLayout>
