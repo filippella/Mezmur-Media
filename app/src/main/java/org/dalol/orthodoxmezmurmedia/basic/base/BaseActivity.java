@@ -20,6 +20,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -61,8 +63,14 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                resolveDependency();
+            }
+        }).start();
         super.onCreate(savedInstanceState);
-        resolveDependency();
+
 
         int contentRes = getContentView();
         if (contentRes > 0) {
@@ -81,6 +89,7 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
         }
 
         onViewReady(savedInstanceState, getIntent());
+
         //showRateDialog();
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
@@ -167,12 +176,12 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
     }
 
     @Nullable public P getPresenter() {
-            Lazy<P> presenter = this.mPresenter;
-            if (presenter != null) {
-                return presenter.get();
-            }
-            return null;
+        Lazy<P> presenter = this.mPresenter;
+        if (presenter != null) {
+            return presenter.get();
         }
+        return null;
+    }
 
     protected int getStatusBarColor() {
         return 0;

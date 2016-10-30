@@ -16,8 +16,6 @@
 
 package org.dalol.orthodoxmezmurmedia.basic.adapter;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;

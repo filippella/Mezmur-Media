@@ -26,10 +26,10 @@ import javax.inject.Inject;
  * @version 1.0.0
  * @since 8/29/2016
  */
-public class RecentMezmurFragmentPresenter extends BasePresenter<OtherMenusFragmentView, Void> {
+public class OtherMenusPresenter extends BasePresenter<OtherMenusFragmentView, Void> {
 
     @Inject
-    public RecentMezmurFragmentPresenter() {
+    public OtherMenusPresenter() {
     }
 
     @Override

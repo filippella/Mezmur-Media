@@ -3,7 +3,6 @@ package org.dalol.presenter.business.books;
 import org.dalol.model.books.HolyContentBook;
 import org.dalol.presenter.business.base.BasePresenter;
 import org.dalol.presenter.business.common.JsonObjectDataProvider;
-import org.dalol.presenter.data.books.HolyBooksContentProvider;
 import org.dalol.presenter.presentation.books.HolyBookView;
 
 import javax.inject.Inject;

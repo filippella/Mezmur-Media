@@ -30,7 +30,7 @@ import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
 import org.dalol.orthodoxmezmurmedia.basic.binders.OtherMenusInfo;
 import org.dalol.model.expandable.ExpandableMenu;
 import org.dalol.model.expandable.ExpandableType;
-import org.dalol.presenter.business.dashboard.RecentMezmurFragmentPresenter;
+import org.dalol.presenter.business.dashboard.OtherMenusPresenter;
 import org.dalol.presenter.presentation.dashboard.OtherMenusFragmentView;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import butterknife.BindView;
  * @version 1.0.0
  * @since 9/1/2016
  */
-public class OtherMenusFragment extends BaseFragment<RecentMezmurFragmentPresenter> implements OtherMenusFragmentView {
+public class OtherMenusFragment extends BaseFragment<OtherMenusPresenter> implements OtherMenusFragmentView {
 
     @BindView(R.id.recycler_view_List) protected RecyclerView mRecentList;
     @BindView(R.id.checkboxModeChange) protected CheckBox mModeChange;

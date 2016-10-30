@@ -17,6 +17,7 @@
 package org.dalol.presenter.business.base;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.dalol.model.services.ApiType;
 import org.dalol.presenter.presentation.base.BaseView;
@@ -26,11 +27,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
 import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -43,7 +44,7 @@ import rx.schedulers.Schedulers;
  */
 public abstract class BasePresenter<V extends BaseView, R> implements Presenter {
 
-    @NonNull @Inject protected V mView;
+    @NonNull @Inject protected Lazy<V> mView;
     private Map<ApiType, Call<?>> mApiCallQueue = new ConcurrentHashMap<>();
 
     @Override
@@ -107,7 +108,11 @@ public abstract class BasePresenter<V extends BaseView, R> implements Presenter 
         //handled by child or consumed
     }
 
-    public V getView() {
-        return mView;
+    @Nullable public V getView() {
+        Lazy<V> view = this.mView;
+        if (view != null) {
+            return view.get();
+        }
+        return null;
     }
 }
