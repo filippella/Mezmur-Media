@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -77,6 +78,7 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
     //
     @BindView(R.id.recyclerView) protected RecyclerView mRecyclerView;
     @BindView(R.id.fastscroller) protected RecyclerViewFastIndexer fastScroller;
+    @BindView(R.id.category_header_imageview) protected ImageView mHeaderImage;
    // @BindView(R.id.editText_merzumr_search_quesry) protected EditText mSearchQueryField;
     private MezmurListAdapter adapter;
     private FakeCustomKeyboard mView;
@@ -115,12 +117,18 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
+        showHome();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mHeaderImage.setTransitionName("image");
+        }
 
         MezmurListItem listItem = (MezmurListItem) intent.getSerializableExtra(ITEM_BUNDLE_INFO);
         getPresenter().setUp(listItem);
         getPresenter().onViewReady();
         setTitle(listItem.getName());
         MezmurCategoryInfo info = MezmurCategoryInfo.getByCategoryId(Integer.parseInt(listItem.getCid()));
+        Glide.with(this).load(info.getResId()).into(mHeaderImage);
         //Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
     }
 

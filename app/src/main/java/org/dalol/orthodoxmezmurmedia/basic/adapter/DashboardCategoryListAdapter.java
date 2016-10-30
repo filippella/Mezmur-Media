@@ -16,6 +16,8 @@
 
 package org.dalol.orthodoxmezmurmedia.basic.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -65,9 +67,18 @@ public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewH
             public void onClick(View child, int position) {
                 MezmurListItem mezmurListItem = mCategories.get(position);
                 Context context = child.getContext();
+
                 Intent intent = new Intent(context, MezmurListsActivity.class);
                 intent.putExtra(MezmurListsActivity.ITEM_BUNDLE_INFO, mezmurListItem);
                 context.startActivity(intent);
+
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                    Activity activity = (Activity) context;
+//                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, child.findViewById(R.id.mezmur_category_icon), "image");
+//                    context.startActivity(intent, options.toBundle());
+//                } else {
+//                    context.startActivity(intent);
+//                }
             }
         });
         View itemView = holder.itemView;
