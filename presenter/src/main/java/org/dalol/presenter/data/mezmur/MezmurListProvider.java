@@ -22,14 +22,13 @@ import javax.inject.Inject;
  */
 public class MezmurListProvider extends BaseProvider<List<Mezmur>> {
 
-    private final MezmurListItem mListItem;
+    private MezmurListItem mListItem;
 
     @Inject protected Context mContext;
     @Inject protected Gson mGson;
 
     @Inject
-    public MezmurListProvider(MezmurListItem listItem) {
-        mListItem = listItem;
+    public MezmurListProvider() {
     }
 
     @Override
@@ -52,5 +51,9 @@ public class MezmurListProvider extends BaseProvider<List<Mezmur>> {
             }
         }
         return mezmurList;
+    }
+
+    public void setListItem(MezmurListItem listItem) {
+            mListItem = listItem;
     }
 }

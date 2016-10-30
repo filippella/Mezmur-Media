@@ -1,6 +1,7 @@
 package org.dalol.presenter.business.mezmur;
 
 import org.dalol.model.mezmur.Mezmur;
+import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.presenter.business.base.BasePresenter;
 import org.dalol.presenter.data.mezmur.MezmurListProvider;
 import org.dalol.presenter.presentation.mezmur.MezmurListView;
@@ -19,6 +20,7 @@ import rx.Observer;
 public class MezmurListPresenter extends BasePresenter<MezmurListView, Void> implements Observer<List<Mezmur>> {
 
     @Inject protected MezmurListProvider mMezmurListProvider;
+    private MezmurListItem mListItem;
 
     @Inject
     public MezmurListPresenter() {
@@ -28,6 +30,7 @@ public class MezmurListPresenter extends BasePresenter<MezmurListView, Void> imp
     public void onViewReady() {
         super.onViewReady();
         getView().onShowDialog("Fetching mezmur list...");
+        mMezmurListProvider.setListItem(mListItem);
         subscribe(mMezmurListProvider.getObservable(), this);
     }
 
@@ -45,5 +48,9 @@ public class MezmurListPresenter extends BasePresenter<MezmurListView, Void> imp
     public void onNext(List<Mezmur> mezmurs) {
         getView().onPopulateMezmurList(mezmurs);
         getView().onHideDialog();
+    }
+
+    public void setUp(MezmurListItem listItem) {
+        mListItem = listItem;
     }
 }

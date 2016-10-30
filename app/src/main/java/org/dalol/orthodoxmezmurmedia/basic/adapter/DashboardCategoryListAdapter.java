@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.binders.MezmurCategoryInfo;
 import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity;
 
@@ -77,7 +78,8 @@ public class DashboardCategoryListAdapter extends RecyclerView.Adapter<ItemViewH
         MezmurListItem mezmurListItem = mCategories.get(position);
         categoryTitle.setText(mezmurListItem.getName());
         categoryCount.setText(String.format("%d መዝሙራት", mezmurListItem.getMezmurIdList().size()));
-        Glide.with(context).load(getImage()).into(categoryImage);
+        MezmurCategoryInfo info = MezmurCategoryInfo.getByCategoryId(Integer.parseInt(mezmurListItem.getCid()));
+        Glide.with(context).load(info.getResId()).into(categoryImage);
     }
 
     @Override

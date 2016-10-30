@@ -35,11 +35,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
+import org.dalol.orthodoxmezmurmedia.basic.binders.MezmurCategoryInfo;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerMezmurListComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.MezmurListModule;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.adapter.MezmurListAdapter;
@@ -101,20 +105,22 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 
     @Override
     protected void resolveDependency() {
-        MezmurListItem listItem = (MezmurListItem) getIntent().getSerializableExtra(ITEM_BUNDLE_INFO);
         DaggerMezmurListComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .mezmurListModule(new MezmurListModule(this, listItem))
+                .mezmurListModule(new MezmurListModule(this))
                 .build()
                 .inject(this);
-        setTitle(listItem.getName());
     }
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
 
+        MezmurListItem listItem = (MezmurListItem) intent.getSerializableExtra(ITEM_BUNDLE_INFO);
+        getPresenter().setUp(listItem);
         getPresenter().onViewReady();
+        setTitle(listItem.getName());
+        MezmurCategoryInfo info = MezmurCategoryInfo.getByCategoryId(Integer.parseInt(listItem.getCid()));
         //Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
     }
 
@@ -699,6 +705,7 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 
     @Override
     public void onPopulateMezmurList(List<Mezmur> mezmurs) {
+        mToolbar.setSubtitle("Total Mezmur count: " + mezmurs.size());
         Toast.makeText(MezmurListsActivity.this, "total mezmur count -> " + mezmurs.size(), Toast.LENGTH_SHORT).show();
         adapter.addMezmurs(mezmurs);
     }

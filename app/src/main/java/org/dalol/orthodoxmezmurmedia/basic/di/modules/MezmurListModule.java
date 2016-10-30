@@ -1,6 +1,5 @@
 package org.dalol.orthodoxmezmurmedia.basic.di.modules;
 
-import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.basic.di.scopes.PerJourney;
 import org.dalol.presenter.presentation.mezmur.MezmurListView;
 
@@ -16,22 +15,14 @@ import dagger.Provides;
 public class MezmurListModule {
 
     private MezmurListView mMezmurListView;
-    private final MezmurListItem mListItem;
 
-    public MezmurListModule(MezmurListView listView, MezmurListItem listItem) {
+    public MezmurListModule(MezmurListView listView) {
         mMezmurListView = listView;
-        mListItem = listItem;
     }
 
     @PerJourney
     @Provides
     MezmurListView provideView() {
         return mMezmurListView;
-    }
-
-    @PerJourney
-    @Provides
-    MezmurListItem provideListItem() {
-        return mListItem;
     }
 }

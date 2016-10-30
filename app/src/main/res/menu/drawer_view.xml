@@ -43,7 +43,7 @@
 
         <item
             android:id="@+id/menu_holy_pictures"
-            android:checked="true"
+            android:checked="false"
             android:icon="@mipmap/ic_album"
             android:title="Holy Pictures" />
 

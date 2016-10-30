@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="#d7dce6"
     android:paddingBottom="5dp"
+    android:clipToPadding="false"
     android:paddingTop="5dp"
     android:scrollbars="vertical">
 
