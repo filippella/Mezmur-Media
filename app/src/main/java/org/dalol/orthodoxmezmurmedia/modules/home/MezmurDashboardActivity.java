@@ -85,8 +85,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onViewReady(Bundle savedInstanceState, Intent intent) {
+        super.onViewReady(savedInstanceState, intent);
         showHome();
         initializeViews();
     }

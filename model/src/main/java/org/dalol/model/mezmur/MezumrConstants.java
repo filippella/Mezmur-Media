@@ -16,11 +16,6 @@
 
 package org.dalol.model.mezmur;
 
-import android.support.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
@@ -50,13 +45,6 @@ public final class MezumrConstants {
 
     public static final String LINK_TO_APP = "https://play.google.com/store/apps/details?id=" + PACKAGE_NAME;
     public static final String GITHUB_LINK = "https://github.com/filippella/ApkDigger";
-
-
-    @IntDef(flag = true , value = {KEY_JUST_MEZMURS_INDEX, KEY_HOLY_PICTURES_INDEX, KEY_MEZMUR_CHAT_BLOG_INDEX
-            , KEY_FAVOURITES_INDEX, KEY_HELP_INDEX, KEY_SETTINGS_INDEX
-            , KEY_EMAIL_INDEX, KEY_SHARE_INDEX, KEY_RATE_INDEX, KEY_ABOUT_INDEX})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface NavigationMenuSelection {}
 
     public static final int KEY_JUST_MEZMURS_INDEX = 0;
     public static final int KEY_HOLY_PICTURES_INDEX = 1;

@@ -13,7 +13,8 @@
         android:largeHeap="true"
         android:hardwareAccelerated="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.splash.SplashActivity">
+        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.splash.SplashActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,11 +39,11 @@
         </activity>
 
 
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.ViewPictureActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity" />
         <activity android:name="org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity" />
 
+        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/>
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>

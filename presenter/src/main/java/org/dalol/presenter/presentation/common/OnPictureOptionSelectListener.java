@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dalol.model.callback;
+package org.dalol.presenter.presentation.common;
 
 import android.view.View;
 

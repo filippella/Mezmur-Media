@@ -38,7 +38,7 @@ public enum SelectedNavigationMenuType {
 
     private final int mIndex;
 
-    SelectedNavigationMenuType(@MezumrConstants.NavigationMenuSelection int index) {
+    SelectedNavigationMenuType(int index) {
         mIndex = index;
     }
 

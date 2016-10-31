@@ -37,7 +37,7 @@ import org.dalol.orthodoxmezmurmedia.basic.di.modules.ApiModule;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.PicturesModule;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.adapter.PicturesGridAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerGridItemMarginDecorator;
-import org.dalol.model.callback.OnPictureOptionSelectListener;
+import org.dalol.presenter.presentation.common.OnPictureOptionSelectListener;
 import org.dalol.model.miscellaneous.ItemView;
 import org.dalol.model.pictures.PictureInfo;
 import org.dalol.model.pictures.PictureModel;

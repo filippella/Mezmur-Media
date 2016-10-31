@@ -63,14 +63,7 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                resolveDependency();
-            }
-        }).start();
         super.onCreate(savedInstanceState);
-
 
         int contentRes = getContentView();
         if (contentRes > 0) {
@@ -88,6 +81,7 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
             }
         }
 
+        resolveDependency();
         onViewReady(savedInstanceState, getIntent());
 
         //showRateDialog();

@@ -40,11 +40,6 @@ public class MezmurApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstanceContext = this;
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -54,9 +49,9 @@ public class MezmurApplication extends Application {
     }
 
     private void initCrashHandler() {
-        UncaughtExceptionHandler exceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-        // Register default exceptions handler.
-        Thread.setDefaultUncaughtExceptionHandler(new CrashExceptionHandler(exceptionHandler, this));
+//        UncaughtExceptionHandler exceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+//        // Register default exceptions handler.
+//        Thread.setDefaultUncaughtExceptionHandler(new CrashExceptionHandler(exceptionHandler, this));
     }
 
     public void initialize() {
@@ -70,7 +65,7 @@ public class MezmurApplication extends Application {
                 .applicationModule(new ApplicationModule("account-type"))
                 .build();
     }
-//
+
     public ApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
     }
