@@ -41,6 +41,7 @@ import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.application.MezmurApplication;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.ApplicationComponent;
 import org.dalol.model.callback.OnDialogAccessListener;
+import org.dalol.orthodoxmezmurmedia.basic.receiver.NetworkChangeReceiver;
 import org.dalol.orthodoxmezmurmedia.modules.rate.RateDialog;
 import org.dalol.presenter.business.base.BasePresenter;
 import org.dalol.presenter.presentation.base.BaseView;
@@ -56,7 +57,7 @@ import dagger.Lazy;
  * @version 1.0.0
  * @since 8/21/2016
  */
-public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?>> extends AppCompatActivity implements OnDialogAccessListener {
+public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?>> extends AppCompatActivity implements OnDialogAccessListener, NetworkChangeReceiver.NetworkChangeObserver {
 
     @Nullable @BindView(R.id.toolbar) protected Toolbar mToolbar;
     @Nullable @Inject protected Lazy<P> mPresenter;
@@ -139,11 +140,13 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
     @Override
     protected void onResume() {
         super.onResume();
+        ((MezmurApplication) getApplication()).registerForNetworkChange(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        ((MezmurApplication) getApplication()).unregisterForNetworkChange(this);
     }
 
     @Override
@@ -190,7 +193,7 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
     }
 
     protected int getStatusBarColor() {
-        return R.color.colorPrimaryDark;
+        return 0;
     }
 
     protected void resolveDependency(){}
@@ -247,5 +250,10 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
     @Override
     public void onShowToast(String message) {
         Toast.makeText(BaseActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNetworkStateChange(boolean isConnected) {
+
     }
 }

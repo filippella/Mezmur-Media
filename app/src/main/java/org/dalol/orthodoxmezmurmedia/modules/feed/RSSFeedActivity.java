@@ -78,6 +78,11 @@ public class RSSFeedActivity extends BaseActivity<RSSFeedPresenter> implements R
     }
 
     @Override
+    protected int getStatusBarColor() {
+        return R.color.colorPrimaryDark;
+    }
+
+    @Override
     protected void resolveDependency() {
         super.resolveDependency();
         DaggerRSSFeedComponent.builder()

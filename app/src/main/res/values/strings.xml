@@ -11,6 +11,8 @@
     <string name="action_chat_blog_logout">Logout</string>
     <string name="action_chat_profile_settings">Profile Settings</string>
 
+    <string name="network_change_action">android.net.conn.CONNECTIVITY_CHANGE</string>
+
     <string name="ime_name">Amharic Keyboard</string>
 
     <!-- Symbols that are commonly considered word separators in this language -->
