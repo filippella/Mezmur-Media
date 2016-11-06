@@ -7,13 +7,14 @@
     <application
         android:name="org.dalol.orthodoxmezmurmedia.application.MezmurApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
-        android:hardwareAccelerated="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".modules.splash.SplashActivity"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".modules.splash.SplashActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,8 @@
             </intent-filter>
 
         </activity>
+        <service android:name=".modules.player.MezmurPlayerService" />
+
         <activity android:name=".modules.home.MezmurDashboardActivity" />
         <activity android:name=".modules.help.HelpActivity" />
         <activity android:name=".modules.player.MezmursPlayer" />
@@ -34,19 +37,22 @@
         <activity android:name=".modules.settings.SettingsActivity" />
         <activity android:name=".modules.chat.ChatActivity" />
         <activity android:name=".modules.churches.ChurchListActivity" />
-        <activity android:name=".modules.pictures.PicturesActivity">
-
-        </activity>
-
-
+        <activity android:name=".modules.pictures.PicturesActivity" />
         <activity android:name=".modules.pictures.ViewPictureActivity" />
         <activity android:name=".modules.favourites.FavouritesActivity" />
         <activity android:name=".modules.holybooks.HolyBooksActivity" />
         <activity android:name=".modules.feed.RSSFeedActivity" />
 
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
-        <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/>
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.samsung.android.sdk.multiwindow.penwindow.enable"
+            android:value="true" />
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
     </application>
 
 </manifest>
