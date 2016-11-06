@@ -7,7 +7,7 @@ android {
 //        }
 //    }
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "org.dalol.orthodoxmezmurmedia"
         minSdkVersion 15
@@ -23,7 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
     packagingOptions {
@@ -58,22 +58,18 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:cardview-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
-
     //DEPENDENCY INJECTIONS
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     apt 'com.google.dagger:dagger-compiler:2.5'
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.google.dagger:dagger:2.5'
     compile 'com.jakewharton:butterknife:8.2.1'
-
     //IMAGE LOADERS
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
     //TESTING
     testCompile 'junit:junit:4.12'
-//    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-//    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.4'
-
+    //    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    //    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.4'
     //FIREBASE AD and GCM
     compile 'com.google.android.gms:play-services-ads:9.4.+'
     compile project(path: ':presenter')

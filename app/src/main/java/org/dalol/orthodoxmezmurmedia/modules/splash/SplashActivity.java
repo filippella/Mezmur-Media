@@ -20,7 +20,7 @@ import org.dalol.orthodoxmezmurmedia.modules.home.MezmurDashboardActivity;
  */
 public class SplashActivity extends Activity {
 
-    private static long SPLASH_TIME_OUT = 350L;
+    private static long SPLASH_TIME_OUT = 450L;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

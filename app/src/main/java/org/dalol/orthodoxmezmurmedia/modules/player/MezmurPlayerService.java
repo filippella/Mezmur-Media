@@ -28,7 +28,7 @@ public class MezmurPlayerService extends Service {
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setDataSource(url);
+            mediaPlayer.setDataSource("url");
             mediaPlayer.prepareAsync();
             //You can show progress dialog here untill it prepared to play
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
