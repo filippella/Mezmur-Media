@@ -25,7 +25,10 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E6E6E6">
+        android:background="#DEDEDE">
+
+    <!--android:background="#d7dce6"-->
+        <!--android:background="#E6E6E6"-->
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
