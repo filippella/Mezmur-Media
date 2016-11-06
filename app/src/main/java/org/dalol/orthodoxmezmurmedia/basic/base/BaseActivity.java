@@ -31,6 +31,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -96,6 +97,17 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
                 .withNegativeButtonLabel("No, thanks")
                 .withNeutralButtonLabel("Later")
                 .showDialog();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {}
@@ -178,7 +190,7 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
     }
 
     protected int getStatusBarColor() {
-        return 0;
+        return R.color.colorPrimaryDark;
     }
 
     protected void resolveDependency(){}

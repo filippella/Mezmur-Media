@@ -57,13 +57,4 @@ public class PicturesPresenter extends BasePresenter<PicturesView, PictureRespon
             getView().onLoadPictures(pictureModel);
         }
     }
-
-    @Override
-    protected void onFailureRetrieved(Call<PictureResponse> call, Throwable throwable) {
-
-    }
-
-    public void toggle() {
-
-    }
 }

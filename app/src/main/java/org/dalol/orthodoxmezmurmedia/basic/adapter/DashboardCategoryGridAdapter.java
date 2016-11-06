@@ -29,7 +29,7 @@ import com.bumptech.glide.Glide;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ItemViewHolder;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

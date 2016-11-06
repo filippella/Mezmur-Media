@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.dalol.orthodoxmezmurmedia.R;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ItemViewHolder;
 import org.dalol.model.churches.Church;
 
 import java.util.ArrayList;

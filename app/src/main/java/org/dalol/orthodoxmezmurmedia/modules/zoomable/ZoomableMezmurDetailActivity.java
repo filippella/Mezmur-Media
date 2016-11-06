@@ -18,7 +18,6 @@ package org.dalol.orthodoxmezmurmedia.modules.zoomable;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -26,7 +25,6 @@ import android.webkit.WebView;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
-import org.dalol.orthodoxmezmurmedia.modules.details.MezmurDetailActivity;
 
 import butterknife.BindView;
 
@@ -37,7 +35,8 @@ import butterknife.BindView;
  */
 public class ZoomableMezmurDetailActivity extends BaseActivity {
 
-    public static final String MEZMUR_DETAIL = "mezmur_detail";
+    public static final String KEY_CONTENT_TO_LOAD = "org.dalol.orthodoxmezmurmedia.modules.zoomable.load.CONTENT";
+    public static final String KEY_CONTENT_TITLE = "org.dalol.orthodoxmezmurmedia.modules.zoomable.load.TITLE";
 
     @BindView(R.id.web_view_zoomable_data) protected WebView web_view;
 
@@ -47,13 +46,13 @@ public class ZoomableMezmurDetailActivity extends BaseActivity {
 
         showHome();
 
-        String mezmur_detail = intent.getStringExtra(MEZMUR_DETAIL);
+        String contentToLoad = intent.getStringExtra(KEY_CONTENT_TO_LOAD);
+        setTitle(intent.getStringExtra(KEY_CONTENT_TITLE));
 
         String html = "<!doctype html><html><head><meta charset=\"UTF-8\">" +
-                "<link rel=\"stylesheet\" href=\"style.css\"></head><body><div align=\"center\"><pre>"+mezmur_detail+"</pre></div></body></html>";
-
-        //String head = "<head><style>@font-face {font-family: 'verdana';src: url('file://"+ getFilesDir().getAbsolutePath()+ "/verdana.ttf');}body {font-family: 'verdana';}</style></head>";
-        //String htmlData= "<html>"+head+"<body>"+data+"</body></html>" ;
+                "<link rel=\"stylesheet\" href=\"style.css\"></head>" +
+                "<body><div align=\"center\">" + contentToLoad + "</div></body>" +
+                "</html>";
 
         if (web_view != null) {
             WebSettings settings = web_view.getSettings();
@@ -68,7 +67,7 @@ public class ZoomableMezmurDetailActivity extends BaseActivity {
             settings.setUseWideViewPort(true);
             //settings.setTextZoom(200);
             //settings.setDefaultFontSize(26);
-            web_view.loadDataWithBaseURL(null,html, "text/html", "UTF-8", null);
+            web_view.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             //web_view.loadData(html, "text/html", "UTF-8");
         }
     }
@@ -97,11 +96,6 @@ public class ZoomableMezmurDetailActivity extends BaseActivity {
     @Override
     protected int getContentView() {
         return R.layout.activity_zoomable_detail;
-    }
-
-    @Override
-    protected void resolveDependency() {
-
     }
 
     @Override

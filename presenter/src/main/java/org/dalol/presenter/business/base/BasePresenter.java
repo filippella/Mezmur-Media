@@ -106,6 +106,11 @@ public abstract class BasePresenter<V extends BaseView, R> implements Presenter 
 
     protected void onFailureRetrieved(Call<R> call, Throwable throwable) {
         //handled by child or consumed
+        V view = getView();
+        if (view != null) {
+            view.onHideDialog();
+            view.onShowToast(throwable.getMessage());
+        }
     }
 
     @Nullable public V getView() {

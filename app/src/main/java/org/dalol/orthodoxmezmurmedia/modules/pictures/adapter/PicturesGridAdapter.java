@@ -28,7 +28,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.dalol.orthodoxmezmurmedia.R;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ItemViewHolder;
 import org.dalol.presenter.presentation.common.OnPictureOptionSelectListener;
 import org.dalol.model.miscellaneous.ItemView;
 import org.dalol.model.miscellaneous.ProgressInfo;

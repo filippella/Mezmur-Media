@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import org.dalol.model.expandable.ExpandableMenu;
 import org.dalol.model.expandable.ExpandableType;
 import org.dalol.model.expandable.ExpandedState;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ChildViewHolder;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ParentViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ChildViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ParentViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

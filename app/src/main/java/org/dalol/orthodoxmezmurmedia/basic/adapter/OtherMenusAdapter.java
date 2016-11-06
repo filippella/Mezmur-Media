@@ -11,8 +11,8 @@ import android.widget.Toast;
 import org.dalol.model.expandable.ExpandableMenu;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.binders.OtherMenusInfo;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ChildViewHolder;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ParentViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ChildViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ParentViewHolder;
 import org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity;
 
 /**

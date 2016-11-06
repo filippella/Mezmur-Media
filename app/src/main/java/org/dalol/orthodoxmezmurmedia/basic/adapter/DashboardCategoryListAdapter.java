@@ -30,7 +30,7 @@ import com.bumptech.glide.Glide;
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.binders.MezmurCategoryInfo;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ItemViewHolder;
 import org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity;
 
 import java.util.ArrayList;

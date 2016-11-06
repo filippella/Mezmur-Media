@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.dalol.orthodoxmezmurmedia.R;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ItemViewHolder;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>

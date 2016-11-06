@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import org.dalol.model.mezmur.MezmurListItem;
 import org.dalol.orthodoxmezmurmedia.R;
-import org.dalol.orthodoxmezmurmedia.basic.holder.ItemViewHolder;
+import org.dalol.orthodoxmezmurmedia.basic.common.ItemViewHolder;
 import org.dalol.orthodoxmezmurmedia.modules.zoomable.ZoomableMezmurDetailActivity;
 
 import java.util.ArrayList;
@@ -43,7 +43,8 @@ public class MezmurSearchListAdapter extends RecyclerView.Adapter<ItemViewHolder
                 Context context = child.getContext();
                 Toast.makeText(context, "Clicked on position -> " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ZoomableMezmurDetailActivity.class);
-                intent.putExtra(ZoomableMezmurDetailActivity.MEZMUR_DETAIL, "Zoomable mezmur content");
+                intent.putExtra(ZoomableMezmurDetailActivity.KEY_CONTENT_TO_LOAD, "Zoomable mezmur content");
+                intent.putExtra(ZoomableMezmurDetailActivity.KEY_CONTENT_TITLE, "Zoomable mezmur content");
                 context.startActivity(intent);
             }
         });

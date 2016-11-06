@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -48,6 +47,7 @@ import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerDashboardComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.DashboardModule;
 import org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity;
+import org.dalol.orthodoxmezmurmedia.modules.feed.RSSFeedActivity;
 import org.dalol.orthodoxmezmurmedia.modules.help.HelpActivity;
 import org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
@@ -135,7 +135,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_help, menu);
+        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -145,6 +145,8 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
             return true;
         } else if(item.getItemId() == R.id.action_help) {
             startActivity(new Intent(MezmurDashboardActivity.this, HelpActivity.class));
+        } else if(item.getItemId() == R.id.action_rss_feed) {
+            startActivity(new Intent(MezmurDashboardActivity.this, RSSFeedActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -180,7 +182,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
                 case R.id.menu_favourites:
                     mDashboardHandler.sendEmptyMessageDelayed(MENU_FAVOURITES.getIndex(), PROCESS_MENU_DELAY_MILLIS);
                     return true;
-//                case R.id.menu_help:
+//                case R.id.menu_dashboard:
 //                    mDashboardHandler.sendEmptyMessageDelayed(MENU_HELP.getIndex(), PROCESS_MENU_DELAY_MILLIS);
 //                    return true;
                 case R.id.menu_settings:

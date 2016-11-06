@@ -13,7 +13,7 @@
         android:largeHeap="true"
         android:hardwareAccelerated="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.splash.SplashActivity"
+        <activity android:name=".modules.splash.SplashActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,24 +24,25 @@
             </intent-filter>
 
         </activity>
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.home.MezmurDashboardActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.help.HelpActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.player.MezmursPlayer" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.details.MezmurDetailActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurSearchActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.mezmur.MezmurListsActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.zoomable.ZoomableMezmurDetailActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.chat.ChatActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.churches.ChurchListActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity">
+        <activity android:name=".modules.home.MezmurDashboardActivity" />
+        <activity android:name=".modules.help.HelpActivity" />
+        <activity android:name=".modules.player.MezmursPlayer" />
+        <activity android:name=".modules.details.MezmurDetailActivity" />
+        <activity android:name=".modules.mezmur.MezmurSearchActivity" />
+        <activity android:name=".modules.mezmur.MezmurListsActivity" />
+        <activity android:name=".modules.zoomable.ZoomableMezmurDetailActivity" />
+        <activity android:name=".modules.settings.SettingsActivity" />
+        <activity android:name=".modules.chat.ChatActivity" />
+        <activity android:name=".modules.churches.ChurchListActivity" />
+        <activity android:name=".modules.pictures.PicturesActivity">
 
         </activity>
 
 
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.pictures.ViewPictureActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.favourites.FavouritesActivity" />
-        <activity android:name="org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity" />
+        <activity android:name=".modules.pictures.ViewPictureActivity" />
+        <activity android:name=".modules.favourites.FavouritesActivity" />
+        <activity android:name=".modules.holybooks.HolyBooksActivity" />
+        <activity android:name=".modules.feed.RSSFeedActivity" />
 
         <uses-library android:required="false" android:name="com.sec.android.app.multiwindow" />
         <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/>

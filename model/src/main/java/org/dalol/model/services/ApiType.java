@@ -23,5 +23,5 @@ package org.dalol.model.services;
  */
 public enum ApiType {
 
-    PICTURE
+    PICTURE, RSS_FEED
 }
