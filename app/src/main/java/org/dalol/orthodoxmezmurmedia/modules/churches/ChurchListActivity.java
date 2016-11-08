@@ -18,30 +18,28 @@ package org.dalol.orthodoxmezmurmedia.modules.churches;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.dalol.model.churches.Church;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
 import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerChurchesComponent;
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.ChurchesModule;
 import org.dalol.orthodoxmezmurmedia.modules.churches.adapter.ChurchListAdapter;
-import org.dalol.orthodoxmezmurmedia.utilities.custom.HidingScrollListener;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
-import org.dalol.model.churches.Church;
 import org.dalol.presenter.business.churches.ChurchesPresenter;
 import org.dalol.presenter.presentation.churches.ChurchesView;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 
@@ -53,7 +51,7 @@ import butterknife.BindView;
 public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implements ChurchesView {
 
     @BindView(R.id.recycler_view_church_location_list) protected RecyclerView mChurchLocationList;
-    @BindView(R.id.fab) protected FloatingActionButton mFabButton;
+    @BindView(R.id.editText_church_search_quesry) protected EditText mChurchSearchFileld;
     private EditText searchEditText;
     private ChurchListAdapter mChurchesAdapter;
 
@@ -66,28 +64,23 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
         mChurchesAdapter = new ChurchListAdapter(getLayoutInflater());
         mChurchLocationList.setAdapter(mChurchesAdapter);
         mChurchLocationList.addItemDecoration(new RecyclerListItemMarginDecorator(getResources().getDimensionPixelSize(R.dimen.church_list_item_margin_size)));
-        mChurchLocationList.addOnScrollListener(new HidingScrollListener() {
+        getPresenter().onViewReady();
+        mChurchSearchFileld.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onHide() {
-                hideViews();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public void onShow() {
-                showViews();
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mChurchesAdapter.filter(s.toString());
             }
         });
-        getPresenter().onViewReady();
-    }
-
-    private void hideViews() {
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
-        int fabBottomMargin = lp.bottomMargin;
-        mFabButton.animate().translationY(mFabButton.getHeight()+fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
-    }
-
-    private void showViews() {
-        mFabButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     @Override
@@ -196,8 +189,6 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
 
     @Override
     public void onLoadChurches(Church[] churches) {
-        for (Church church : churches) {
-            mChurchesAdapter.addChurch(church);
-        }
+        mChurchesAdapter.addChurches(Arrays.asList(churches));
     }
 }
