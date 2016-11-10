@@ -23,10 +23,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.dalol.model.churches.Church;
@@ -36,12 +38,14 @@ import org.dalol.orthodoxmezmurmedia.basic.di.components.DaggerChurchesComponent
 import org.dalol.orthodoxmezmurmedia.basic.di.modules.ChurchesModule;
 import org.dalol.orthodoxmezmurmedia.modules.churches.adapter.ChurchListAdapter;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
+import org.dalol.orthodoxmezmurmedia.utilities.widgets.AmharicKeyboardView;
 import org.dalol.presenter.business.churches.ChurchesPresenter;
 import org.dalol.presenter.presentation.churches.ChurchesView;
 
 import java.util.Arrays;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -51,9 +55,12 @@ import butterknife.BindView;
 public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implements ChurchesView {
 
     @BindView(R.id.recycler_view_church_location_list) protected RecyclerView mChurchLocationList;
-    @BindView(R.id.editText_church_search_quesry) protected EditText mChurchSearchFileld;
+    @BindView(R.id.editText_church_search_query) protected EditText mChurchSearchFileld;
+    @BindView(R.id.church_change_eyboard_input) protected ImageView mChangeInput;
+
     private EditText searchEditText;
     private ChurchListAdapter mChurchesAdapter;
+    private AmharicKeyboardView myKeyboardView;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
@@ -81,6 +88,14 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
                 mChurchesAdapter.filter(s.toString());
             }
         });
+        myKeyboardView = new AmharicKeyboardView(this);
+        myKeyboardView.setEditText(mChurchSearchFileld);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        boolean keyBoardStatus = myKeyboardView.dispatchKeyEvent(event);
+        return keyBoardStatus ? keyBoardStatus : super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -107,6 +122,13 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
             case R.id.action_nearest_church:
                 Toast.makeText(ChurchListActivity.this, "Nearest Location..", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_church_change_keyboard:
+                if(myKeyboardView.isShowing()) {
+                    myKeyboardView.hideMyKeyboard();
+                } else {
+                    myKeyboardView.showMyKeyboard();
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -114,6 +136,11 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
     @Override
     protected int getContentView() {
         return R.layout.activity_church_list;
+    }
+
+    @OnClick(R.id.church_change_eyboard_input)
+    void onChangeKeyboardClick() {
+
     }
 
 //    @Override

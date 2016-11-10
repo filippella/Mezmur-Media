@@ -45,7 +45,7 @@
             android:padding="8dp">
 
             <EditText
-                android:id="@+id/editText_church_search_quesry"
+                android:id="@+id/editText_church_search_query"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/search_edit_text_bg"
@@ -60,7 +60,7 @@
                 android:textColorHint="@color/gray" />
 
             <ImageView
-                android:id="@+id/changeKeyboardInput"
+                android:id="@+id/church_change_eyboard_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

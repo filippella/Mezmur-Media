@@ -21,4 +21,10 @@
         android:icon="@mipmap/ic_location_on_white_24dp"
         android:title="@string/action_nearest_church"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_church_change_keyboard"
+        android:icon="@mipmap/ic_keyboard_hide_white_24dp"
+        android:title="@string/action_nearest_church"
+        app:showAsAction="always" />
 </menu>
