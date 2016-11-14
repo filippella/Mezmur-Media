@@ -89,7 +89,7 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
             }
         });
         myKeyboardView = new AmharicKeyboardView(this);
-        myKeyboardView.setEditText(mChurchSearchFileld);
+        myKeyboardView.handleEditText(mChurchSearchFileld);
     }
 
     @Override

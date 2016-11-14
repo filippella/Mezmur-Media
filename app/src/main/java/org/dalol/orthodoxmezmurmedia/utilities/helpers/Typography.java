@@ -21,13 +21,9 @@ package org.dalol.orthodoxmezmurmedia.utilities.helpers;
  * @version 1.0.0
  * @since 11/10/2016
  */
-public interface ITypography {
+public interface Typography {
 
     String getTypography();
-
-    String getPronounciation();
-
-    char getFidelUnicode();
 
     int getColumnCount();
 

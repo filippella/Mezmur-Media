@@ -41,24 +41,17 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.utilities.common.KeyboardUtils;
-import org.dalol.orthodoxmezmurmedia.utilities.custom.AmharicTextView;
-import org.dalol.orthodoxmezmurmedia.utilities.helpers.ITypography;
-import org.dalol.orthodoxmezmurmedia.utilities.helpers.KeyTypography;
+import org.dalol.orthodoxmezmurmedia.utilities.keyboard.AmharicKeyboardManager;
+import org.dalol.orthodoxmezmurmedia.utilities.keyboard.KeyboardKey;
+import org.dalol.orthodoxmezmurmedia.utilities.keyboard.KeyboardRow;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
@@ -69,24 +62,16 @@ public class AmharicKeyboardView extends LinearLayout {
 
     private static final String TAG = AmharicKeyboardView.class.getSimpleName();
 
-    private static final Map<ITypography, List<ITypography>> KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1 = new ConcurrentHashMap<>();
-    private static final Map<ITypography, List<ITypography>> KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_2 = new HashMap<>();
-    private static final Map<ITypography, List<ITypography>> KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_3 = new HashMap<>();
-    private static final Map<ITypography, List<ITypography>> KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_4 = new HashMap<>();
-
     private static final float PORTRAIT_HEIGHT_SCALE = 2.56f;
     private static final int LANDSCAPE_HEIGHT_SCALE = 2;
 
     private Window mWindow;
     private Activity mActivity;
     private ViewGroup mRootView;
-    private boolean showing;
-
-    private char[] mAmharicChars = {'\u134A', '\u120A', '\u1356'};
+    private boolean mShowing;
 
     private int mKeyboardHeight;
     private EditText mEditText;
-    private List<View> mModifierViews = new ArrayList<>();
     private LinearLayout modifiersContainer;
     private Typeface mGeezTypeface;
 
@@ -122,26 +107,20 @@ public class AmharicKeyboardView extends LinearLayout {
      */
     private void initialize(Context context) {
         verifyInitMode();
-        Collections.synchronizedMap(KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1);
         mActivity = (Activity) context;
         mWindow = mActivity.getWindow();
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-//        setBackgroundColor(Color.parseColor("#3b494c"));
         setOrientation(VERTICAL);
-        setGravity(Gravity.CENTER);
         setVisibility(GONE);
         setWillNotDraw(true);
-        //setBackgroundColor(Color.parseColor("#474745"));
-//        setBackgroundColor(Color.parseColor("#636363"));
 //        setBackgroundColor(Color.parseColor("#44546A"));
 //        setBackgroundColor(Color.parseColor("#526A76"));
-        //setBackgroundColor(Color.parseColor("#3299FF"));
+        setBackgroundColor(Color.parseColor("#3299FF"));
 //        setBackgroundColor(Color.parseColor("#666666"));
         //setBackgroundColor(Color.parseColor("#DADBE0"));
 
-
         mGeezTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf");
-        setBackgroundColor(Color.parseColor("#000000"));
+        //setBackgroundColor(Color.parseColor("#206CC3"));
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,153 +160,77 @@ public class AmharicKeyboardView extends LinearLayout {
 
         modifiersContainer = new LinearLayout(getContext());
         modifiersContainer.setOrientation(HORIZONTAL);
-        modifiersContainer.setBackgroundColor(Color.parseColor("#636363"));
+        modifiersContainer.setBackgroundColor(Color.parseColor("#384248"));
         modifiersContainer.setGravity(Gravity.CENTER);
         addView(modifiersContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
 
-        populateCharactersRow(KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1, keyHeight);
-        populateCharactersRow(KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1, keyHeight);
-        populateCharactersRow(KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1, keyHeight);
-        populateCharactersRow(KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1, keyHeight);
 
-
-//        for (Map.Entry<String, String> entry : test.entrySet()) {
-//            entry.getKey();
-//            entry.getValue();
-//        }
-
-//        populateCharactersRow(keyHeight);
-//        populateCharactersRow(keyHeight);
-//        populateCharactersRow(keyHeight);
-//        populateCharactersRow(keyHeight);
+        AmharicKeyboardManager manager = new AmharicKeyboardManager();
+        List<KeyboardRow> properties = manager.getProperties();
+        for (int i = 0; i < properties.size(); i++) {
+            KeyboardRow keyboardRow = properties.get(i);
+            populateKeyboardRow(keyboardRow, keyHeight);
+        }
     }
 
-    private void populateCharactersRow(Map<ITypography, List<ITypography>> typographyListMap, int keyHeight) {
-
+    private void populateKeyboardRow(KeyboardRow keyboardRow, int keyHeight) {
         LinearLayout keyContainer = new LinearLayout(getContext());
         keyContainer.setOrientation(HORIZONTAL);
+        keyContainer.setPadding(5, 0, 5, 0);
         keyContainer.setGravity(Gravity.CENTER);
 
+        List<KeyboardKey> keyList = keyboardRow.getKeyList();
+        if (keyList != null) {
+            for (int i = 0; i < keyList.size(); i++) {
+                KeyboardKey keyboardKey = keyList.get(i);
 
-        for (Map.Entry<ITypography, List<ITypography>> listEntry : typographyListMap.entrySet()) {
-
-            ITypography key = listEntry.getKey();
-            List<ITypography> value = listEntry.getValue();
-
-            Button child = new Button(getContext());
-            child.setText(Character.toString(key.getFidelUnicode()));
-            child.setTextSize(16f);
-            child.setGravity(Gravity.CENTER);
-            child.setTypeface(mGeezTypeface);
-            child.setTag(value);
-
-            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
-            //child.setVisibility(GONE);
-            child.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    processKeyInput((Button) v);
-                    Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
+                if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
+                    Button child = new Button(getContext());
+                    child.setText(keyboardKey.getCharCode());
+                    child.setTextSize(15f);
+                    child.setTextColor(Color.WHITE);
+                    child.setGravity(Gravity.CENTER);
+                    child.setTypeface(mGeezTypeface);
+                    child.setTag(keyboardKey);
+                    handleChild(child, keyboardKey.getColumnCount(), keyContainer);
+                } else if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE) {
+                    ImageView child = new ImageView(getContext());
+                    child.setImageResource(keyboardKey.getCommandImage());
+                    child.setPadding(25, 25, 25, 25);
+                    child.setTag(keyboardKey);
+                    handleChild(child, keyboardKey.getColumnCount(), keyContainer);
                 }
-            });
-
-            FrameLayout childContainer = new FrameLayout(getContext());
-            childContainer.setPadding(4, 4, 4, 4);
-
-            FrameLayout.LayoutParams childParams =
-                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-            childParams.gravity = Gravity.CENTER;
-
-            childContainer.addView(child, childParams);
-
-            LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.weight = key.getColumnCount();
-            params.gravity = Gravity.CENTER;
-            keyContainer.addView(childContainer, params);
-
+            }
         }
         addView(keyContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
     }
 
-
-    private void populateCharactersRow(int keyHeight) {
-        LinearLayout keyContainer = new LinearLayout(getContext());
-        keyContainer.setOrientation(HORIZONTAL);
-        keyContainer.setGravity(Gravity.CENTER);
-
-        for (int i = 0; i < 11; i++) {
-            Button child = new Button(getContext());
-            child.setText(Integer.toString(new Random().nextInt(10)));
-            child.setTextSize(16f);
-            child.setGravity(Gravity.CENTER);
-            child.setTypeface(mGeezTypeface);
-
-            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
-            //child.setVisibility(GONE);
-            child.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
+    private void handleChild(View child, int columnCount, LinearLayout keyContainer) {
+        child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
+        //child.setVisibility(GONE);
+        child.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KeyboardKey tag = (KeyboardKey) v.getTag();
+                if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
                     processKeyInput((Button) v);
-                    Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
+                } else if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE) {
+                    int start = mEditText.getSelectionStart();
+                    if (start == 0) return;
+                    mEditText.getText().delete(start - 1, start);
+                    if (start == 1) modifiersContainer.removeAllViews();
                 }
-            });
+                Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-            FrameLayout childContainer = new FrameLayout(getContext());
-            childContainer.setPadding(4, 4, 4, 4);
-
-            FrameLayout.LayoutParams childParams =
-                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-            childParams.gravity = Gravity.CENTER;
-
-            childContainer.addView(child, childParams);
-
-            LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.weight = 1;
-            params.gravity = Gravity.CENTER;
-            keyContainer.addView(childContainer, params);
-        }
-
-        addView(keyContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
+        LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.setMargins(5, 5, 5, 5);
+        params.weight = columnCount;
+        keyContainer.addView(child, params);
     }
 
-    private void populateKeys(int keyHeight) {
-
-        LinearLayout modifiersContainer = new LinearLayout(getContext());
-        modifiersContainer.setOrientation(HORIZONTAL);
-        modifiersContainer.setBackgroundColor(Color.parseColor("#636363"));
-        modifiersContainer.setGravity(Gravity.CENTER);
-
-        for (int i = 0; i < 0; i++) {
-            AmharicTextView child = new AmharicTextView(getContext());
-            child.setText(Integer.toString(new Random().nextInt(10)));
-            child.setTextSize(16f);
-            child.setGravity(Gravity.CENTER);
-//            FrameLayout.LayoutParams childParams =
-//                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//            childParams.gravity = Gravity.CENTER;
-            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
-            //child.setVisibility(GONE);
-            child.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-//            FrameLayout childContainer = new FrameLayout(getContext());
-//            childContainer.setPadding(6, 6, 6, 6);
-//            childContainer.addView(child);
-            LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            if (i == 6) params.weight = 2;
-            else params.weight = 1;
-            params.gravity = Gravity.CENTER;
-            params.setMargins(4, 4, 4, 4);
-            modifiersContainer.addView(child, params);
-        }
-        addView(modifiersContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
-    }
-
-    public void setEditText(EditText editText) {
+    public void handleEditText(EditText editText) {
         mEditText = editText;
         mEditText.setOnTouchListener(new View.OnTouchListener() {
 
@@ -365,117 +268,71 @@ public class AmharicKeyboardView extends LinearLayout {
 
             editableText.insert(start, button.getText());
 
-            List<ITypography> tag = (List<ITypography>) button.getTag();
-            handleTags(tag);
+            KeyboardKey tag = (KeyboardKey) button.getTag();
+
+            List<String> modifierList = tag.getKeyModifiers();
+            handleTags(modifierList);
             //handleKeyTouchExtra();
             //playClick(0);
             //mKeyClickListener.onTextChanged(editableText.toString());
         }
     }
 
-    private void handleTags(List<ITypography> typographyList) {
+    private void handleTags(List<String> typographyList) {
         modifiersContainer.removeAllViews();
 
         for (int i = 0; i < typographyList.size(); i++) {
-            ITypography typography = typographyList.get(i);
+            String typography = typographyList.get(i);
             Button child = new Button(getContext());
-            child.setText(Character.toString(typography.getFidelUnicode()));
-            child.setTextSize(16f);
+            child.setText(typography);
+            //child.setTextColor(Color.parseColor("#FF5722"));
+            child.setTextColor(Color.WHITE);
+            //child.setBackgroundColor(Color.parseColor("#3FBCEF"));
+            child.setIncludeFontPadding(false);
+            child.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.keyboard_modifierkey_bg));
+            child.setTextSize(15f);
             child.setGravity(Gravity.CENTER);
-            child.setTypeface(mGeezTypeface);
+            child.setTypeface(mGeezTypeface, Typeface.BOLD);
 
-//            FrameLayout.LayoutParams childParams =
-//                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//            childParams.gravity = Gravity.CENTER;
-            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
-            //child.setVisibility(GONE);
             child.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    Button button = (Button) v;
+
+                    if (!mEditText.isFocused()) mEditText.requestFocus();
+                    Editable editableText = mEditText.getText();
+                    int start = mEditText.getSelectionStart();
+                    if (start == -1) return;
+
+
+                    //Object tag = button.getTag();
+
+                    editableText.insert(start, button.getText());
+
                     Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
                 }
             });
 
-//            FrameLayout childContainer = new FrameLayout(getContext());
-//            childContainer.setPadding(6, 6, 6, 6);
-//            childContainer.addView(child);
             LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.weight = typography.getColumnCount();
-            params.gravity = Gravity.CENTER;
-            params.setMargins(4, 4, 4, 4);
+            params.weight = 1;
+            params.setMargins(5, 5, 5, 5);
             modifiersContainer.addView(child, params);
         }
     }
-
-    private void handleKeyTouchExtra() {
-        modifiersContainer.removeAllViews();
-        int rand = new Random().nextInt(8);
-        for (int i = 0; i < rand; i++) {
-            AmharicTextView child = new AmharicTextView(getContext());
-            child.setText(Integer.toString(new Random().nextInt(10)));
-            child.setTextSize(16f);
-            child.setGravity(Gravity.CENTER);
-//            FrameLayout.LayoutParams childParams =
-//                    new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//            childParams.gravity = Gravity.CENTER;
-            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
-            //child.setVisibility(GONE);
-            child.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-//            FrameLayout childContainer = new FrameLayout(getContext());
-//            childContainer.setPadding(6, 6, 6, 6);
-//            childContainer.addView(child);
-            LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            if (i == 6) params.weight = 2;
-            else params.weight = 1;
-            params.gravity = Gravity.CENTER;
-            params.setMargins(4, 4, 4, 4);
-            modifiersContainer.addView(child, params);
-        }
-    }
-
-    private void handleKeyTouch() {
-        for (View view : mModifierViews) {
-            view.setVisibility(VISIBLE);
-            AmharicTextView textView = (AmharicTextView) view;
-            textView.setText(Character.toString(mAmharicChars[new Random().nextInt(mAmharicChars.length - 1)]));
-        }
-    }
-
-//    private void playClick(int keyCode) {
-//        AudioManager am = (AudioManager) getContext().getSystemService(AUDIO_SERVICE);
-//        switch (keyCode) {
-//            case 32:
-//                am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);
-//                break;
-//            case Keyboard.KEYCODE_DONE:
-//            case 10:
-//                am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN);
-//                break;
-//            case Keyboard.KEYCODE_DELETE:
-//                am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);
-//                break;
-//            default:
-//                am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
-//        }
-//    }
 
     public boolean isShowing() {
-        return showing;
+        return mShowing;
     }
 
     public void showMyKeyboard() {
-        if (showing) return;
+        if (mShowing) return;
         handleLayoutParams();
         setVisibility(VISIBLE);
         animateKeyboard(mKeyboardHeight, 0);
         mRootView.addView(AmharicKeyboardView.this);
-        showing = true;
+        mShowing = true;
     }
 
     private void handleLayoutParams() {
@@ -488,15 +345,15 @@ public class AmharicKeyboardView extends LinearLayout {
 
     public void hideMyKeyboard() {
         animateKeyboard(0, mKeyboardHeight);
-        mRootView.removeView(AmharicKeyboardView.this);
         setVisibility(GONE);
-        showing = false;
+        mRootView.removeView(AmharicKeyboardView.this);
+        mShowing = false;
     }
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean keyEventConsumed = false;
-        if (showing) {
+        if (mShowing) {
             hideMyKeyboard();
             keyEventConsumed = true;
         }
@@ -511,7 +368,7 @@ public class AmharicKeyboardView extends LinearLayout {
      */
     private void animateKeyboard(float from, float to) {
         Animation animation = new TranslateAnimation(0, 0, from, to);
-        animation.setDuration(150L);
+        animation.setDuration(250L);
         animation.setFillAfter(false);
         startAnimation(animation);
     }
@@ -532,118 +389,5 @@ public class AmharicKeyboardView extends LinearLayout {
                 mKeyboardHeight = Math.round(displayMetrics.heightPixels / LANDSCAPE_HEIGHT_SCALE);
                 break;
         }
-    }
-
-    static {
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.HA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.HA,
-                KeyTypography.HU,
-                KeyTypography.HI,
-                KeyTypography.HAA,
-                KeyTypography.HEE,
-                KeyTypography.HE,
-                KeyTypography.HO,
-                KeyTypography.HOA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.LA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.LA,
-                KeyTypography.LU,
-                KeyTypography.LI,
-                KeyTypography.LAA,
-                KeyTypography.LEE,
-                KeyTypography.LE,
-                KeyTypography.LO,
-                KeyTypography.LWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.HHA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.HHA,
-                KeyTypography.HHU,
-                KeyTypography.HHI,
-                KeyTypography.HHAA,
-                KeyTypography.HHEE,
-                KeyTypography.HHE,
-                KeyTypography.HHO,
-                KeyTypography.HHWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.MA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.MA,
-                KeyTypography.MU,
-                KeyTypography.MI,
-                KeyTypography.MAA,
-                KeyTypography.MEE,
-                KeyTypography.ME,
-                KeyTypography.MO,
-                KeyTypography.MWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.SZA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.SZA,
-                KeyTypography.SZU,
-                KeyTypography.SZI,
-                KeyTypography.SZAA,
-                KeyTypography.SZEE,
-                KeyTypography.SZE,
-                KeyTypography.SZO,
-                KeyTypography.SZWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.RA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.RA,
-                KeyTypography.RU,
-                KeyTypography.RI,
-                KeyTypography.RAA,
-                KeyTypography.REE,
-                KeyTypography.RE,
-                KeyTypography.RO,
-                KeyTypography.RWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.SA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.SA,
-                KeyTypography.SU,
-                KeyTypography.SI,
-                KeyTypography.SAA,
-                KeyTypography.SEE,
-                KeyTypography.SE,
-                KeyTypography.SO,
-                KeyTypography.SWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.SHA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.SHA,
-                KeyTypography.SHU,
-                KeyTypography.SHI,
-                KeyTypography.SHAA,
-                KeyTypography.SHEE,
-                KeyTypography.SHE,
-                KeyTypography.SHO,
-                KeyTypography.SHWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.QA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.QA,
-                KeyTypography.QU,
-                KeyTypography.QI,
-                KeyTypography.QAA,
-                KeyTypography.QEE,
-                KeyTypography.QE,
-                KeyTypography.QO,
-                KeyTypography.QWAA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.BA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.BA,
-                KeyTypography.BU,
-                KeyTypography.BI,
-                KeyTypography.BAA,
-                KeyTypography.BEE,
-                KeyTypography.BE,
-                KeyTypography.BO,
-                KeyTypography.BWA
-        )));
-        KEYBOARD_TYPOGRAPHY_LIST_MAP_ROW_1.put(KeyTypography.VA, new ArrayList<ITypography>(Arrays.asList(
-                KeyTypography.VA,
-                KeyTypography.VU,
-                KeyTypography.VI,
-                KeyTypography.VAA,
-                KeyTypography.VEE,
-                KeyTypography.VE,
-                KeyTypography.VO,
-                KeyTypography.VWA
-        )));
     }
 }

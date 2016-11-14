@@ -14,35 +14,25 @@
  * limitations under the License.
  */
 
-package org.dalol.orthodoxmezmurmedia.utilities.helpers;
+package org.dalol.orthodoxmezmurmedia.utilities.keyboard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
- * @since 11/10/2016
+ * @since 11/14/2016
  */
-public interface ITypography {
+public class KeyboardRow {
 
-    String getTypography();
+    private List<KeyboardKey> keyList = new ArrayList<>();
 
-    String getPronounciation();
+    public void addKeyboardKey(KeyboardKey key) {
+        keyList.add(key);
+    }
 
-    char getFidelUnicode();
-
-    int getColumnCount();
-
-    int getResourceId();
-
-    KeyEventType getKeyEventType();
-
-    enum KeyEventType {
-
-        KEY_EVENT_NORMAL,
-        KEY_EVENT_DELETE,
-        KEY_EVENT_CANCEL,
-        KEY_EVENT_ENTER,
-        KEY_EVENT_CHANGE_KEYBOARD,
-        KEY_EVENT_BACKSPACE,
-        KEY_EVENT_SPACE
+    public List<KeyboardKey> getKeyList() {
+        return keyList;
     }
 }
