@@ -87,12 +87,11 @@ public class AmharicKeyboardManager {
         fourthRow.addKeyboardKey(new KeyboardKey(PA.getCharCode(), PA.getModifierList(), 1, KeyboardKey.KEY_EVENT_NORMAL, 0));
         fourthRow.addKeyboardKey(new KeyboardKey(AM_NUMBERS_ONE_TO_TEN.getCharCode(), AM_NUMBERS_ONE_TO_TEN.getModifierList(), 1, KeyboardKey.KEY_EVENT_NORMAL, 0));
         fourthRow.addKeyboardKey(new KeyboardKey(AM_NUMBERS_TWENTY_TO_TEN_THOUSAND.getCharCode(), AM_NUMBERS_TWENTY_TO_TEN_THOUSAND.getModifierList(), 1, KeyboardKey.KEY_EVENT_NORMAL, 0));
+        fourthRow.addKeyboardKey(new KeyboardKey(" ", EMPTY_LIST, 3, KeyboardKey.KEY_EVENT_SPACE, R.mipmap.ic_space_bar_white_24dp));
         fourthRow.addKeyboardKey(new KeyboardKey(SYMBOLS.getCharCode(), SYMBOLS.getModifierList(), 1, KeyboardKey.KEY_EVENT_NORMAL, 0));
-        fourthRow.addKeyboardKey(new KeyboardKey("space", EMPTY_LIST, 2, KeyboardKey.KEY_EVENT_BACKSPACE, R.mipmap.ic_space_bar_white_24dp));
         fourthRow.addKeyboardKey(new KeyboardKey(EN_NUMBERS_ONE_TO_TEN.getCharCode(), EN_NUMBERS_ONE_TO_TEN.getModifierList(), 1, KeyboardKey.KEY_EVENT_NORMAL, 0));
-        fourthRow.addKeyboardKey(new KeyboardKey("nl", EMPTY_LIST, 1, KeyboardKey.KEY_EVENT_BACKSPACE, 0));
-        fourthRow.addKeyboardKey(new KeyboardKey("hid", EMPTY_LIST, 1, KeyboardKey.KEY_EVENT_BACKSPACE, 0));
-        fourthRow.addKeyboardKey(new KeyboardKey("EN", EMPTY_LIST, 1, KeyboardKey.KEY_EVENT_BACKSPACE, R.mipmap.ic_filter_search));
+        fourthRow.addKeyboardKey(new KeyboardKey("\n", EMPTY_LIST, 1, KeyboardKey.KEY_NEW_LINE, R.mipmap.ic_subdirectory_arrow_left_white_24dp));
+        fourthRow.addKeyboardKey(new KeyboardKey("hide", EMPTY_LIST, 1, KeyboardKey.KEY_HIDE_KEYBOARD, R.mipmap.ic_keyboard_hide_white_24dp));
 
         keyboardRows.add(firstRow);
         keyboardRows.add(secondRow);

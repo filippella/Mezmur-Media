@@ -24,10 +24,14 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -74,6 +78,10 @@ public class AmharicKeyboardView extends LinearLayout {
     private EditText mEditText;
     private LinearLayout modifiersContainer;
     private Typeface mGeezTypeface;
+    private Runnable mCallBack;
+    private boolean processing;
+    private boolean enableModifierFlag;
+    private boolean shouldVibrate;
 
     public AmharicKeyboardView(Context context) {
         this(context, null, 0);
@@ -100,6 +108,10 @@ public class AmharicKeyboardView extends LinearLayout {
         handleLayoutParams();
     }
 
+    public void setShouldVibrate(boolean shouldVibrate) {
+        this.shouldVibrate = shouldVibrate;
+    }
+
     /**
      * This method is used to setup the various object configurations
      *
@@ -115,7 +127,11 @@ public class AmharicKeyboardView extends LinearLayout {
         setWillNotDraw(true);
 //        setBackgroundColor(Color.parseColor("#44546A"));
 //        setBackgroundColor(Color.parseColor("#526A76"));
-        setBackgroundColor(Color.parseColor("#3299FF"));
+//        setBackgroundColor(Color.parseColor("#D2D5DB"));
+//        setBackgroundColor(Color.parseColor("#A1A6AA"));
+        //setBackgroundColor(Color.parseColor("#EDEEF0"));
+        setBackgroundColor(Color.parseColor("#a1a6aa"));
+        //setBackgroundColor(Color.parseColor("#3299FF"));
 //        setBackgroundColor(Color.parseColor("#666666"));
         //setBackgroundColor(Color.parseColor("#DADBE0"));
 
@@ -160,8 +176,29 @@ public class AmharicKeyboardView extends LinearLayout {
 
         modifiersContainer = new LinearLayout(getContext());
         modifiersContainer.setOrientation(HORIZONTAL);
-        modifiersContainer.setBackgroundColor(Color.parseColor("#384248"));
+//        modifiersContainer.setBackgroundColor(Color.parseColor("#384248"));
+//        modifiersContainer.setBackgroundColor(Color.parseColor("#B7BFCA"));
+        //modifiersContainer.setBackgroundColor(Color.parseColor("#8A97A7"));
+        modifiersContainer.setBackgroundColor(Color.parseColor("#7996ad"));
         modifiersContainer.setGravity(Gravity.CENTER);
+        modifiersContainer.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (event.getAction()) {
+                    case KeyEvent.ACTION_UP:
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            Toast.makeText(getContext(), "Clicked back!", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
+        modifiersContainer.setFocusableInTouchMode(true);
+        modifiersContainer.requestFocus();
         addView(modifiersContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
 
 
@@ -174,27 +211,31 @@ public class AmharicKeyboardView extends LinearLayout {
     }
 
     private void populateKeyboardRow(KeyboardRow keyboardRow, int keyHeight) {
-        LinearLayout keyContainer = new LinearLayout(getContext());
+        Context context = getContext();
+        LinearLayout keyContainer = new LinearLayout(context);
         keyContainer.setOrientation(HORIZONTAL);
-        keyContainer.setPadding(5, 0, 5, 0);
+        //keyContainer.setPadding(5, 0, 5, 0);
         keyContainer.setGravity(Gravity.CENTER);
 
         List<KeyboardKey> keyList = keyboardRow.getKeyList();
         if (keyList != null) {
             for (int i = 0; i < keyList.size(); i++) {
                 KeyboardKey keyboardKey = keyList.get(i);
-
                 if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
-                    Button child = new Button(getContext());
+                    Button child = new Button(context);
                     child.setText(keyboardKey.getCharCode());
                     child.setTextSize(15f);
-                    child.setTextColor(Color.WHITE);
+                    child.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
                     child.setGravity(Gravity.CENTER);
                     child.setTypeface(mGeezTypeface);
                     child.setTag(keyboardKey);
                     handleChild(child, keyboardKey.getColumnCount(), keyContainer);
-                } else if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE) {
-                    ImageView child = new ImageView(getContext());
+                } else if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE ||
+                        keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_SPACE ||
+                        keyboardKey.getKeyCommand() == KeyboardKey.KEY_NEW_LINE ||
+                        keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_ENTER ||
+                        keyboardKey.getKeyCommand() == KeyboardKey.KEY_HIDE_KEYBOARD) {
+                    ImageView child = new ImageView(context);
                     child.setImageResource(keyboardKey.getCommandImage());
                     child.setPadding(25, 25, 25, 25);
                     child.setTag(keyboardKey);
@@ -206,29 +247,112 @@ public class AmharicKeyboardView extends LinearLayout {
     }
 
     private void handleChild(View child, int columnCount, LinearLayout keyContainer) {
-        child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.circle_key_bg));
+        child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.amharic_key_bg));
         //child.setVisibility(GONE);
-        child.setOnClickListener(new OnClickListener() {
+
+        child.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                KeyboardKey tag = (KeyboardKey) v.getTag();
-                if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
-                    processKeyInput((Button) v);
-                } else if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE) {
-                    int start = mEditText.getSelectionStart();
-                    if (start == 0) return;
-                    mEditText.getText().delete(start - 1, start);
-                    if (start == 1) modifiersContainer.removeAllViews();
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.d(TAG, "processing... down");
+                        if(shouldVibrate) {
+                            Vibrator vb = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                            vb.vibrate(20);
+                        }
+                        downView = v;
+                        handler.removeCallbacks(handlerRunnable);
+                        handler.postAtTime(handlerRunnable, downView, SystemClock.uptimeMillis() + initialInterval);
+                        //clickListener.onClick(v);
+
+                       break;
+                    case MotionEvent.ACTION_MOVE:
+                        Log.d(TAG, "processing... move");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_OUTSIDE:
+                        Log.d(TAG, "processing... up or cancel");
+                        handler.removeCallbacksAndMessages(downView);
+                        downView = null;
+                        normalInterval = 100;
+                        break;
                 }
-                Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
+
+        child.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+        child.setOnClickListener(clickListener);
 
         LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins(5, 5, 5, 5);
         params.weight = columnCount;
         keyContainer.addView(child, params);
     }
+
+    private final View.OnClickListener clickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            boolean skipDelete = false;
+
+            if (mEditText.hasSelection()) {
+                // if true, the text in the EditText is selected
+
+                int startSelection=mEditText.getSelectionStart();
+                int endSelection=mEditText.getSelectionEnd();
+
+                Editable editable = mEditText.getText();
+                editable.delete(startSelection, endSelection);
+
+                skipDelete = true;
+            }
+
+            KeyboardKey tag = (KeyboardKey) v.getTag();
+            if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
+                processKeyInput((Button) v);
+                enableModifierFlag = true;
+            } else if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE && !skipDelete) {
+                int start = mEditText.getSelectionStart();
+                if (start == 0) return;
+                mEditText.getText().delete(start - 1, start);
+                if (start == 1) modifiersContainer.removeAllViews();
+            } else if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_SPACE ||
+                    tag.getKeyCommand() == KeyboardKey.KEY_NEW_LINE) {
+                int start = mEditText.getSelectionStart();
+                mEditText.getText().insert(start, tag.getCharCode());
+            } else if (tag.getKeyCommand() == KeyboardKey.KEY_HIDE_KEYBOARD) {
+                hideMyKeyboard();
+            }
+
+            //Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private View downView;
+    private int normalInterval = 100;
+    private final int initialInterval = 400;
+    private Handler handler = new Handler();
+
+    private Runnable handlerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (downView == null) {
+                return;
+            }
+            handler.removeCallbacksAndMessages(downView);
+            handler.postAtTime(this, downView, SystemClock.uptimeMillis() + normalInterval);
+            clickListener.onClick(downView);
+            if(normalInterval > 50) {
+                normalInterval -= 10;
+            }
+        }
+    };
 
     public void handleEditText(EditText editText) {
         mEditText = editText;
@@ -306,10 +430,17 @@ public class AmharicKeyboardView extends LinearLayout {
                     int start = mEditText.getSelectionStart();
                     if (start == -1) return;
 
+                    if(enableModifierFlag) {
+                        enableModifierFlag = false;
+                        editableText.replace(start-1, start, button.getText());
+                    } else {
+                        editableText.insert(start, button.getText());
+                    }
+
 
                     //Object tag = button.getTag();
 
-                    editableText.insert(start, button.getText());
+                   // editableText.insert(start, button.getText());
 
                     Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
                 }

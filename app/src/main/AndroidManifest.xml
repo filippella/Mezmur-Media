@@ -3,6 +3,7 @@
     package="org.dalol.orthodoxmezmurmedia">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="org.dalol.orthodoxmezmurmedia.application.MezmurApplication"

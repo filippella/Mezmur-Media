@@ -92,11 +92,11 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
         myKeyboardView.handleEditText(mChurchSearchFileld);
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        boolean keyBoardStatus = myKeyboardView.dispatchKeyEvent(event);
-        return keyBoardStatus ? keyBoardStatus : super.dispatchKeyEvent(event);
-    }
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        boolean keyBoardStatus = myKeyboardView.dispatchKeyEvent(event);
+//        return keyBoardStatus ? keyBoardStatus : super.dispatchKeyEvent(event);
+//    }
 
     @Override
     protected void resolveDependency() {
@@ -217,5 +217,14 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
     @Override
     public void onLoadChurches(Church[] churches) {
         mChurchesAdapter.addChurches(Arrays.asList(churches));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(myKeyboardView.isShowing()) {
+            myKeyboardView.hideMyKeyboard();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
