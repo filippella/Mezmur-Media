@@ -23,7 +23,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -56,7 +55,7 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
 
     @BindView(R.id.recycler_view_church_location_list) protected RecyclerView mChurchLocationList;
     @BindView(R.id.editText_church_search_query) protected EditText mChurchSearchFileld;
-    @BindView(R.id.church_change_eyboard_input) protected ImageView mChangeInput;
+    @BindView(R.id.church_change_keyboard_input) protected ImageView mChangeInput;
 
     private EditText searchEditText;
     private ChurchListAdapter mChurchesAdapter;
@@ -120,14 +119,16 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
                 finish();
                 return true;
             case R.id.action_nearest_church:
+                myKeyboardView.clearControl();
                 Toast.makeText(ChurchListActivity.this, "Nearest Location..", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_church_change_keyboard:
-                if(myKeyboardView.isShowing()) {
-                    myKeyboardView.hideMyKeyboard();
-                } else {
-                    myKeyboardView.showMyKeyboard();
-                }
+                myKeyboardView.gainControl();
+//                if(myKeyboardView.isShowing()) {
+//                    myKeyboardView.hideCustomKeyboard();
+//                } else {
+//                    myKeyboardView.showCustomKeyboard();
+//                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -138,7 +139,7 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
         return R.layout.activity_church_list;
     }
 
-    @OnClick(R.id.church_change_eyboard_input)
+    @OnClick(R.id.church_change_keyboard_input)
     void onChangeKeyboardClick() {
 
     }
@@ -222,7 +223,7 @@ public class ChurchListActivity extends BaseActivity<ChurchesPresenter> implemen
     @Override
     public void onBackPressed() {
         if(myKeyboardView.isShowing()) {
-            myKeyboardView.hideMyKeyboard();
+            myKeyboardView.hideCustomKeyboard();
         } else {
             super.onBackPressed();
         }

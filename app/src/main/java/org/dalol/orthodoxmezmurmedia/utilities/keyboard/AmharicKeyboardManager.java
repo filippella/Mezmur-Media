@@ -32,7 +32,7 @@ public class AmharicKeyboardManager {
 
     private List<String> EMPTY_LIST = new ArrayList<>();
 
-    public List<KeyboardRow> getProperties() {
+    public List<KeyboardRow> getKeyboardStructure() {
 
         List<KeyboardRow> keyboardRows = new ArrayList<>();
 

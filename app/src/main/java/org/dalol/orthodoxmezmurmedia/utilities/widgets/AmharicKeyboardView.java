@@ -31,9 +31,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,12 +41,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.utilities.common.KeyboardUtils;
@@ -68,6 +66,8 @@ public class AmharicKeyboardView extends LinearLayout {
 
     private static final float PORTRAIT_HEIGHT_SCALE = 2.56f;
     private static final int LANDSCAPE_HEIGHT_SCALE = 2;
+    private static final int ROW_COUNT = 5;
+    private final static int INITIAL_INTERVAL = 400;
 
     private Window mWindow;
     private Activity mActivity;
@@ -77,14 +77,23 @@ public class AmharicKeyboardView extends LinearLayout {
     private int mKeyboardHeight;
     private EditText mEditText;
     private LinearLayout modifiersContainer;
-    private Typeface mGeezTypeface;
-    private Runnable mCallBack;
-    private boolean processing;
-    private boolean enableModifierFlag;
+    private Typeface mCharTypeface;
+
+    private boolean mEnableModifierFlag;
     private boolean shouldVibrate;
+    private List<KeyboardRow> mKeyboardRows;
+
+    private View mPressedKeyView;
+    private int mNormalInterval = 100;
+    private Handler mHandler = new Handler();
 
     public AmharicKeyboardView(Context context) {
         this(context, null, 0);
+    }
+
+    public AmharicKeyboardView(Context context, List<KeyboardRow> keyboardRows) {
+        super(context);
+        initialize(context, keyboardRows);
     }
 
     public AmharicKeyboardView(Context context, AttributeSet attrs) {
@@ -93,19 +102,25 @@ public class AmharicKeyboardView extends LinearLayout {
 
     public AmharicKeyboardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize(context);
+        AmharicKeyboardManager manager = new AmharicKeyboardManager();
+        initialize(context, manager.getKeyboardStructure());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public AmharicKeyboardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initialize(context);
+        AmharicKeyboardManager manager = new AmharicKeyboardManager();
+        initialize(context, manager.getKeyboardStructure());
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         handleLayoutParams();
+    }
+
+    public void setCharTypeface(Typeface typeface) {
+        mCharTypeface = typeface;
     }
 
     public void setShouldVibrate(boolean shouldVibrate) {
@@ -115,9 +130,11 @@ public class AmharicKeyboardView extends LinearLayout {
     /**
      * This method is used to setup the various object configurations
      *
-     * @param context can be also referenced through {@link #getContext()}
+     * @param context      can be also referenced through {@link #getContext()}
+     * @param keyboardRows
      */
-    private void initialize(Context context) {
+    private void initialize(Context context, List<KeyboardRow> keyboardRows) {
+        mKeyboardRows = keyboardRows;
         verifyInitMode();
         mActivity = (Activity) context;
         mWindow = mActivity.getWindow();
@@ -125,24 +142,9 @@ public class AmharicKeyboardView extends LinearLayout {
         setOrientation(VERTICAL);
         setVisibility(GONE);
         setWillNotDraw(true);
-//        setBackgroundColor(Color.parseColor("#44546A"));
-//        setBackgroundColor(Color.parseColor("#526A76"));
-//        setBackgroundColor(Color.parseColor("#D2D5DB"));
-//        setBackgroundColor(Color.parseColor("#A1A6AA"));
-        //setBackgroundColor(Color.parseColor("#EDEEF0"));
         setBackgroundColor(Color.parseColor("#a1a6aa"));
-        //setBackgroundColor(Color.parseColor("#3299FF"));
-//        setBackgroundColor(Color.parseColor("#666666"));
-        //setBackgroundColor(Color.parseColor("#DADBE0"));
 
-        mGeezTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf");
-        //setBackgroundColor(Color.parseColor("#206CC3"));
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked on the keyboard layout!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //mCharTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf");
         mRootView = (ViewGroup) mWindow.getDecorView().findViewById(android.R.id.content);
         mRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -155,7 +157,14 @@ public class AmharicKeyboardView extends LinearLayout {
                         viewTreeObserver.removeGlobalOnLayoutListener(this);
                     }
                 }
-                createKeyboard();
+                createKeyboard(mKeyboardRows);
+            }
+        });
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //Consume event[intercept touch for not letting pass and click views under the keyboard]
+                return true;
             }
         });
     }
@@ -166,46 +175,20 @@ public class AmharicKeyboardView extends LinearLayout {
         }
     }
 
-    private void createKeyboard() {
+    private void createKeyboard(List<KeyboardRow> keyboardRows) {
         removeAllViews();
         resolveKeyboardHeight();
 
-        int ROW = 5;
-
-        int keyHeight = Math.round(mKeyboardHeight / ROW);
+        int keyHeight = Math.round(mKeyboardHeight / ROW_COUNT);
 
         modifiersContainer = new LinearLayout(getContext());
         modifiersContainer.setOrientation(HORIZONTAL);
-//        modifiersContainer.setBackgroundColor(Color.parseColor("#384248"));
-//        modifiersContainer.setBackgroundColor(Color.parseColor("#B7BFCA"));
-        //modifiersContainer.setBackgroundColor(Color.parseColor("#8A97A7"));
         modifiersContainer.setBackgroundColor(Color.parseColor("#7996ad"));
         modifiersContainer.setGravity(Gravity.CENTER);
-        modifiersContainer.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                switch (event.getAction()) {
-                    case KeyEvent.ACTION_UP:
-                        if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            Toast.makeText(getContext(), "Clicked back!", Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
-        modifiersContainer.setFocusableInTouchMode(true);
-        modifiersContainer.requestFocus();
         addView(modifiersContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
 
-
-        AmharicKeyboardManager manager = new AmharicKeyboardManager();
-        List<KeyboardRow> properties = manager.getProperties();
-        for (int i = 0; i < properties.size(); i++) {
-            KeyboardRow keyboardRow = properties.get(i);
+        for (int i = 0; i < keyboardRows.size(); i++) {
+            KeyboardRow keyboardRow = keyboardRows.get(i);
             populateKeyboardRow(keyboardRow, keyHeight);
         }
     }
@@ -214,7 +197,6 @@ public class AmharicKeyboardView extends LinearLayout {
         Context context = getContext();
         LinearLayout keyContainer = new LinearLayout(context);
         keyContainer.setOrientation(HORIZONTAL);
-        //keyContainer.setPadding(5, 0, 5, 0);
         keyContainer.setGravity(Gravity.CENTER);
 
         List<KeyboardKey> keyList = keyboardRow.getKeyList();
@@ -222,14 +204,18 @@ public class AmharicKeyboardView extends LinearLayout {
             for (int i = 0; i < keyList.size(); i++) {
                 KeyboardKey keyboardKey = keyList.get(i);
                 if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
-                    Button child = new Button(context);
-                    child.setText(keyboardKey.getCharCode());
-                    child.setTextSize(15f);
-                    child.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
+                    TextView child = new TextView(context);
                     child.setGravity(Gravity.CENTER);
-                    child.setTypeface(mGeezTypeface);
+                    if (mCharTypeface != null) {
+                        child.setTypeface(mCharTypeface, Typeface.BOLD);
+                    }
+                    child.setText(keyboardKey.getCharCode());
+                    //child.setTextSize(15f);
+                    child.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
                     child.setTag(keyboardKey);
-                    handleChild(child, keyboardKey.getColumnCount(), keyContainer);
+                    child.setIncludeFontPadding(false);
+                    keyContainer.setBaselineAligned(false);
+                    handleChild(child, keyboardKey.getColumnCount(), keyContainer, keyHeight);
                 } else if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE ||
                         keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_SPACE ||
                         keyboardKey.getKeyCommand() == KeyboardKey.KEY_NEW_LINE ||
@@ -237,218 +223,175 @@ public class AmharicKeyboardView extends LinearLayout {
                         keyboardKey.getKeyCommand() == KeyboardKey.KEY_HIDE_KEYBOARD) {
                     ImageView child = new ImageView(context);
                     child.setImageResource(keyboardKey.getCommandImage());
-                    child.setPadding(25, 25, 25, 25);
+                    int padding = getCustomSize(6);
+                    child.setPadding(padding, padding, padding, padding);
                     child.setTag(keyboardKey);
-                    handleChild(child, keyboardKey.getColumnCount(), keyContainer);
+                    handleChild(child, keyboardKey.getColumnCount(), keyContainer, keyHeight);
                 }
             }
         }
-        addView(keyContainer, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, keyHeight));
+        addView(keyContainer, new LayoutParams(LayoutParams.MATCH_PARENT, keyHeight));
     }
 
-    private void handleChild(View child, int columnCount, LinearLayout keyContainer) {
-        child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.amharic_key_bg));
-        //child.setVisibility(GONE);
+    private int getCustomSize(float size) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics()));
+    }
 
+    private void handleChild(View child, int columnCount, LinearLayout keyContainer, int keyHeight) {
+        child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.amharic_key_bg));
         child.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.d(TAG, "processing... down");
-                        if(shouldVibrate) {
+                        if (shouldVibrate) {
                             Vibrator vb = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                            vb.vibrate(20);
+                            if (vb != null) {
+                                vb.vibrate(20);
+                            }
                         }
-                        downView = v;
-                        handler.removeCallbacks(handlerRunnable);
-                        handler.postAtTime(handlerRunnable, downView, SystemClock.uptimeMillis() + initialInterval);
-                        //clickListener.onClick(v);
-
-                       break;
-                    case MotionEvent.ACTION_MOVE:
-                        Log.d(TAG, "processing... move");
+                        mPressedKeyView = v;
+                        mHandler.removeCallbacks(mKeyPressRunnable);
+                        mHandler.postAtTime(mKeyPressRunnable, mPressedKeyView, SystemClock.uptimeMillis() + INITIAL_INTERVAL);
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
                     case MotionEvent.ACTION_OUTSIDE:
-                        Log.d(TAG, "processing... up or cancel");
-                        handler.removeCallbacksAndMessages(downView);
-                        downView = null;
-                        normalInterval = 100;
+                        mHandler.removeCallbacksAndMessages(mPressedKeyView);
+                        mPressedKeyView = null;
+                        mNormalInterval = 100;
                         break;
                 }
                 return false;
             }
         });
-
-        child.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
         child.setOnClickListener(clickListener);
-
-        LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(5, 5, 5, 5);
-        params.weight = columnCount;
+        int margin = getCustomSize(1.5f);
+        int tempKeyHeight = keyHeight - (margin * 2);
+        LayoutParams params = new LayoutParams(0, tempKeyHeight, columnCount);
+        params.setMargins(margin, margin, margin, margin);
         keyContainer.addView(child, params);
     }
 
     private final View.OnClickListener clickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (mEditText == null) {
+                return;
+            }
             boolean skipDelete = false;
-
             if (mEditText.hasSelection()) {
-                // if true, the text in the EditText is selected
-
-                int startSelection=mEditText.getSelectionStart();
-                int endSelection=mEditText.getSelectionEnd();
-
+                int startSelection = mEditText.getSelectionStart();
+                int endSelection = mEditText.getSelectionEnd();
                 Editable editable = mEditText.getText();
                 editable.delete(startSelection, endSelection);
-
                 skipDelete = true;
             }
-
             KeyboardKey tag = (KeyboardKey) v.getTag();
             if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
-                processKeyInput((Button) v);
-                enableModifierFlag = true;
+                processKeyInput((TextView) v);
+                mEnableModifierFlag = true;
             } else if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE && !skipDelete) {
                 int start = mEditText.getSelectionStart();
                 if (start == 0) return;
                 mEditText.getText().delete(start - 1, start);
-                if (start == 1) modifiersContainer.removeAllViews();
+                if (mEditText.getText().toString().isEmpty()) modifiersContainer.removeAllViews();
             } else if (tag.getKeyCommand() == KeyboardKey.KEY_EVENT_SPACE ||
                     tag.getKeyCommand() == KeyboardKey.KEY_NEW_LINE) {
                 int start = mEditText.getSelectionStart();
                 mEditText.getText().insert(start, tag.getCharCode());
             } else if (tag.getKeyCommand() == KeyboardKey.KEY_HIDE_KEYBOARD) {
-                hideMyKeyboard();
-            }
-
-            //Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    private View downView;
-    private int normalInterval = 100;
-    private final int initialInterval = 400;
-    private Handler handler = new Handler();
-
-    private Runnable handlerRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (downView == null) {
-                return;
-            }
-            handler.removeCallbacksAndMessages(downView);
-            handler.postAtTime(this, downView, SystemClock.uptimeMillis() + normalInterval);
-            clickListener.onClick(downView);
-            if(normalInterval > 50) {
-                normalInterval -= 10;
+                hideCustomKeyboard();
             }
         }
     };
 
     public void handleEditText(EditText editText) {
         mEditText = editText;
-        mEditText.setOnTouchListener(new View.OnTouchListener() {
+        if (mEditText == null) {
+            throw new NullPointerException("EditText should not be null!");
+        }
+        initializeEditText();
+    }
+
+    private void initializeEditText() {
+        mEditText.setOnTouchListener(new OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.onTouchEvent(event);
                 KeyboardUtils.hideSoftKeyboard(mActivity, v);
-                showMyKeyboard();
+                showCustomKeyboard();
                 return true;
             }
         });
 
-        mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    showMyKeyboard();
+                    showCustomKeyboard();
                 } else {
-                    hideMyKeyboard();
+                    hideCustomKeyboard();
                 }
             }
         });
     }
 
-
-    private void processKeyInput(Button button) {
+    private void processKeyInput(TextView textView) {
         if (mEditText != null) {
             if (!mEditText.isFocused()) mEditText.requestFocus();
             Editable editableText = mEditText.getText();
             int start = mEditText.getSelectionStart();
             if (start == -1) return;
-
-
-            //Object tag = button.getTag();
-
-            editableText.insert(start, button.getText());
-
-            KeyboardKey tag = (KeyboardKey) button.getTag();
-
+            editableText.insert(start, textView.getText());
+            KeyboardKey tag = (KeyboardKey) textView.getTag();
             List<String> modifierList = tag.getKeyModifiers();
-            handleTags(modifierList);
-            //handleKeyTouchExtra();
-            //playClick(0);
-            //mKeyClickListener.onTextChanged(editableText.toString());
+            handleModifiers(modifierList);
         }
     }
 
-    private void handleTags(List<String> typographyList) {
+    private void handleModifiers(List<String> typographyList) {
         modifiersContainer.removeAllViews();
 
         for (int i = 0; i < typographyList.size(); i++) {
             String typography = typographyList.get(i);
-            Button child = new Button(getContext());
+            TextView child = new TextView(getContext());
             child.setText(typography);
-            //child.setTextColor(Color.parseColor("#FF5722"));
             child.setTextColor(Color.WHITE);
-            //child.setBackgroundColor(Color.parseColor("#3FBCEF"));
             child.setIncludeFontPadding(false);
             child.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.keyboard_modifierkey_bg));
             child.setTextSize(15f);
             child.setGravity(Gravity.CENTER);
-            child.setTypeface(mGeezTypeface, Typeface.BOLD);
+            //child.setTypeface(mCharTypeface, Typeface.BOLD);
 
             child.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Button button = (Button) v;
+                    if (mEditText == null) {
+                        return;
+                    }
+                    TextView textView = (TextView) v;
 
                     if (!mEditText.isFocused()) mEditText.requestFocus();
                     Editable editableText = mEditText.getText();
                     int start = mEditText.getSelectionStart();
                     if (start == -1) return;
 
-                    if(enableModifierFlag) {
-                        enableModifierFlag = false;
-                        editableText.replace(start-1, start, button.getText());
+                    CharSequence textViewText = textView.getText();
+                    if (mEnableModifierFlag) {
+                        mEnableModifierFlag = false;
+                        editableText.replace(start - 1, start, textViewText);
                     } else {
-                        editableText.insert(start, button.getText());
+                        editableText.insert(start, textViewText);
                     }
-
-
-                    //Object tag = button.getTag();
-
-                   // editableText.insert(start, button.getText());
-
-                    Toast.makeText(getContext(), "Test", Toast.LENGTH_SHORT).show();
                 }
             });
 
-            LayoutParams params = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.weight = 1;
-            params.setMargins(5, 5, 5, 5);
+            LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1);
+            int margin = getCustomSize(1.5f);
+            params.setMargins(margin, margin, margin, margin);
             modifiersContainer.addView(child, params);
         }
     }
@@ -457,7 +400,7 @@ public class AmharicKeyboardView extends LinearLayout {
         return mShowing;
     }
 
-    public void showMyKeyboard() {
+    public void showCustomKeyboard() {
         if (mShowing) return;
         handleLayoutParams();
         setVisibility(VISIBLE);
@@ -474,22 +417,27 @@ public class AmharicKeyboardView extends LinearLayout {
         setLayoutParams(params);
     }
 
-    public void hideMyKeyboard() {
+    public void hideCustomKeyboard() {
         animateKeyboard(0, mKeyboardHeight);
         setVisibility(GONE);
         mRootView.removeView(AmharicKeyboardView.this);
         mShowing = false;
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        boolean keyEventConsumed = false;
-        if (mShowing) {
-            hideMyKeyboard();
-            keyEventConsumed = true;
+    private Runnable mKeyPressRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mPressedKeyView == null) {
+                return;
+            }
+            mHandler.removeCallbacksAndMessages(mPressedKeyView);
+            mHandler.postAtTime(this, mPressedKeyView, SystemClock.uptimeMillis() + mNormalInterval);
+            clickListener.onClick(mPressedKeyView);
+            if (mNormalInterval > 50) {
+                mNormalInterval -= 10;
+            }
         }
-        return keyEventConsumed;
-    }
+    };
 
     /**
      * This method is used to animate the keyboard up and down
@@ -520,5 +468,24 @@ public class AmharicKeyboardView extends LinearLayout {
                 mKeyboardHeight = Math.round(displayMetrics.heightPixels / LANDSCAPE_HEIGHT_SCALE);
                 break;
         }
+    }
+
+    public void clearControl() {
+        if (mEditText == null) {
+            throw new NullPointerException("EditText should not be null!");
+        }
+        mEditText.setOnTouchListener(null);
+        mEditText.setOnFocusChangeListener(null);
+        hideCustomKeyboard();
+        KeyboardUtils.showSoftKeyboard(mActivity, mEditText);
+    }
+
+    public void gainControl() {
+        if (mEditText == null) {
+            throw new NullPointerException("EditText should not be null!");
+        }
+        KeyboardUtils.hideSoftKeyboard(mActivity, mEditText);
+        initializeEditText();
+        showCustomKeyboard();
     }
 }
