@@ -133,6 +133,17 @@ public abstract class BaseActivity<P extends BasePresenter<? extends BaseView, ?
     protected void replaceFragmentWithCustomAnimation(int containerId, Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.trans_left_in, R.anim.trans_left_out, R.anim.trans_right_in, R.anim.trans_right_out);
+        //transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+        transaction.replace(containerId, fragment);
+        transaction.commit();
+    }
+
+    protected void replaceFragmentWithCustomAnimation(int containerId, Fragment fragment, int animEnter, int animExit,
+                                                      int animPopIn, int animaPopOut) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.setCustomAnimations(R.anim.trans_left_in, R.anim.trans_left_out, R.anim.trans_right_in, R.anim.trans_right_out);
+        //transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+        transaction.setCustomAnimations(animEnter, animExit, animPopIn, animaPopOut);
         transaction.replace(containerId, fragment);
         transaction.commit();
     }

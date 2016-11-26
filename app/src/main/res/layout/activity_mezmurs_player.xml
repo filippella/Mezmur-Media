@@ -7,8 +7,8 @@
 
     <include layout="@layout/toolbar_layout" />
 
-    <org.dalol.orthodoxmezmurmedia.utilities.widgets.ZoomableWebView
-        android:id="@+id/mezmur_lyrics_content"
+    <FrameLayout
+        android:id="@+id/mezmur_player_content_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="3dp"

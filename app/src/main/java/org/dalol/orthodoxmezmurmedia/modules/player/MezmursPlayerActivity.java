@@ -6,15 +6,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import org.dalol.model.callback.OnPlayerMenuClickListener;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseActivity;
-import org.dalol.orthodoxmezmurmedia.utilities.widgets.ZoomableWebView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,9 +22,8 @@ import butterknife.OnClick;
  * @version 1.0.0
  * @since 10/29/2016
  */
-public class MezmursPlayerActivity extends BaseActivity {
+public class MezmursPlayerActivity extends BaseActivity implements OnPlayerMenuClickListener {
 
-    @BindView(R.id.mezmur_lyrics_content) protected ZoomableWebView mMezmurLyrics;
     @BindView(R.id.mezmur_progress_slider) protected SeekBar mMezmurProgress;
 
     @Override
@@ -36,22 +33,13 @@ public class MezmursPlayerActivity extends BaseActivity {
         setTitle("Mezmur Player");
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mMezmurProgress.getLayoutParams();
-        params.setMargins(0,0,0,0);
-        mMezmurProgress.setPadding(0,0,0,0);
+        params.setMargins(0, 0, 0, 0);
+        mMezmurProgress.setPadding(0, 0, 0, 0);
 
-        mMezmurLyrics.setContent("በጥንታዊቷ ቤተክርስትያናችን ከሚገኙና፤ ሰይጣን ዲያብሎስን ከምንዋጋበት መሣሪያዎቻችን መካከል አንዱ፤ መቁጠሪያ ነው፡፡\n" +
-                "\n" +
-                "\"በአንተ ጠላቶቻችንን እንዎጋቸዋለን በስምሀም በላያችን የቆሙትን እናዋርዳቸዋለን መዝ. 43 (44):5\"\n" +
-                "\n" +
-                "በቤተክርስቲያናችን ካህናትና በንሰሐ አባቶቻችንና በተባረከ መቁጠሪያ በእግዚአብሔር አምላከ በኢየሱስ ክርስቶስ፣ በአመቤታችን ድንገል ማርያምና በቅዱሳን መላእክት ስም፤ ሁለቱ ትከሻዎቻችንን መኃል ጀርባችንን እንዲሁም፤ ሕመም የሚሰማን ቦታ ስንቀጠቅጥ፤\n" +
-                "\n" +
-                "• የማቃጠል ወይም የመለብለብ የመውረር ወይም የመንዘር\n" +
-                "\n" +
-                "• የመበላት ወይም የማሳከክ፤ ከአንዱ ሰውነት ክፍላችን ወደ ሌላው የመዞርና እንደ ድንጋይ በድን መሆን አንዲሁም\n" +
-                "\n" +
-                "• ጭንቅላታችንን ሁለት ከፍሎ፤ የራስ ምታት ዓይነት ስሜት ከተሰማን ሰይጣን በውስጣችን አለ ማለት ነው።\n" +
-                "\n" +
-                "ስለሆነም እግዚአብሔርን መንገድ ይዘን እየፆምን እየጸለይን እየተንበረከክን እየሰገድን እና ሥጋና ደሙን አየወስደን ከላይ እንደተገለጸው በመቁጠሪያችን እየቀጠቀጥን ክፉ መንፈሶችን በመታገል የእግዚአብሔር ልጆች መሆን እንችላለን። ከእግዚአብሔርን የሰጠን የተስፋው ኃይል፤ እንዲህ ይላል፤ \"እነሆ እባቡንና ጊንጡን ትረግጡ ዘንድ፡ በጠላትም ኃይል ሁሉ ላይ ሥልጣን ሰጥቻችኋለሁ የሚጐዳችሁም ምንም የለም።ሙ ሉቃስ 10:19\"");
+        mMezmurProgress.setProgress(88);
+
+        MezmurPlayerLyricsFragment fragment = MezmurPlayerLyricsFragment.newInstance();
+        replaceFragment(R.id.mezmur_player_content_container, fragment);
     }
 
     @OnClick(R.id.start_playing_button)
@@ -83,6 +71,7 @@ public class MezmursPlayerActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         Intent intent = new Intent(this, MezmurPlayerService.class);
+        startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -93,22 +82,6 @@ public class MezmursPlayerActivity extends BaseActivity {
             unbindService(mConnection);
             mBound = false;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_mezmur_player, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_show_mezmur_queue:
-                Toast.makeText(this, "Show Mezmur Queue!", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -133,4 +106,18 @@ public class MezmursPlayerActivity extends BaseActivity {
             mBound = false;
         }
     };
+
+    @Override
+    public void onShowMezmurListFragment() {
+        MezmurListPlayerFragment fragment = MezmurListPlayerFragment.newInstance();
+        replaceFragmentWithCustomAnimation(R.id.mezmur_player_content_container, fragment,
+                R.anim.slide_in, R.anim.slide_out, R.anim.slide_down, R.anim.slide_down_and_bounce);
+    }
+
+    @Override
+    public void onShowMezmurDetailFragment() {
+        MezmurPlayerLyricsFragment fragment = MezmurPlayerLyricsFragment.newInstance();
+        replaceFragmentWithCustomAnimation(R.id.mezmur_player_content_container, fragment,
+                R.anim.slide_in, R.anim.slide_out, R.anim.slide_down, R.anim.slide_down_and_bounce);
+    }
 }

@@ -14,11 +14,14 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_swap_player_option"
-        android:icon="@mipmap/ic_queue_music_white_24dp"
-        android:title="@string/action_swap_player_option"
-        app:showAsAction="always" />
-</menu>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <org.dalol.orthodoxmezmurmedia.utilities.widgets.ZoomableWebView
+        android:id="@+id/mezmur_lyrics_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -46,7 +46,7 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
     private boolean mReceiverRegistered;
 
     // Honeycomb
-    {
+    static {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             SERVICE_CMD = "com.android.music.musicservicecommand";
             PAUSE_SERVICE_CMD = "com.android.music.musicservicecommand.pause";
@@ -76,6 +76,7 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
     @Override
     public void onCreate() {
         super.onCreate();
+
         //createPlayerIfNeeded();
 
         //play();
