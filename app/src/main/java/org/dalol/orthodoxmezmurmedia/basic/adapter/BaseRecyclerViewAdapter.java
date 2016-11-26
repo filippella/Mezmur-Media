@@ -40,7 +40,7 @@ public abstract class BaseRecyclerViewAdapter<H extends RecyclerView.ViewHolder,
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        bindHolder((H) holder);
+        bindHolder((H) holder, position);
     }
 
     @Override
@@ -54,7 +54,11 @@ public abstract class BaseRecyclerViewAdapter<H extends RecyclerView.ViewHolder,
         notifyItemInserted(capacity);
     }
 
+    public List<I> getCollections() {
+        return mCollections;
+    }
+
     protected abstract H onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType);
 
-    protected abstract void bindHolder(H holder);
+    protected abstract void bindHolder(H holder, int position);
 }

@@ -19,6 +19,7 @@ package org.dalol.orthodoxmezmurmedia.modules.player;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +29,8 @@ import org.dalol.model.callback.OnPlayerMenuClickListener;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
 import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
+
+import java.util.Collections;
 
 import butterknife.BindView;
 
@@ -39,6 +42,7 @@ import butterknife.BindView;
 public class MezmurListPlayerFragment extends BaseFragment {
 
     @BindView(R.id.mezmur_player_lists) protected RecyclerView mMezmurPlayerList;
+    private MezmurPlayerListAdapter adapter;
 
     public static MezmurListPlayerFragment newInstance() {
 
@@ -55,13 +59,22 @@ public class MezmurListPlayerFragment extends BaseFragment {
         setHasOptionsMenu(true);
         mMezmurPlayerList.setHasFixedSize(true);
         mMezmurPlayerList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        MezmurPlayerListAdapter adapter = new MezmurPlayerListAdapter();
+        adapter = new MezmurPlayerListAdapter();
 
         for(int i = 0; i < 50; i++) {
-            adapter.addItem("Filippo");
+            adapter.addItem("Filippo"+i);
         }
+
+        adapter.setDragStartListener(new MezmurPlayerListAdapter.OnHolderDragListener() {
+            @Override
+            public void onStartDrag(RecyclerView.ViewHolder holder) {
+                mTouchHelper.startDrag(holder);
+            }
+        });
+
         mMezmurPlayerList.addItemDecoration(new RecyclerListItemMarginDecorator(getResources().getDimensionPixelSize(R.dimen.mezmur_list_item_margin_size)));
         mMezmurPlayerList.setAdapter(adapter);
+        mTouchHelper.attachToRecyclerView(mMezmurPlayerList);
     }
 
     @Override
@@ -88,4 +101,22 @@ public class MezmurListPlayerFragment extends BaseFragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    ItemTouchHelper mTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            Collections.swap(adapter.getCollections(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            //No Implementation Required
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            return makeFlag(ItemTouchHelper.ACTION_STATE_DRAG, ItemTouchHelper.DOWN | ItemTouchHelper.UP);
+        }
+    });
 }

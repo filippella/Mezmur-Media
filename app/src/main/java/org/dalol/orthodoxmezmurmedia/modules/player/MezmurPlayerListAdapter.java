@@ -16,10 +16,14 @@
 
 package org.dalol.orthodoxmezmurmedia.modules.player;
 
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.adapter.BaseRecyclerViewAdapter;
@@ -37,14 +41,43 @@ public class MezmurPlayerListAdapter extends BaseRecyclerViewAdapter<MezmurPlaye
     }
 
     @Override
-    protected void bindHolder(MezmurPlayerItemViewHolder holder) {
-
+    protected void bindHolder(MezmurPlayerItemViewHolder holder, int position) {
+        String value = getCollections().get(position);
+        holder.textView.setText(value);
     }
 
     public class MezmurPlayerItemViewHolder extends RecyclerView.ViewHolder {
 
+        private ImageView dragView;
+        private TextView textView;
+
         public MezmurPlayerItemViewHolder(View itemView) {
             super(itemView);
+            this.dragView = (ImageView) itemView.findViewById(R.id.dragHandle);
+            this.textView = (TextView) itemView.findViewById(R.id.textView);
+
+            this.dragView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                        if (mDragStartListener != null) {
+                            mDragStartListener.onStartDrag(MezmurPlayerItemViewHolder.this);
+                        }
+                    }
+                    return false;
+                }
+            });
         }
+    }
+
+    public void setDragStartListener(OnHolderDragListener listener) {
+        mDragStartListener = listener;
+    }
+
+    private OnHolderDragListener mDragStartListener;
+
+    public interface OnHolderDragListener {
+
+        void onStartDrag(RecyclerView.ViewHolder holder);
     }
 }
