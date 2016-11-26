@@ -373,11 +373,10 @@ public class AmharicKeyboardView extends LinearLayout {
                         return;
                     }
                     TextView textView = (TextView) v;
-
                     if (!mEditText.isFocused()) mEditText.requestFocus();
                     Editable editableText = mEditText.getText();
                     int start = mEditText.getSelectionStart();
-                    if (start == -1) return;
+                    if (start == 0) return;
 
                     CharSequence textViewText = textView.getText();
                     if (mEnableModifierFlag) {
