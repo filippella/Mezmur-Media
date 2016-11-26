@@ -204,18 +204,16 @@ public class AmharicKeyboardView extends LinearLayout {
             for (int i = 0; i < keyList.size(); i++) {
                 KeyboardKey keyboardKey = keyList.get(i);
                 if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_NORMAL) {
-                    TextView child = new TextView(context);
-                    child.setGravity(Gravity.CENTER);
-                    if (mCharTypeface != null) {
-                        child.setTypeface(mCharTypeface, Typeface.BOLD);
-                    }
-                    child.setText(keyboardKey.getCharCode());
-                    //child.setTextSize(15f);
-                    child.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
-                    child.setTag(keyboardKey);
-                    child.setIncludeFontPadding(false);
+                    TextView key = new TextView(context);
+                    key.setGravity(Gravity.CENTER);
+                    key.setTypeface(mCharTypeface, Typeface.BOLD);
+                    key.setText(keyboardKey.getCharCode());
+                    key.setTextSize(16f);
+                    key.setTextColor(ContextCompat.getColorStateList(context, R.color.amharic_key_text_color_selector));
+                    key.setTag(keyboardKey);
+                    key.setIncludeFontPadding(false);
                     keyContainer.setBaselineAligned(false);
-                    handleChild(child, keyboardKey.getColumnCount(), keyContainer, keyHeight);
+                    handleChild(key, keyboardKey.getColumnCount(), keyContainer, keyHeight);
                 } else if (keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_BACKSPACE ||
                         keyboardKey.getKeyCommand() == KeyboardKey.KEY_EVENT_SPACE ||
                         keyboardKey.getKeyCommand() == KeyboardKey.KEY_NEW_LINE ||
@@ -356,17 +354,17 @@ public class AmharicKeyboardView extends LinearLayout {
 
         for (int i = 0; i < typographyList.size(); i++) {
             String typography = typographyList.get(i);
-            TextView child = new TextView(getContext());
-            child.setText(typography);
-            child.setTextColor(Color.WHITE);
-            child.setIncludeFontPadding(false);
-            child.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            child.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.keyboard_modifierkey_bg));
-            child.setTextSize(15f);
-            child.setGravity(Gravity.CENTER);
-            //child.setTypeface(mCharTypeface, Typeface.BOLD);
+            TextView modifierKey = new TextView(getContext());
+            modifierKey.setText(typography);
+            modifierKey.setTextColor(Color.WHITE);
+            modifierKey.setIncludeFontPadding(false);
+            modifierKey.setTypeface(mCharTypeface, Typeface.BOLD);
+            modifierKey.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            modifierKey.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.keyboard_modifierkey_bg));
+            modifierKey.setTextSize(18f);
+            modifierKey.setGravity(Gravity.CENTER);
 
-            child.setOnClickListener(new OnClickListener() {
+            modifierKey.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mEditText == null) {
@@ -391,7 +389,7 @@ public class AmharicKeyboardView extends LinearLayout {
             LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1);
             int margin = getCustomSize(1.5f);
             params.setMargins(margin, margin, margin, margin);
-            modifiersContainer.addView(child, params);
+            modifiersContainer.addView(modifierKey, params);
         }
     }
 
