@@ -263,7 +263,7 @@ public class AmharicKeyboardView extends LinearLayout {
                 return false;
             }
         });
-        child.setOnClickListener(clickListener);
+        child.setOnClickListener(mKeyClickListener);
         int margin = getCustomSize(1.5f);
         int tempKeyHeight = keyHeight - (margin * 2);
         LayoutParams params = new LayoutParams(0, tempKeyHeight, columnCount);
@@ -271,7 +271,7 @@ public class AmharicKeyboardView extends LinearLayout {
         keyContainer.addView(child, params);
     }
 
-    private final View.OnClickListener clickListener = new OnClickListener() {
+    private final View.OnClickListener mKeyClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (mEditText == null) {
@@ -429,7 +429,7 @@ public class AmharicKeyboardView extends LinearLayout {
             }
             mHandler.removeCallbacksAndMessages(mPressedKeyView);
             mHandler.postAtTime(this, mPressedKeyView, SystemClock.uptimeMillis() + mNormalInterval);
-            clickListener.onClick(mPressedKeyView);
+            mKeyClickListener.onClick(mPressedKeyView);
             if (mNormalInterval > 50) {
                 mNormalInterval -= 10;
             }
