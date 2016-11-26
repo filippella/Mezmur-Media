@@ -3,13 +3,18 @@ package org.dalol.orthodoxmezmurmedia.modules.player;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.dalol.orthodoxmezmurmedia.R;
@@ -25,20 +30,55 @@ import java.io.IOException;
 public class MezmurPlayerService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener {
 
+    private static final String TAG = MezmurPlayerService.class.getSimpleName();
+    private final IBinder mPlayerBinder = new MezmurServiceBinder();
+
+    private static final String CMD_NAME = "command";
+    private static final String CMD_PAUSE = "pause";
+    private static final String CMD_STOP = "pause";
+    private static final String CMD_PLAY = "play";
+
+    // Jellybean
+    private static String SERVICE_CMD = "com.sec.android.app.music.musicservicecommand";
+    private static String PAUSE_SERVICE_CMD = "com.sec.android.app.music.musicservicecommand.pause";
+    private static String PLAY_SERVICE_CMD = "com.sec.android.app.music.musicservicecommand.play";
+    private BroadcastReceiver mIntentReceiver;
+    private boolean mReceiverRegistered;
+
+    // Honeycomb
+    {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            SERVICE_CMD = "com.android.music.musicservicecommand";
+            PAUSE_SERVICE_CMD = "com.android.music.musicservicecommand.pause";
+            PLAY_SERVICE_CMD = "com.android.music.musicservicecommand.play";
+        }
+    };
+
     final int NOTIFICATION_ID = 1;
     private MediaPlayer mediaPlayer;
     private NotificationCompat.Builder mNotificationBuilder;
+    private boolean mAudioFocusGranted;
+    private boolean mAudioIsPlaying;
+
+    public class MezmurServiceBinder extends Binder {
+
+        MezmurPlayerService getService() {
+            return MezmurPlayerService.this;
+        }
+    }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mPlayerBinder;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        createPlayerIfNeeded();
+        //createPlayerIfNeeded();
+
+        //play();
 
         //when neccessary
 //            mediaPlayer.reset();
@@ -48,29 +88,28 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
-        if (action == null) {
-            return START_STICKY;
-        }
-        Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
-        //createPlayerIfNeeded();
-        if (action.equals("play")) {
-            if (!mediaPlayer.isPlaying()) {
-                mediaPlayer.start();
-                showNotification("Started");
+        if (action != null) {
+            Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
+            //createPlayerIfNeeded();
+            if (action.equals("play")) {
+                play();
+            } else if (action.equals("pause")) {
+                pause();
+            } else if (action.equals("stop")) {
+                stop();
             }
-        } else if (action.equals("pause")) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-                stopForeground(true);
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                mNotificationManager.cancel(NOTIFICATION_ID);
-                //notificationManager.cancel(NOTIFICATION_ID);
-            }
-        } else if (action.equals("stop")) {
-            stopPlaying();
         }
-
         return START_STICKY;
+    }
+
+    private void pausePlaying() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            stopForeground(true);
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(NOTIFICATION_ID);
+            //notificationManager.cancel(NOTIFICATION_ID);
+        }
     }
 
     private void createPlayerIfNeeded() {
@@ -109,7 +148,7 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
 
     void showNotification(String text) {
 
-        Intent playerIntent = new Intent(this, MezmursPlayer.class);
+        Intent playerIntent = new Intent(this, MezmursPlayerActivity.class);
         Intent dashboardIntent = new Intent(getApplicationContext(), MezmurDashboardActivity.class);
 
         PendingIntent pi = TaskStackBuilder.create(getApplicationContext())
@@ -174,5 +213,160 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
     @Override
     public void onPrepared(MediaPlayer mp) {
 
+    }
+
+    public void play() {
+        if (!mAudioIsPlaying) {
+            if (mediaPlayer == null) {
+                createPlayerIfNeeded();
+            }
+
+            // 1. Acquire audio focus
+            if (!mAudioFocusGranted && requestAudioFocus()) {
+                // 2. Kill off any other play back sources
+                forceMusicStop();
+                // 3. Register broadcast receiver for player intents
+                setupBroadcastReceiver();
+            }
+            // 4. Play music
+            playMezmur();
+            mAudioIsPlaying = true;
+        }
+    }
+
+    private void playMezmur() {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            showNotification("Started");
+        }
+    }
+
+    public void pause() {
+        // 1. Suspend play back
+        if (mAudioFocusGranted && mAudioIsPlaying) {
+            pausePlaying();
+            mAudioIsPlaying = false;
+        }
+    }
+
+    private void setupBroadcastReceiver() {
+        mIntentReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                String cmd = intent.getStringExtra(CMD_NAME);
+                Log.i(TAG, "mIntentReceiver.onReceive " + action + " / " + cmd);
+
+                if (PAUSE_SERVICE_CMD.equals(action)
+                        || (SERVICE_CMD.equals(action) && CMD_PAUSE.equals(cmd))) {
+                    play();
+                }
+
+                if (PLAY_SERVICE_CMD.equals(action)
+                        || (SERVICE_CMD.equals(action) && CMD_PLAY.equals(cmd))) {
+                    pause();
+                }
+            }
+        };
+
+        // Do the right thing when something else tries to play
+        if (!mReceiverRegistered) {
+            IntentFilter commandFilter = new IntentFilter();
+            commandFilter.addAction(SERVICE_CMD);
+            commandFilter.addAction(PAUSE_SERVICE_CMD);
+            commandFilter.addAction(PLAY_SERVICE_CMD);
+            registerReceiver(mIntentReceiver, commandFilter);
+            mReceiverRegistered = true;
+        }
+    }
+
+    public void stop() {
+        // 1. Stop play back
+        if (mAudioFocusGranted && mAudioIsPlaying) {
+            stopPlaying();
+            mAudioIsPlaying = false;
+            // 2. Give up audio focus
+            abandonAudioFocus();
+        }
+        stopSelf();
+    }
+
+    private boolean requestAudioFocus() {
+        if (!mAudioFocusGranted) {
+            AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            // Request audio focus for play back
+            int result = am.requestAudioFocus(mOnAudioFocusChangeListener,
+                    // Use the music stream.
+                    AudioManager.STREAM_MUSIC,
+                    // Request permanent focus.
+                    AudioManager.AUDIOFOCUS_GAIN);
+
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                mAudioFocusGranted = true;
+            } else {
+                // FAILED
+                Log.e(TAG,
+                        ">>>>>>>>>>>>> FAILED TO GET AUDIO FOCUS <<<<<<<<<<<<<<<<<<<<<<<<");
+            }
+        }
+        return mAudioFocusGranted;
+    }
+
+    private void abandonAudioFocus() {
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int result = am.abandonAudioFocus(mOnAudioFocusChangeListener);
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            mAudioFocusGranted = false;
+        } else {
+            // FAILED
+            Log.e(TAG,
+                    ">>>>>>>>>>>>> FAILED TO ABANDON AUDIO FOCUS <<<<<<<<<<<<<<<<<<<<<<<<");
+        }
+        mOnAudioFocusChangeListener = null;
+    }
+
+
+    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    Log.i(TAG, "AUDIOFOCUS_GAIN");
+                    play();
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+                    Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                    Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    Log.e(TAG, "AUDIOFOCUS_LOSS");
+                    pause();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
+                    pause();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
+                    break;
+                case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
+                    Log.e(TAG, "AUDIOFOCUS_REQUEST_FAILED");
+                    break;
+                default:
+                    //
+            }
+        }
+    };
+
+    private void forceMusicStop() {
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (am.isMusicActive()) {
+            Intent intentToStop = new Intent(SERVICE_CMD);
+            intentToStop.putExtra(CMD_NAME, CMD_STOP);
+            sendBroadcast(intentToStop);
+        }
     }
 }

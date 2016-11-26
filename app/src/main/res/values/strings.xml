@@ -10,6 +10,7 @@
     <string name="action_nearest_church">Nearest Church</string>
     <string name="action_chat_blog_logout">Logout</string>
     <string name="action_chat_profile_settings">Profile Settings</string>
+    <string name="action_show_mezmur_queue">Mezmur Queue</string>
 
     <string name="network_change_action">android.net.conn.CONNECTIVITY_CHANGE</string>
 

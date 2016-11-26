@@ -51,7 +51,7 @@ import org.dalol.orthodoxmezmurmedia.modules.feed.RSSFeedActivity;
 import org.dalol.orthodoxmezmurmedia.modules.help.HelpActivity;
 import org.dalol.orthodoxmezmurmedia.modules.holybooks.HolyBooksActivity;
 import org.dalol.orthodoxmezmurmedia.modules.pictures.PicturesActivity;
-import org.dalol.orthodoxmezmurmedia.modules.player.MezmursPlayer;
+import org.dalol.orthodoxmezmurmedia.modules.player.MezmursPlayerActivity;
 import org.dalol.orthodoxmezmurmedia.modules.settings.SettingsActivity;
 import org.dalol.orthodoxmezmurmedia.utilities.common.CommonUtils;
 import org.dalol.presenter.business.dashboard.DashboardPresenter;
@@ -214,7 +214,7 @@ public class MezmurDashboardActivity extends BaseActivity<DashboardPresenter> im
             super.handleMessage(msg);
             switch (msg.what) {
                 case MezumrConstants.KEY_JUST_MEZMURS_INDEX:
-                    startActivity(new Intent(MezmurDashboardActivity.this, MezmursPlayer.class));
+                    startActivity(new Intent(MezmurDashboardActivity.this, MezmursPlayerActivity.class));
                     break;
                 case MezumrConstants.KEY_HOLY_PICTURES_INDEX:
                     startActivity(new Intent(MezmurDashboardActivity.this, PicturesActivity.class));

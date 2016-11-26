@@ -2,27 +2,166 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#d7dce6"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_layout" />
 
-    <Button
-        android:id="@+id/start_playing_button"
+    <org.dalol.orthodoxmezmurmedia.utilities.widgets.ZoomableWebView
+        android:id="@+id/mezmur_lyrics_content"
         android:layout_width="match_parent"
-        android:text="Play"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_margin="3dp"
+        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/stop_playing_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:text="Stop"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Mezmur Player Here"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#3e5577"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="5">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_repeat_white_24dp" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_skip_previous_white_24dp" />
+
+                    <ImageView
+                        android:id="@+id/start_playing_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_play_circle_filled_white_24dp" />
+
+                    <ImageView
+                        android:id="@+id/stop_playing_button"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_skip_next_white_24dp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_shuffle_white_24dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/currentElapsed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:maxHeight="5dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/currently_playing_artist"
+                    android:ellipsize="end"
+                    android:gravity="left"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:text="00:28:56"
+                    android:textSize="12sp"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="5dp"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/currently_playing_artist"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:text="5:20"
+                    android:textSize="12sp"
+                    android:textColor="@color/white" />
+
+            </FrameLayout>
+
+            <SeekBar
+                android:id="@+id/mezmur_progress_slider"
+                style="@style/PlayerSeekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:splitTrack="false" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_blue"
+            android:minHeight="48dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <ImageView
+                android:id="@+id/download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_file_download_white_24dp"
+                android:foreground="?attr/selectableItemBackground" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/add_to_favourite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_favorite_white_24dp"
+                android:foreground="?attr/selectableItemBackground" />
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
+
+            <ImageView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_share_white_24dp"
+                android:foreground="?attr/selectableItemBackground" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
