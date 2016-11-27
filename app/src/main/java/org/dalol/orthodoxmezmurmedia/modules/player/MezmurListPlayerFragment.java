@@ -84,9 +84,7 @@ public class MezmurListPlayerFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_mezmur_player, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_swap_player_option);
-        menuItem.setIcon(R.mipmap.ic_play_arrow_white_24dp);
+        inflater.inflate(R.menu.menu_mezmur_player_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -96,7 +94,10 @@ public class MezmurListPlayerFragment extends BaseFragment {
             case R.id.action_swap_player_option:
                 OnPlayerMenuClickListener listener = (OnPlayerMenuClickListener) getActivity();
                 listener.onShowMezmurDetailFragment();
-                Toast.makeText(getContext(), "Show Mezmur Queue!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Show Mezmur Lyrics!", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_player_search_mezmur:
+                Toast.makeText(getContext(), "Show Search Mezmur!", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -75,16 +75,14 @@ public class MezmurPlayerLyricsFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_mezmur_player, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_swap_player_option);
-        menuItem.setIcon(R.mipmap.ic_queue_music_white_24dp);
+        inflater.inflate(R.menu.menu_mezmur_player_lyrics, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_swap_player_option:
+            case R.id.action_player_show_mezmur_list:
                 OnPlayerMenuClickListener listener = (OnPlayerMenuClickListener) getActivity();
                 listener.onShowMezmurListFragment();
                 Toast.makeText(getContext(), "Show Mezmur Queue!", Toast.LENGTH_SHORT).show();

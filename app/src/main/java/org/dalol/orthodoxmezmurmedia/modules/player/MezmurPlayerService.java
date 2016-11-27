@@ -1,7 +1,5 @@
 package org.dalol.orthodoxmezmurmedia.modules.player;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,40 +8,36 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.dalol.orthodoxmezmurmedia.R;
-import org.dalol.orthodoxmezmurmedia.modules.home.MezmurDashboardActivity;
-
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Filippo Engidashet <filippo.eng@gmail.com>
  * @version 1.0.0
  * @since 11/5/2016
  */
-public class MezmurPlayerService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener,
-        MediaPlayer.OnErrorListener {
+public class MezmurPlayerService extends Service implements MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
     private static final String TAG = MezmurPlayerService.class.getSimpleName();
     private final IBinder mPlayerBinder = new MezmurServiceBinder();
 
-    private static final String CMD_NAME = "command";
-    private static final String CMD_PAUSE = "pause";
-    private static final String CMD_STOP = "pause";
-    private static final String CMD_PLAY = "play";
+    public static final String PLAYER_COMMAND = "command";
+    public static final String PLAYER_COMMAND_PAUSE = "pause";
+    public static final String PLAYER_COMMAND_STOP = "stop";
+    public static final String PLAYER_COMMAND_PLAY = "play";
 
     // Jellybean
-    private static String SERVICE_CMD = "com.sec.android.app.music.musicservicecommand";
-    private static String PAUSE_SERVICE_CMD = "com.sec.android.app.music.musicservicecommand.pause";
-    private static String PLAY_SERVICE_CMD = "com.sec.android.app.music.musicservicecommand.play";
-    private BroadcastReceiver mIntentReceiver;
-    private boolean mReceiverRegistered;
+    static String SERVICE_CMD = "com.sec.android.app.music.musicservicecommand";
+    static String PAUSE_SERVICE_CMD = "com.sec.android.app.music.musicservicecommand.pause";
+    static String PLAY_SERVICE_CMD = "com.sec.android.app.music.musicservicecommand.play";
 
     // Honeycomb
     static {
@@ -52,16 +46,24 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
             PAUSE_SERVICE_CMD = "com.android.music.musicservicecommand.pause";
             PLAY_SERVICE_CMD = "com.android.music.musicservicecommand.play";
         }
-    };
+    }
 
-    final int NOTIFICATION_ID = 1;
     private MediaPlayer mediaPlayer;
     private NotificationCompat.Builder mNotificationBuilder;
     private boolean mAudioFocusGranted;
     private boolean mAudioIsPlaying;
+    private BroadcastReceiver mIntentReceiver;
+    private boolean mReceiverRegistered;
+
+    private PlayerNotificationDelegate mNotificationDelegate;
+
+    public void seekTo(int progress) {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(progress);
+        }
+    }
 
     public class MezmurServiceBinder extends Binder {
-
         MezmurPlayerService getService() {
             return MezmurPlayerService.this;
         }
@@ -77,6 +79,18 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
     public void onCreate() {
         super.onCreate();
 
+        mNotificationDelegate = new PlayerNotificationDelegate();
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setLooping(false);
+        mediaPlayer.setOnPreparedListener(MezmurPlayerService.this);
+        mediaPlayer.setOnErrorListener(MezmurPlayerService.this);
+        mediaPlayer.setOnCompletionListener(MezmurPlayerService.this);
+
+
+        //Fetch Mezmur here
+
         //createPlayerIfNeeded();
 
         //play();
@@ -88,8 +102,8 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String action = intent.getAction();
-        if (action != null) {
+        String action;
+        if (intent != null && (action = intent.getAction()) != null) {
             Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
             //createPlayerIfNeeded();
             if (action.equals("play")) {
@@ -103,123 +117,53 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
         return START_STICKY;
     }
 
-    private void pausePlaying() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            stopForeground(true);
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            mNotificationManager.cancel(NOTIFICATION_ID);
-            //notificationManager.cancel(NOTIFICATION_ID);
-        }
-    }
-
-    private void createPlayerIfNeeded() {
-        if (mediaPlayer == null) {
-            try {
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.setDataSource("https://raw.githubusercontent.com/filippella/LinksForApp/master/mezmur2.mp3");
-                mediaPlayer.setLooping(false);
-                mediaPlayer.prepareAsync();
-                //You can show progress dialog here untill it prepared to play
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        //Now dismis progress dialog, Media palyer will start playing
-                        showNotification("Started");
-                        mp.start();
-                    }
-                });
-                mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                    @Override
-                    public boolean onError(MediaPlayer mp, int what, int extra) {
-                        Toast.makeText(MezmurPlayerService.this, "Some Error Occurred!", Toast.LENGTH_SHORT).show();
-                        // dissmiss progress bar here. It will come here when MediaPlayer
-                        //  is not able to play file. You can show error message to user
-                        return false;
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            mediaPlayer.reset();
-        }
-    }
-
-    void showNotification(String text) {
-
-        Intent playerIntent = new Intent(this, MezmursPlayerActivity.class);
-        Intent dashboardIntent = new Intent(getApplicationContext(), MezmurDashboardActivity.class);
-
-        PendingIntent pi = TaskStackBuilder.create(getApplicationContext())
-                .addNextIntentWithParentStack(dashboardIntent)
-                .addNextIntent(playerIntent)
-                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mNotificationBuilder = new NotificationCompat.Builder(
-                this).setSmallIcon(R.mipmap.ic_launcher)
-                .addAction(R.mipmap.ic_call_white_24dp, "play", getPendingAction("play"))
-                .addAction(R.mipmap.ic_play_arrow_white_24dp, "pause", getPendingAction("pause"))
-                .addAction(R.mipmap.ic_album, "stop", getPendingAction("stop"))
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setTicker(text)
-                .setWhen(System.currentTimeMillis())
-                .setContentText(text)
-                .setContentIntent(pi)
-                .setOngoing(true);
-        startForeground(NOTIFICATION_ID, mNotificationBuilder.build());
-    }
-
-    private PendingIntent getPendingAction(String action) {
-        Intent intent = new Intent(getApplicationContext(), MezmurPlayerService.class);
-        intent.setAction(action);
-        return PendingIntent.getService(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
     @Override
     public void onDestroy() {
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        mediaPlayer.release();
         super.onDestroy();
-        stopForeground(true);
-        if (mediaPlayer != null) {
-            stopPlaying();
-            mediaPlayer = null;
-        }
-    }
-
-    private void stopPlaying() {
-        if (mediaPlayer == null) {
-            return;
-        }
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.release();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        Toast.makeText(this, "Finished Playing! Starting next Mezmur!!", Toast.LENGTH_SHORT).show();
+        //Play next track
     }
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
+        Toast.makeText(MezmurPlayerService.this, "Some Error Occurred!", Toast.LENGTH_SHORT).show();
+        mp.reset();
+        // dissmiss progress bar here. It will come here when MediaPlayer
+        //  is not able to play file. You can show error message to user
         return false;
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-
+        //Now dismis progress dialog, Media palyer will start playing
+        if (mp != null && !mp.isPlaying()) {
+            mp.start();
+            mNotificationDelegate.showNotification(this, "Started");
+            mAudioIsPlaying = true;
+            if (mStateListener != null) {
+                mStateListener.onPlayerStart(mediaPlayer.getDuration(), mediaPlayer.getCurrentPosition());
+            }
+            myHandler.postDelayed(UpdateSongTime,100);
+        }
     }
 
     public void play() {
         if (!mAudioIsPlaying) {
-            if (mediaPlayer == null) {
-                createPlayerIfNeeded();
+
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource("http://www.villopim.com.br/android/Music_01.mp3");
+                mediaPlayer.prepareAsync();
+                //You can show progress dialog here untill it prepared to play
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             // 1. Acquire audio focus
@@ -230,24 +174,45 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
                 setupBroadcastReceiver();
             }
             // 4. Play music
-            playMezmur();
-            mAudioIsPlaying = true;
+            //playMezmur();
+
         }
     }
 
-    private void playMezmur() {
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
-            showNotification("Started");
-        }
-    }
+//    @Override
+//    public boolean onUnbind(Intent intent){
+//        mediaPlayer.stop();
+//        mediaPlayer.release();
+//        return false;
+//    }
 
     public void pause() {
         // 1. Suspend play back
         if (mAudioFocusGranted && mAudioIsPlaying) {
-            pausePlaying();
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+            }
             mAudioIsPlaying = false;
         }
+    }
+
+    public void stop() {
+        // 1. Stop play back
+        if (mAudioFocusGranted && mAudioIsPlaying) {
+            if (mediaPlayer != null) {
+                try {
+                    mediaPlayer.stop();
+                    myHandler.removeCallbacks(UpdateSongTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            mAudioIsPlaying = false;
+            mNotificationDelegate.hideNotification(this);
+            // 2. Give up audio focus
+            abandonAudioFocus();
+        }
+        stopSelf();
     }
 
     private void setupBroadcastReceiver() {
@@ -255,16 +220,16 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                String cmd = intent.getStringExtra(CMD_NAME);
+                String cmd = intent.getStringExtra(PLAYER_COMMAND);
                 Log.i(TAG, "mIntentReceiver.onReceive " + action + " / " + cmd);
 
                 if (PAUSE_SERVICE_CMD.equals(action)
-                        || (SERVICE_CMD.equals(action) && CMD_PAUSE.equals(cmd))) {
+                        || (SERVICE_CMD.equals(action) && PLAYER_COMMAND_PAUSE.equals(cmd))) {
                     play();
                 }
 
                 if (PLAY_SERVICE_CMD.equals(action)
-                        || (SERVICE_CMD.equals(action) && CMD_PLAY.equals(cmd))) {
+                        || (SERVICE_CMD.equals(action) && PLAYER_COMMAND_PLAY.equals(cmd))) {
                     pause();
                 }
             }
@@ -279,17 +244,6 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
             registerReceiver(mIntentReceiver, commandFilter);
             mReceiverRegistered = true;
         }
-    }
-
-    public void stop() {
-        // 1. Stop play back
-        if (mAudioFocusGranted && mAudioIsPlaying) {
-            stopPlaying();
-            mAudioIsPlaying = false;
-            // 2. Give up audio focus
-            abandonAudioFocus();
-        }
-        stopSelf();
     }
 
     private boolean requestAudioFocus() {
@@ -325,7 +279,6 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
         }
         mOnAudioFocusChangeListener = null;
     }
-
 
     private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
 
@@ -366,8 +319,39 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         if (am.isMusicActive()) {
             Intent intentToStop = new Intent(SERVICE_CMD);
-            intentToStop.putExtra(CMD_NAME, CMD_STOP);
+            intentToStop.putExtra(PLAYER_COMMAND, PLAYER_COMMAND_STOP);
             sendBroadcast(intentToStop);
         }
+    }
+
+    private Handler myHandler = new Handler();
+    private OnMezmurMediaPlayerStateListener mStateListener;
+
+    public void setStateListener(OnMezmurMediaPlayerStateListener listener) {
+        mStateListener = listener;
+        if (mStateListener != null) {
+            mStateListener.onPlayerStart(mediaPlayer.getDuration(), mediaPlayer.getCurrentPosition());
+        }
+    }
+
+    private Runnable UpdateSongTime = new Runnable() {
+        public void run() {
+            if (mStateListener != null) {
+                int currentPosition = mediaPlayer.getCurrentPosition();
+                mStateListener.onProgressChanged(currentPosition, String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes((long) currentPosition),
+                        TimeUnit.MILLISECONDS.toSeconds((long) currentPosition) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
+                                        toMinutes((long) currentPosition))));
+            }
+            myHandler.postDelayed(this, 100);
+        }
+    };
+
+    public interface OnMezmurMediaPlayerStateListener {
+
+        void onPlayerStart(int duration, int currentDuration);
+
+        void onProgressChanged(int progress, String progressText);
     }
 }

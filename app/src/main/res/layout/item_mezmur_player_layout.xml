@@ -27,7 +27,7 @@
     card_view:cardPreventCornerOverlap="false"
     card_view:cardUseCompatPadding="false"
     card_view:contentPadding="3dp">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
