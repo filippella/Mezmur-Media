@@ -28,7 +28,6 @@ import android.widget.Toast;
 import org.dalol.model.callback.OnPlayerMenuClickListener;
 import org.dalol.orthodoxmezmurmedia.R;
 import org.dalol.orthodoxmezmurmedia.basic.base.BaseFragment;
-import org.dalol.orthodoxmezmurmedia.utilities.custom.RecyclerListItemMarginDecorator;
 
 import java.util.Collections;
 
@@ -72,7 +71,6 @@ public class MezmurListPlayerFragment extends BaseFragment {
             }
         });
 
-        mMezmurPlayerList.addItemDecoration(new RecyclerListItemMarginDecorator(getResources().getDimensionPixelSize(R.dimen.mezmur_list_item_margin_size)));
         mMezmurPlayerList.setAdapter(adapter);
         mTouchHelper.attachToRecyclerView(mMezmurPlayerList);
     }

@@ -84,6 +84,9 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setLooping(false);
+        mediaPlayer.setOnPreparedListener(MezmurPlayerService.this);
+        mediaPlayer.setOnErrorListener(MezmurPlayerService.this);
+        mediaPlayer.setOnCompletionListener(MezmurPlayerService.this);
 
 
         //Fetch Mezmur here
@@ -116,9 +119,16 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
 
     @Override
     public void onDestroy() {
-        mediaPlayer.stop();
-        mediaPlayer.reset();
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            try {
+                mediaPlayer.stop();
+                myHandler.removeCallbacks(UpdateSongTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        }
         super.onDestroy();
     }
 
@@ -158,13 +168,11 @@ public class MezmurPlayerService extends Service implements MediaPlayer.OnComple
             try {
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource("http://www.villopim.com.br/android/Music_01.mp3");
-                mediaPlayer.setOnPreparedListener(MezmurPlayerService.this);
-                mediaPlayer.setOnErrorListener(MezmurPlayerService.this);
-                mediaPlayer.setOnCompletionListener(MezmurPlayerService.this);
                 mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                        Toast.makeText(MezmurPlayerService.this, "Buffering...", Toast.LENGTH_SHORT).show();
+                       // if(percent > mediaPlayer.getCurrentPosition())
+                       // Toast.makeText(MezmurPlayerService.this, "Buffering...", Toast.LENGTH_SHORT).show();
                     }
                 });
                 mediaPlayer.prepareAsync();
