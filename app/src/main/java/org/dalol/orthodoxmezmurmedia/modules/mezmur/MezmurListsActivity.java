@@ -119,16 +119,20 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
         super.onViewReady(savedInstanceState, intent);
         showHome();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mHeaderImage.setTransitionName("image");
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            mHeaderImage.setTransitionName("image");
+//        }
 
         MezmurListItem listItem = (MezmurListItem) intent.getSerializableExtra(ITEM_BUNDLE_INFO);
         getPresenter().setUp(listItem);
         getPresenter().onViewReady();
         setTitle(listItem.getName());
         MezmurCategoryInfo info = MezmurCategoryInfo.getByCategoryId(Integer.parseInt(listItem.getCid()));
-        Glide.with(this).load(info.getResId()).into(mHeaderImage);
+        Glide.with(this)
+                .load(info.getResId())
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(mHeaderImage);
         //Toast.makeText(MezmurListsActivity.this, "Size of the mezmurs ... " + listItem.getMezmurIdList().size(), Toast.LENGTH_SHORT).show();
     }
 
@@ -537,11 +541,11 @@ public class MezmurListsActivity extends BaseActivity<MezmurListPresenter> imple
 
         mView.showKeyboard();
     }
-
-    @Override
-    protected int getStatusBarColor() {
-        return R.color.colorPrimaryDark;
-    }
+//
+//    @Override
+//    protected int getStatusBarColor() {
+//        return R.color.colorPrimaryDark;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
